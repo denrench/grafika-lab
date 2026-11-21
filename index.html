@@ -1,0 +1,758 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>ГРАФИКА LAB — Интерактивная цифровая лаборатория инженерной графики</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600;700&family=Space+Grotesk:wght@600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="css/styles.css" />
+</head>
+<body>
+  <!-- BOOTLOADER OVERLAY -->
+  <div id="boot-overlay" class="boot-overlay">
+    <div class="boot-grid-bg"></div>
+    <div class="boot-hud-corners">
+      <span class="corner tl"></span>
+      <span class="corner tr"></span>
+      <span class="corner bl"></span>
+      <span class="corner br"></span>
+    </div>
+    <div class="boot-content">
+      <div class="boot-header-tag">CAD ENGINE // KERNEL v4.8.2</div>
+      <div class="boot-canvas-wrap">
+        <canvas id="boot-canvas" width="380" height="280"></canvas>
+      </div>
+      <div class="boot-status-lines" id="boot-status-lines">
+        <div class="boot-line active" id="boot-line-1">&gt; INITIALIZING GRAPHICS LAB...</div>
+        <div class="boot-line" id="boot-line-2">&gt; LOADING GEOMETRY KERNEL &amp; VOXEL MESHES...</div>
+        <div class="boot-line" id="boot-line-3">&gt; BUILDING PROJECTION SYSTEM [GOST 2.305-2008]...</div>
+      </div>
+      <div class="boot-progress-wrap">
+        <div class="boot-progress-meta">
+          <span id="boot-stage-label">SYSTEM CHECK</span>
+          <span id="boot-percent">0%</span>
+        </div>
+        <div class="boot-progress-track">
+          <div class="boot-progress-bar" id="boot-progress-bar"></div>
+        </div>
+      </div>
+      <button class="boot-skip-btn" id="boot-skip-btn">ПРОПУСТИТЬ ЗАГРУЗКУ [ESC]</button>
+    </div>
+  </div>
+
+  <!-- TOP NAVIGATION BAR -->
+  <header class="topbar">
+    <div class="topbar-left">
+      <a href="#home" class="brand-logo" data-nav="home">
+        <div class="logo-cube-icon">
+          <svg viewBox="0 0 32 32" width="28" height="28">
+            <polygon points="16,2 29,9.5 29,24.5 16,30 3,24.5 3,9.5" fill="none" stroke="#42D9FF" stroke-width="1.8"/>
+            <polyline points="3,9.5 16,17 29,9.5" fill="none" stroke="#42D9FF" stroke-width="1.4"/>
+            <line x1="16" y1="17" x2="16" y2="30" stroke="#42D9FF" stroke-width="1.4"/>
+            <circle cx="16" cy="17" r="2.2" fill="#FF9D45"/>
+          </svg>
+        </div>
+        <div class="brand-text">
+          <span class="brand-title">GRAPHICA <span class="accent-cyan">LAB</span></span>
+          <span class="brand-sub">CAD // SPATIAL TRAINER</span>
+        </div>
+      </a>
+      <div class="system-pill">
+        <span class="pulse-dot"></span>
+        <span>SYS: ONLINE</span>
+      </div>
+    </div>
+
+    <nav class="main-nav" aria-label="Основная навигация">
+      <button class="nav-btn active" data-nav="home">
+        <span class="nav-idx">01</span> Главная
+      </button>
+      <button class="nav-btn" data-nav="projection">
+        <span class="nav-idx">02</span> Лаборатория проекций
+      </button>
+      <button class="nav-btn" data-nav="builder">
+        <span class="nav-idx">03</span> Изометрия 3D
+      </button>
+      <button class="nav-btn" data-nav="training">
+        <span class="nav-idx">04</span> Тренировки
+      </button>
+      <button class="nav-btn" data-nav="challenges">
+        <span class="nav-idx">05</span> Испытания
+      </button>
+      <button class="nav-btn" data-nav="progress">
+        <span class="nav-idx">06</span> Мой прогресс
+      </button>
+    </nav>
+
+    <div class="topbar-right">
+      <div class="xp-badge" title="Опыт инженера">
+        <span class="xp-label">LVL <strong id="header-lvl">4</strong></span>
+        <span class="xp-sep">|</span>
+        <span class="xp-val"><strong id="header-xp">1,450</strong> XP</span>
+      </div>
+      <button class="profile-btn" id="profile-modal-btn" title="Профиль инженера и настройки">
+        <span class="profile-avatar">ИНЖ</span>
+        <span class="profile-name">Курсант #042</span>
+      </button>
+    </div>
+  </header>
+
+  <!-- MAIN WORKSPACE CONTAINER -->
+  <main class="workspace">
+
+    <!-- ==========================================
+         VIEW 1: HOME (HERO + DASHBOARD)
+         ========================================== -->
+    <section id="view-home" class="view-section active">
+      <!-- HERO SECTION -->
+      <div class="hero-container">
+        <div class="hero-left">
+          <div class="tech-tag-row">
+            <span class="tech-badge cyan">GOST 2.305-2008 // ISO 128</span>
+            <span class="tech-badge orange">REAL-TIME 3D ENGINE</span>
+          </div>
+          <h1 class="hero-title">ГРАФИКА <span class="accent-cyan">LAB</span></h1>
+          <div class="hero-subtitle">ВИДИ. ПОСТРОЙ. ПОНИМАЙ.</div>
+          <p class="hero-desc">
+            Пространственное мышление начинается с одной линии. Исследуй форму, превращай плоскость в объём и научись видеть геометрию по-новому в интерактивной цифровой лаборатории инженерной графики.
+          </p>
+
+          <div class="hero-cta-row">
+            <button class="btn-primary" data-go="training">
+              <span>НАЧАТЬ ОБУЧЕНИЕ</span>
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M13 5l7 7-7 7"/></svg>
+            </button>
+            <button class="btn-secondary" data-go="projection">
+              <span>ОТКРЫТЬ 3D-ЛАБОРАТОРИЮ</span>
+            </button>
+            <button class="btn-ghost" data-go="builder">
+              <span>ИЗОМЕТРИЧЕСКИЙ КОНСТРУКТОР</span>
+            </button>
+          </div>
+
+          <div class="hero-quick-metrics">
+            <div class="hq-metric">
+              <span class="hq-num">6</span>
+              <span class="hq-lbl">инженерных моделей</span>
+            </div>
+            <div class="hq-metric">
+              <span class="hq-num">3</span>
+              <span class="hq-lbl">ортогональных вида</span>
+            </div>
+            <div class="hq-metric">
+              <span class="hq-num">360°</span>
+              <span class="hq-lbl">интерактивный CAD</span>
+            </div>
+          </div>
+        </div>
+
+        <div class="hero-right">
+          <div class="hero-viewport-frame">
+            <!-- Corner HUD telemetry -->
+            <div class="hud-telemetry top-left">
+              <div>X: <span id="hero-coord-x">024.80</span></div>
+              <div>Y: <span id="hero-coord-y">013.20</span></div>
+              <div>Z: <span id="hero-coord-z">008.50</span></div>
+            </div>
+            <div class="hud-telemetry top-right">
+              <div>SYSTEM: <span class="accent-cyan">ACTIVE</span></div>
+              <div>MODE: <span id="hero-mode-readout" class="accent-orange">ISOMETRIC</span></div>
+              <div>FPS: <span id="hero-fps">60</span></div>
+            </div>
+            <div class="hud-telemetry bottom-left">
+              <div>ASSEMBLY: <span class="mono-white">CAD-MECH-09</span></div>
+              <div>VERTICES: <span id="hero-verts">148</span> // EDGES: <span id="hero-edges">264</span></div>
+            </div>
+
+            <!-- Interactive 3D Hero Canvas -->
+            <canvas id="hero-canvas" width="640" height="460"></canvas>
+
+            <!-- Interactive Controls overlay on Hero 3D -->
+            <div class="hero-3d-controls">
+              <button class="hud-ctrl-btn active" id="hero-btn-solid" title="Твердотельный режим + грани">SOLID</button>
+              <button class="hud-ctrl-btn" id="hero-btn-wire" title="Каркасный режим">WIREFRAME</button>
+              <button class="hud-ctrl-btn" id="hero-btn-xray" title="Скрытые рёбра (штриховые)">X-RAY</button>
+              <button class="hud-ctrl-btn" id="hero-btn-explode" title="Разнести сборочный узел">EXPLODE</button>
+              <button class="hud-ctrl-btn" id="hero-btn-dims" title="Показать размерные линии">РАЗМЕРЫ</button>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- SECTION DIVIDER -->
+      <div class="tech-divider">
+        <span class="td-line"></span>
+        <span class="td-label">01 // ЦЕНТР ОБУЧЕНИЯ И ПРОГРЕССИИ (DASHBOARD)</span>
+        <span class="td-line"></span>
+      </div>
+
+      <!-- DASHBOARD SECTION -->
+      <div class="dashboard-grid">
+        <!-- Continue Learning Card -->
+        <div class="dash-card continue-card">
+          <div class="card-corner-tag">ТЕКУЩИЙ МОДУЛЬ // УРОК 04</div>
+          <div class="continue-body">
+            <div class="continue-info">
+              <span class="module-pill">РАЗДЕЛ: ОРТОГОНАЛЬНЫЕ ПРОЕКЦИИ</span>
+              <h3 id="dash-current-lesson-title">Построение вида слева по двум заданным проекциям детали со сквозным пазом</h3>
+              <p id="dash-current-lesson-desc">Изучите правило проекционной связи (линии связи под 45°) и невидимые контуры детали.</p>
+              <div class="lesson-progress-row">
+                <div class="lp-track">
+                  <div class="lp-fill" id="dash-lesson-bar" style="width: 65%;"></div>
+                </div>
+                <span class="lp-pct" id="dash-lesson-pct">65%</span>
+              </div>
+            </div>
+            <div class="continue-actions">
+              <button class="btn-primary" id="dash-continue-btn">
+                <span>ПРОДОЛЖИТЬ →</span>
+              </button>
+              <button class="btn-ghost small" data-go="projection">Открыть в Лаборатории</button>
+            </div>
+          </div>
+        </div>
+
+        <!-- Daily Quest Card -->
+        <div class="dash-card daily-card">
+          <div class="card-header-row">
+            <span class="card-kicker accent-orange">ЕЖЕДНЕВНАЯ ЗАДАЧА</span>
+            <span class="reward-pill">+150 XP</span>
+          </div>
+          <h4 class="daily-title">СОБЕРИ 3 ИЗОМЕТРИЧЕСКИЕ ФИГУРЫ</h4>
+          <p class="daily-desc">Добавь не менее 4 геометрических блоков в изометрическом конструкторе или пройди проверку проекций.</p>
+          <div class="daily-progress-wrap">
+            <div class="daily-steps" id="daily-steps-indicator">
+              <span class="d-step done">1</span>
+              <span class="d-step done">2</span>
+              <span class="d-step" id="daily-step-3">3</span>
+            </div>
+            <span class="daily-status-text" id="daily-status-text">2 / 3 ВЫПОЛНЕНО</span>
+          </div>
+          <button class="btn-secondary full-width" data-go="builder">ПЕРЕЙТИ В КОНСТРУКТОР →</button>
+        </div>
+
+        <!-- Statistics 6 Metrics -->
+        <div class="dash-card stats-card">
+          <div class="card-header-row">
+            <span class="card-kicker">СТАТИСТИКА КУРСАНТА</span>
+            <span class="mono-muted">REALTIME TELEMETRY</span>
+          </div>
+          <div class="stats-grid-6">
+            <div class="stat-box">
+              <span class="stat-val accent-cyan" id="stat-lessons">7 / 12</span>
+              <span class="stat-lbl">Пройдено уроков</span>
+            </div>
+            <div class="stat-box">
+              <span class="stat-val" id="stat-tasks">19</span>
+              <span class="stat-lbl">Выполнено заданий</span>
+            </div>
+            <div class="stat-box">
+              <span class="stat-val accent-orange" id="stat-xp">1,450</span>
+              <span class="stat-lbl">Набрано опыта (XP)</span>
+            </div>
+            <div class="stat-box">
+              <span class="stat-val" id="stat-level">УРОВЕНЬ 4</span>
+              <span class="stat-lbl">Инженер-конструктор</span>
+            </div>
+            <div class="stat-box">
+              <span class="stat-val accent-cyan" id="stat-accuracy">94.2%</span>
+              <span class="stat-lbl">Точность построений</span>
+            </div>
+            <div class="stat-box">
+              <span class="stat-val" id="stat-time">04ч 18м</span>
+              <span class="stat-lbl">Время в лаборатории</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- Interactive Skill Tree Map -->
+        <div class="dash-card skillmap-card">
+          <div class="card-header-row">
+            <div>
+              <span class="card-kicker">КАРТА НАВЫКОВ // SKILL MATRIX</span>
+              <h3 class="card-title-sm">Инженерное древо компетенций</h3>
+            </div>
+            <div class="skill-legend">
+              <span class="s-leg passed"><i></i> Пройдено</span>
+              <span class="s-leg current"><i></i> Текущая цель</span>
+              <span class="s-leg available"><i></i> Доступно</span>
+              <span class="s-leg locked"><i></i> Заблокировано</span>
+            </div>
+          </div>
+
+          <div class="skillmap-layout">
+            <div class="skillmap-svg-wrap">
+              <svg id="skill-tree-svg" viewBox="0 0 780 340" class="skill-tree-svg"></svg>
+            </div>
+            <div class="skill-inspector" id="skill-inspector">
+              <div class="si-badge" id="si-status-badge">ТЕКУЩАЯ ЦЕЛЬ</div>
+              <div class="si-branch" id="si-branch">ВЕТКА: ПРОЕКЦИИ</div>
+              <h4 class="si-title" id="si-title">Ортогональные проекции и виды</h4>
+              <p class="si-desc" id="si-desc">Метод Монжа. Проецирование детали на три взаимно перпендикулярные плоскости V, H, W. Линии проекционной связи.</p>
+              <div class="si-meta">
+                <span>Награда: <strong id="si-xp" class="accent-orange">+200 XP</strong></span>
+                <span>Модуль: <strong id="si-mod">LAB-02</strong></span>
+              </div>
+              <button class="btn-primary full-width" id="si-action-btn">ЗАПУСТИТЬ УРОК И ТРЕНАЖЁР →</button>
+            </div>
+          </div>
+        </div>
+
+        <!-- Achievements Card -->
+        <div class="dash-card achievements-card">
+          <div class="card-header-row">
+            <span class="card-kicker">ПОСЛЕДНИЕ ДОСТИЖЕНИЯ</span>
+            <button class="link-btn" data-go="progress">Все награды →</button>
+          </div>
+          <div class="ach-list" id="dash-ach-list">
+            <!-- Rendered by JS -->
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ==========================================
+         VIEW 2: PROJECTION LAB (ЛАБОРАТОРИЯ ПРОЕКЦИЙ)
+         ========================================== -->
+    <section id="view-projection" class="view-section">
+      <div class="lab-header-bar">
+        <div>
+          <span class="tech-kicker">MODULE 02 // ORTHOGRAPHIC PROJECTION ENGINE</span>
+          <h2 class="section-title">PROJECTION LAB — ЛАБОРАТОРИЯ ПРОЕКЦИЙ</h2>
+        </div>
+        <div class="lab-toolbar">
+          <div class="mode-switch-group" role="group" aria-label="Режимы отображения">
+            <button class="mode-btn active" data-proj-mode="3d">3D VIEW</button>
+            <button class="mode-btn" data-proj-mode="ortho">ORTHOGRAPHIC</button>
+            <button class="mode-btn" data-proj-mode="wireframe">WIRE FRAME</button>
+            <button class="mode-btn" data-proj-mode="hidden">HIDDEN EDGES</button>
+          </div>
+          <button class="btn-scan" id="btn-scan-object">
+            <span class="scan-icon">⌖</span>
+            <span>SCAN OBJECT</span>
+          </button>
+        </div>
+      </div>
+
+      <div class="projection-lab-grid">
+        <!-- Left Sidebar: Object Library & Toggle Parameters -->
+        <aside class="proj-sidebar">
+          <div class="panel-block">
+            <div class="panel-title">БИБЛИОТЕКА ДЕТАЛЕЙ</div>
+            <div class="model-selector-list" id="proj-model-list">
+              <!-- Populated by JS -->
+            </div>
+          </div>
+
+          <div class="panel-block">
+            <div class="panel-title">ИНЖЕНЕРНЫЕ СЛОИ</div>
+            <label class="tech-toggle">
+              <input type="checkbox" id="proj-toggle-axes" checked />
+              <span class="toggle-slider"></span>
+              <span class="toggle-text">Оси координат (X, Y, Z)</span>
+            </label>
+            <label class="tech-toggle">
+              <input type="checkbox" id="proj-toggle-hidden" checked />
+              <span class="toggle-slider"></span>
+              <span class="toggle-text">Скрытые рёбра (штриховые)</span>
+            </label>
+            <label class="tech-toggle">
+              <input type="checkbox" id="proj-toggle-helpers" checked />
+              <span class="toggle-slider"></span>
+              <span class="toggle-text">Вспомогательные линии связи</span>
+            </label>
+            <label class="tech-toggle">
+              <input type="checkbox" id="proj-toggle-dims" checked />
+              <span class="toggle-slider"></span>
+              <span class="toggle-text">Габаритные размеры (мм)</span>
+            </label>
+            <label class="tech-toggle">
+              <input type="checkbox" id="proj-toggle-planes" />
+              <span class="toggle-slider"></span>
+              <span class="toggle-text">Плоскости проекций (V, H, W)</span>
+            </label>
+          </div>
+
+          <div class="panel-block">
+            <div class="panel-title">РАКУРС КАМЕРЫ</div>
+            <div class="cam-preset-grid">
+              <button class="cam-btn" data-cam="iso">ИЗОМЕТРИЯ</button>
+              <button class="cam-btn" data-cam="front">СПЕРЕДИ (V)</button>
+              <button class="cam-btn" data-cam="top">СВЕРХУ (H)</button>
+              <button class="cam-btn" data-cam="left">СЛЕВА (W)</button>
+            </div>
+          </div>
+
+          <div class="panel-block scan-report-box" id="scan-report-box">
+            <div class="panel-title">СПЕЦИФИКАЦИЯ ОБЪЕКТА</div>
+            <div class="spec-table">
+              <div class="spec-row"><span>Индекс ГОСТ:</span><strong id="spec-code">АБВГ.711142.001</strong></div>
+              <div class="spec-row"><span>Габариты (X×Y×Z):</span><strong id="spec-dims">60 × 40 × 50 мм</strong></div>
+              <div class="spec-row"><span>Вершин / Граней:</span><strong id="spec-topo">16 / 10</strong></div>
+              <div class="spec-row"><span>Сложность:</span><strong id="spec-diff" class="accent-cyan">УРОВЕНЬ 2</strong></div>
+            </div>
+            <p class="spec-note" id="spec-note">Ступенчатая опора с вырезом. Обратите внимание на совпадение видимых и скрытых кромок на профильной проекции.</p>
+          </div>
+        </aside>
+
+        <!-- Center: Interactive 3D Viewport -->
+        <div class="proj-main-viewport">
+          <div class="viewport-topbar">
+            <span class="vp-title">3D ПРОСТРАНСТВО // АКСОНОМЕТРИЯ</span>
+            <div class="vp-controls-inline">
+              <button class="mini-btn" id="proj-zoom-in" title="Приблизить">+</button>
+              <button class="mini-btn" id="proj-zoom-out" title="Отдалить">−</button>
+              <button class="mini-btn" id="proj-reset-cam" title="Сбросить ракурс">СБРОС</button>
+            </div>
+          </div>
+          <div class="canvas-wrapper" id="proj-3d-wrap">
+            <canvas id="proj-3d-canvas" width="640" height="540"></canvas>
+            <div class="scan-banner" id="scan-banner">СКАНИРОВАНИЕ ГЕОМЕТРИИ И ПОСТРОЕНИЕ ЧЕРТЕЖА...</div>
+            <div class="viewport-hint">ЛКМ + движение: вращение 3D-модели • Колесо: масштаб • Нажмите SCAN OBJECT для трассировки</div>
+          </div>
+        </div>
+
+        <!-- Right: 3 Orthographic Projection Windows + Monge Diagram -->
+        <div class="proj-drawings-col">
+          <div class="ortho-grid-2x2">
+            <!-- Front View (V) -->
+            <div class="ortho-window" data-view="front">
+              <div class="ortho-win-header">
+                <span>ВИД СПЕРЕДИ (ФРОНТАЛЬНАЯ V)</span>
+                <span class="ortho-axes-tag">X / Z</span>
+              </div>
+              <canvas id="ortho-front-canvas" width="270" height="220"></canvas>
+            </div>
+
+            <!-- Left View (W) -->
+            <div class="ortho-window" data-view="left">
+              <div class="ortho-win-header">
+                <span>ВИД СЛЕВА (ПРОФИЛЬНАЯ W)</span>
+                <span class="ortho-axes-tag">Y / Z</span>
+              </div>
+              <canvas id="ortho-left-canvas" width="270" height="220"></canvas>
+            </div>
+
+            <!-- Top View (H) -->
+            <div class="ortho-window" data-view="top">
+              <div class="ortho-win-header">
+                <span>ВИД СВЕРХУ (ГОРИЗОНТАЛЬНАЯ H)</span>
+                <span class="ortho-axes-tag">X / Y</span>
+              </div>
+              <canvas id="ortho-top-canvas" width="270" height="220"></canvas>
+            </div>
+
+            <!-- Projection Connection Matrix (45 deg helper window) -->
+            <div class="ortho-window" data-view="links">
+              <div class="ortho-win-header">
+                <span>КОМПЛЕКСНЫЙ ЧЕРТЁЖ (СВЯЗИ 45°)</span>
+                <span class="ortho-axes-tag accent-orange">ЭПЮР МОНЖА</span>
+              </div>
+              <canvas id="ortho-epure-canvas" width="270" height="220"></canvas>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ==========================================
+         VIEW 3: ISOMETRIC BUILDER (ИЗОМЕТРИЧЕСКИЙ КОНСТРУКТОР)
+         ========================================== -->
+    <section id="view-builder" class="view-section">
+      <div class="lab-header-bar">
+        <div>
+          <span class="tech-kicker">MODULE 03 // SPATIAL CAD CONSTRUCTOR</span>
+          <h2 class="section-title">ISOMETRIC BUILDER — ИЗОМЕТРИЧЕСКИЙ КОНСТРУКТОР</h2>
+        </div>
+        <div class="builder-top-stats">
+          <div class="b-stat">ЭЛЕМЕНТОВ: <strong id="builder-count">0</strong></div>
+          <div class="b-stat">ВЫБРАНО: <strong id="builder-selected-name" class="accent-cyan">НЕТ</strong></div>
+          <div class="b-stat">СЕТКА: <strong>1.0 ЕД. (SNAP)</strong></div>
+        </div>
+      </div>
+
+      <div class="builder-layout">
+        <!-- Left Palette: Primitives -->
+        <aside class="builder-palette">
+          <div class="panel-block">
+            <div class="panel-title">ГЕОМЕТРИЧЕСКИЕ ЭЛЕМЕНТЫ</div>
+            <p class="panel-hint">Нажмите на элемент, чтобы добавить его на изометрическую сетку, или выберите готовый чертёж-задание.</p>
+            <div class="primitive-grid">
+              <button class="prim-btn" data-prim="cube">
+                <span class="prim-icon">⬡</span>
+                <span class="prim-name">Куб</span>
+                <span class="prim-dim">1×1×1</span>
+              </button>
+              <button class="prim-btn" data-prim="block">
+                <span class="prim-icon">▭</span>
+                <span class="prim-name">Прямоуг. блок</span>
+                <span class="prim-dim">2×1×1</span>
+              </button>
+              <button class="prim-btn" data-prim="cylinder">
+                <span class="prim-icon">⌭</span>
+                <span class="prim-name">Цилиндр</span>
+                <span class="prim-dim">Ø1×1</span>
+              </button>
+              <button class="prim-btn" data-prim="sphere">
+                <span class="prim-icon">◯</span>
+                <span class="prim-name">Сфера</span>
+                <span class="prim-dim">Ø1.0</span>
+              </button>
+              <button class="prim-btn" data-prim="prism">
+                <span class="prim-icon">△</span>
+                <span class="prim-name">Призма</span>
+                <span class="prim-dim">1×1×1</span>
+              </button>
+              <button class="prim-btn" data-prim="pyramid">
+                <span class="prim-icon">▲</span>
+                <span class="prim-name">Пирамида</span>
+                <span class="prim-dim">1×1×1</span>
+              </button>
+            </div>
+          </div>
+
+          <!-- Selected Element Inspector & Transform -->
+          <div class="panel-block" id="builder-inspector">
+            <div class="panel-title">ТРАНСФОРМАЦИЯ ДЕТАЛИ</div>
+            <div class="coord-nudger-grid">
+              <div class="nudge-row">
+                <span class="axis-tag x">ОСЬ X</span>
+                <button class="nudge-btn" data-move="x" data-dir="-1">−X</button>
+                <span class="coord-readout" id="sel-x">0</span>
+                <button class="nudge-btn" data-move="x" data-dir="1">+X</button>
+              </div>
+              <div class="nudge-row">
+                <span class="axis-tag y">ОСЬ Y</span>
+                <button class="nudge-btn" data-move="y" data-dir="-1">−Y</button>
+                <span class="coord-readout" id="sel-y">0</span>
+                <button class="nudge-btn" data-move="y" data-dir="1">+Y</button>
+              </div>
+              <div class="nudge-row">
+                <span class="axis-tag z">ВЫСОТА Z</span>
+                <button class="nudge-btn" data-move="z" data-dir="-1">−Z</button>
+                <span class="coord-readout" id="sel-z">0</span>
+                <button class="nudge-btn" data-move="z" data-dir="1">+Z</button>
+              </div>
+            </div>
+
+            <div class="inspector-actions">
+              <button class="btn-secondary small" id="builder-rotate-part">ПОВЕРНУТЬ 90°</button>
+              <button class="btn-danger small" id="builder-delete-part">УДАЛИТЬ [DEL]</button>
+            </div>
+          </div>
+
+          <!-- Preset Blueprints -->
+          <div class="panel-block">
+            <div class="panel-title">ГОТОВЫЕ КОНСТРУКЦИИ</div>
+            <div class="preset-list">
+              <button class="preset-item" data-preset="arch">Инженерная арка с колоннами</button>
+              <button class="preset-item" data-preset="tower">Машиностроительный узел</button>
+              <button class="preset-item" data-preset="stepped">Ступенчатая база ГОСТ</button>
+            </div>
+          </div>
+        </aside>
+
+        <!-- Center: Isometric 3D Canvas + Bottom CAD Dock -->
+        <div class="builder-stage-wrap">
+          <div class="viewport-topbar">
+            <span class="vp-title">ИЗОМЕТРИЧЕСКАЯ СЦЕНА // SNAP-TO-GRID 3D</span>
+            <div class="vp-controls-inline">
+              <span class="mono-muted">Клик по объекту: выбор • Стрелки / WASD / Q,E: точное перемещение по сетке</span>
+            </div>
+          </div>
+
+          <div class="canvas-wrapper builder-canvas-wrap">
+            <canvas id="builder-canvas" width="920" height="520"></canvas>
+          </div>
+
+          <!-- Bottom CAD Action Bar -->
+          <div class="builder-bottom-dock">
+            <div class="dock-group">
+              <button class="dock-btn" id="b-undo" title="Отменить действие (Ctrl+Z)">↶ UNDO</button>
+              <button class="dock-btn" id="b-redo" title="Повторить действие (Ctrl+Y)">↷ REDO</button>
+              <button class="dock-btn" id="b-reset" title="Сбросить камеру">⌖ RESET CAM</button>
+              <button class="dock-btn danger" id="b-clear" title="Очистить сцену">✕ CLEAR</button>
+            </div>
+            <div class="dock-group">
+              <button class="dock-btn active" id="b-grid-toggle">⊞ GRID: ON</button>
+              <button class="dock-btn" id="b-wire-toggle">⬡ WIREFRAME: OFF</button>
+            </div>
+            <div class="dock-group">
+              <button class="btn-primary small" id="b-save-construction">💾 SAVE CONSTRUCTION</button>
+            </div>
+          </div>
+        </div>
+
+        <!-- Right Mini Live Projections of User Construction + Saved List -->
+        <aside class="builder-right-panel">
+          <div class="panel-block">
+            <div class="panel-title">ЖИВЫЕ ПРОЕКЦИИ СБОРКИ</div>
+            <canvas id="builder-mini-ortho" width="240" height="270"></canvas>
+          </div>
+          <div class="panel-block">
+            <div class="panel-title">СОХРАНЁННЫЕ СБОРКИ</div>
+            <div class="saved-constructions-list" id="saved-constructions-list">
+              <!-- Populated by JS -->
+            </div>
+          </div>
+        </aside>
+      </div>
+    </section>
+
+    <!-- ==========================================
+         VIEW 4: TRAINING (ИНТЕРАКТИВНЫЕ УРОКИ И ПОСТРОЕНИЯ)
+         ========================================== -->
+    <section id="view-training" class="view-section">
+      <div class="lab-header-bar">
+        <div>
+          <span class="tech-kicker">MODULE 04 // INTERACTIVE CAD LESSONS &amp; GEOMETRIC CONSTRUCTIONS</span>
+          <h2 class="section-title">ТРЕНИРОВКИ — ПОШАГОВЫЕ ГЕОМЕТРИЧЕСКИЕ ПОСТРОЕНИЯ</h2>
+        </div>
+      </div>
+
+      <div class="training-layout">
+        <aside class="training-sidebar">
+          <div class="panel-title">ПРОГРАММА КУРСА</div>
+          <div class="lesson-nav-list" id="lesson-nav-list">
+            <!-- Populated by JS -->
+          </div>
+        </aside>
+
+        <div class="training-main">
+          <div class="training-stage-card">
+            <div class="ts-header">
+              <div>
+                <span class="tech-badge cyan" id="train-lesson-tag">УРОК 01 // ГЕОМЕТРИЧЕСКИЕ ПОСТРОЕНИЯ</span>
+                <h3 id="train-lesson-title">Деление отрезка и построение сопряжений</h3>
+              </div>
+              <div class="ts-step-counter">
+                ШАГ <strong id="train-step-num">1</strong> ИЗ <strong id="train-step-total">4</strong>
+              </div>
+            </div>
+
+            <div class="training-canvas-box">
+              <canvas id="training-canvas" width="760" height="400"></canvas>
+            </div>
+
+            <div class="training-explanation-bar">
+              <div class="te-text">
+                <h4 id="train-step-heading">Шаг 1: Задайте базовые центры дуг</h4>
+                <p id="train-step-body">Нажмите на чертёжное поле или используйте регулятор радиуса сопряжения R, чтобы увидеть геометрическое место точек центра сопрягающей дуги.</p>
+              </div>
+              <div class="te-controls">
+                <div class="param-slider-wrap">
+                  <label for="train-param-slider" id="train-param-label">Параметр построения:</label>
+                  <input type="range" id="train-param-slider" min="20" max="100" value="55" />
+                </div>
+                <div class="step-btns">
+                  <button class="btn-ghost small" id="train-prev-step">← НАЗАД</button>
+                  <button class="btn-primary small" id="train-next-step">СЛЕДУЮЩИЙ ШАГ →</button>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ==========================================
+         VIEW 5: CHALLENGES (ИСПЫТАНИЯ ПРОСТРАНСТВЕННОГО МЫШЛЕНИЯ)
+         ========================================== -->
+    <section id="view-challenges" class="view-section">
+      <div class="lab-header-bar">
+        <div>
+          <span class="tech-kicker">MODULE 05 // SPATIAL REASONING &amp; PROJECTION VERIFICATION</span>
+          <h2 class="section-title">ИСПЫТАНИЯ — ПРОВЕРКА ПРОСТРАНСТВЕННОГО МЫШЛЕНИЯ</h2>
+        </div>
+        <div class="challenge-hud-pills">
+          <div class="c-pill">СЕРИЯ: <strong id="chal-streak" class="accent-orange">0</strong></div>
+          <div class="c-pill">ОЧКИ ИСПЫТАНИЙ: <strong id="chal-score" class="accent-cyan">0</strong></div>
+          <div class="c-pill">ЗАДАНИЕ: <strong id="chal-index">1 / 6</strong></div>
+        </div>
+      </div>
+
+      <div class="challenge-layout">
+        <div class="challenge-3d-card">
+          <div class="card-header-row">
+            <span class="card-kicker" id="chal-category">ЗАДАНИЕ #1 // ОПРЕДЕЛЕНИЕ ПРОЕКЦИИ</span>
+            <span class="reward-pill" id="chal-xp-reward">+100 XP</span>
+          </div>
+          <h3 class="chal-prompt" id="chal-question">Внимательно изучите 3D-деталь. Какой из четырёх чертежей является правильным ВИДОМ СВЕРХУ (H)?</h3>
+          <div class="chal-3d-viewport">
+            <canvas id="challenge-3d-canvas" width="520" height="360"></canvas>
+            <div class="viewport-hint">Вращайте 3D-деталь мышью для анализа всех пазов и отверстий</div>
+          </div>
+        </div>
+
+        <div class="challenge-options-card">
+          <div class="panel-title">ВЫБЕРИТЕ ВЕРНЫЙ ЧЕРТЁЖ (A, B, C, D)</div>
+          <div class="chal-options-grid" id="chal-options-grid">
+            <!-- 4 interactive canvas options rendered by JS -->
+          </div>
+          <div class="chal-feedback-box" id="chal-feedback-box">
+            <span id="chal-feedback-text">Выберите один из четырёх вариантов чертежа для проверки по ГОСТ.</span>
+            <button class="btn-primary small" id="chal-next-btn" style="display:none;">СЛЕДУЮЩЕЕ ИСПЫТАНИЕ →</button>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ==========================================
+         VIEW 6: MY PROGRESS (МОЙ ПРОГРЕСС И СЕРТИФИКАЦИЯ)
+         ========================================== -->
+    <section id="view-progress" class="view-section">
+      <div class="lab-header-bar">
+        <div>
+          <span class="tech-kicker">MODULE 06 // ENGINEER DOSSIER &amp; ANALYTICS</span>
+          <h2 class="section-title">МОЙ ПРОГРЕСС — ПРОФИЛЬ ИНЖЕНЕРА</h2>
+        </div>
+        <button class="btn-ghost small" id="reset-progress-btn">СБРОСИТЬ ДЕМО-ДАННЫЕ</button>
+      </div>
+
+      <div class="progress-page-grid">
+        <div class="dash-card radar-card">
+          <div class="panel-title">РАДАР ПРОСТРАНСТВЕННЫХ КОМПЕТЕНЦИЙ</div>
+          <canvas id="progress-radar-canvas" width="400" height="340"></canvas>
+        </div>
+
+        <div class="dash-card full-achievements-card">
+          <div class="panel-title">ЖУРНАЛ ДОСТИЖЕНИЙ И СЕРТИФИКАЦИИ</div>
+          <div class="full-ach-grid" id="full-ach-grid">
+            <!-- Populated by JS -->
+          </div>
+        </div>
+      </div>
+    </section>
+
+  </main>
+
+  <!-- PROFILE MODAL -->
+  <div class="modal-backdrop" id="profile-modal" style="display:none;">
+    <div class="modal-card">
+      <div class="modal-header">
+        <div>
+          <span class="tech-kicker">ЛИЧНОЕ ДЕЛО КУРСАНТА</span>
+          <h3>Курсант #042 — Кафедра Инженерной Графики</h3>
+        </div>
+        <button class="modal-close" id="profile-modal-close">✕</button>
+      </div>
+      <div class="modal-body">
+        <p class="modal-desc">Все ваши результаты, собранные 3D-конструкции и прогресс по карте навыков автоматически сохраняются в локальном хранилище браузера.</p>
+        <div class="modal-actions-row">
+          <button class="btn-secondary" id="replay-boot-btn">ПОВТОРИТЬ 3D-ЗАГРУЗКУ САЙТА</button>
+          <button class="btn-primary" id="close-modal-ok">ВЕРНУТЬСЯ В ЛАБОРАТОРИЮ</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- TOAST NOTIFICATION -->
+  <div id="toast-container" class="toast-container"></div>
+
+  <script src="js/models.js"></script>
+  <script src="js/engine3d.js"></script>
+  <script src="js/app.js"></script>
+</body>
+</html>
