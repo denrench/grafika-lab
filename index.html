@@ -3,15 +3,17 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>ГРАФИКА LAB — Интерактивная цифровая лаборатория инженерной графики</title>
+  <title>Графика LAB — Интерактивная лаборатория инженерной графики</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600;700&family=Space+Grotesk:wght@600;700;800&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="css/styles.css" />
 </head>
 <body>
-  <!-- BOOTLOADER OVERLAY -->
-  <div id="boot-overlay" class="boot-overlay">
+  <!-- ==========================================
+       BOOTLOADER OVERLAY (WARM ARCHITECTURAL EDITION)
+       ========================================== -->
+  <div id="boot-overlay" class="boot-overlay hidden">
     <div class="boot-grid-bg"></div>
     <div class="boot-hud-corners">
       <span class="corner tl"></span>
@@ -20,48 +22,267 @@
       <span class="corner br"></span>
     </div>
     <div class="boot-content">
-      <div class="boot-header-tag">CAD ENGINE // KERNEL v4.8.2</div>
+      <div class="boot-header-tag">ГРАФИКА LAB // CAD ATELIER v5.0</div>
       <div class="boot-canvas-wrap">
-        <canvas id="boot-canvas" width="380" height="280"></canvas>
+        <canvas id="boot-canvas" width="380" height="260"></canvas>
       </div>
       <div class="boot-status-lines" id="boot-status-lines">
-        <div class="boot-line active" id="boot-line-1">&gt; INITIALIZING GRAPHICS LAB...</div>
-        <div class="boot-line" id="boot-line-2">&gt; LOADING GEOMETRY KERNEL &amp; VOXEL MESHES...</div>
-        <div class="boot-line" id="boot-line-3">&gt; BUILDING PROJECTION SYSTEM [GOST 2.305-2008]...</div>
+        <div class="boot-line active" id="boot-line-1">&gt; ПОДГОТОВКА ЧЕРТЁЖНОЙ СЕТКИ И ОСЕЙ X, Y, Z...</div>
+        <div class="boot-line" id="boot-line-2">&gt; ЗАГРУЗКА 3D-МОДЕЛЕЙ И ПРОЕКЦИОННОГО АППАРАТА...</div>
+        <div class="boot-line" id="boot-line-3">&gt; ОТКРЫТИЕ ОБРАЗОВАТЕЛЬНОЙ СТУДИИ [ГОСТ 2.305]...</div>
       </div>
       <div class="boot-progress-wrap">
         <div class="boot-progress-meta">
-          <span id="boot-stage-label">SYSTEM CHECK</span>
+          <span id="boot-stage-label">НАСТРОЙКА СРЕДЫ</span>
           <span id="boot-percent">0%</span>
         </div>
         <div class="boot-progress-track">
           <div class="boot-progress-bar" id="boot-progress-bar"></div>
         </div>
       </div>
-      <button class="boot-skip-btn" id="boot-skip-btn">ПРОПУСТИТЬ ЗАГРУЗКУ [ESC]</button>
+      <button class="boot-skip-btn" id="boot-skip-btn">ПРОПУСТИТЬ ЗАСТАВКУ [ESC]</button>
     </div>
   </div>
 
-  <!-- TOP NAVIGATION BAR -->
-  <header class="topbar">
-    <div class="topbar-left">
-      <a href="#home" class="brand-logo" data-nav="home">
+  <!-- ==========================================
+       WELCOME & ROLE REGISTRATION GATEWAY
+       (SHOWN FIRST BEFORE ENTERING PLATFORM)
+       ========================================== -->
+  <div id="auth-gateway" class="auth-gateway">
+    <div class="auth-bg-decor">
+      <div class="auth-circle c1"></div>
+      <div class="auth-circle c2"></div>
+    </div>
+
+    <!-- Top Part of Welcome Page -->
+    <header class="auth-topbar">
+      <div class="auth-brand">
         <div class="logo-cube-icon">
           <svg viewBox="0 0 32 32" width="28" height="28">
-            <polygon points="16,2 29,9.5 29,24.5 16,30 3,24.5 3,9.5" fill="none" stroke="#42D9FF" stroke-width="1.8"/>
-            <polyline points="3,9.5 16,17 29,9.5" fill="none" stroke="#42D9FF" stroke-width="1.4"/>
-            <line x1="16" y1="17" x2="16" y2="30" stroke="#42D9FF" stroke-width="1.4"/>
-            <circle cx="16" cy="17" r="2.2" fill="#FF9D45"/>
+            <polygon points="16,2 29,9.5 29,24.5 16,30 3,24.5 3,9.5" fill="rgba(214,191,168,0.28)" stroke="#8A6246" stroke-width="1.8"/>
+            <polyline points="3,9.5 16,17 29,9.5" fill="none" stroke="#8A6246" stroke-width="1.5"/>
+            <line x1="16" y1="17" x2="16" y2="30" stroke="#8A6246" stroke-width="1.5"/>
+            <circle cx="16" cy="17" r="2.4" fill="#BD8D65"/>
           </svg>
         </div>
         <div class="brand-text">
-          <span class="brand-title">GRAPHICA <span class="accent-cyan">LAB</span></span>
-          <span class="brand-sub">CAD // SPATIAL TRAINER</span>
+          <span class="brand-title">Графика <span class="accent-cyan">LAB</span></span>
+          <span class="brand-sub">ИНТЕРАКТИВНАЯ ЛАБОРАТОРИЯ ИНЖЕНЕРНОЙ ГРАФИКИ</span>
+        </div>
+      </div>
+
+      <div class="auth-top-links">
+        <button class="auth-nav-link" id="auth-about-btn">О проекте</button>
+        <button class="auth-nav-link" id="auth-help-btn">Помощь</button>
+        <div class="lang-switch" role="group" aria-label="Выбор языка">
+          <button class="lang-btn active" data-lang="ru">RU</button>
+          <button class="lang-btn" data-lang="kz">KZ</button>
+          <button class="lang-btn" data-lang="en">EN</button>
+        </div>
+      </div>
+    </header>
+
+    <!-- Central Part of Welcome Page -->
+    <div class="auth-center-wrap">
+      <div class="auth-hero-text">
+        <span class="auth-pill-tag">ОБРАЗОВАТЕЛЬНАЯ 3D-ПЛАТФОРМА И ТРЕНАЖЁР ЧЕРЧЕНИЯ</span>
+        <h1 class="auth-main-title">Графика <span>LAB</span></h1>
+        <div class="auth-main-subtitle">ВИДИ. ПОСТРОЙ. ПОНИМАЙ.</div>
+        <p class="auth-main-desc">
+          «Изучай черчение, проекции и изометрию через практику, эксперименты и интерактивные задания».
+        </p>
+        <h2 class="auth-who-question">Кто вы?</h2>
+      </div>
+
+      <!-- Two Large Role Selection Cards -->
+      <div class="role-cards-grid">
+        <!-- CARD 1: TEACHER -->
+        <div class="role-card" id="role-card-teacher">
+          <div class="role-card-badge">ДЛЯ ПРЕПОДАВАТЕЛЕЙ И КАФЕДР</div>
+          <div class="role-illustration">
+            <svg viewBox="0 0 260 150" class="role-svg">
+              <defs>
+                <linearGradient id="warmGrad1" x1="0" y1="0" x2="1" y2="1">
+                  <stop offset="0%" stop-color="#F6F0E7"/>
+                  <stop offset="100%" stop-color="#E9DCCB"/>
+                </linearGradient>
+                <linearGradient id="woodGrad" x1="0" y1="0" x2="1" y2="1">
+                  <stop offset="0%" stop-color="#D6BFA8"/>
+                  <stop offset="100%" stop-color="#BD8D65"/>
+                </linearGradient>
+              </defs>
+              <!-- Soft drafting board background -->
+              <rect x="24" y="18" width="212" height="114" rx="16" fill="url(#warmGrad1)" stroke="#D6BFA8" stroke-width="1.5"/>
+              <!-- Drafting grid lines -->
+              <line x1="24" y1="55" x2="236" y2="55" stroke="#E4D7C7" stroke-width="1"/>
+              <line x1="24" y1="92" x2="236" y2="92" stroke="#E4D7C7" stroke-width="1"/>
+              <line x1="90" y1="18" x2="90" y2="132" stroke="#E4D7C7" stroke-width="1"/>
+              <line x1="165" y1="18" x2="165" y2="132" stroke="#E4D7C7" stroke-width="1"/>
+              <!-- Drawing tablet & orthographic projection sheet -->
+              <rect x="44" y="32" width="110" height="84" rx="8" fill="#FFF9F1" stroke="#BD8D65" stroke-width="1.8"/>
+              <rect x="56" y="44" width="36" height="26" fill="none" stroke="#8A6246" stroke-width="1.6"/>
+              <rect x="56" y="78" width="36" height="22" fill="none" stroke="#8A6246" stroke-width="1.6"/>
+              <rect x="102" y="44" width="28" height="26" fill="none" stroke="#BD8D65" stroke-width="1.5" stroke-dasharray="3,2"/>
+              <line x1="94" y1="72" x2="128" y2="102" stroke="#BD8D65" stroke-width="1.2"/>
+              <!-- 3D Isometric Cube & Set Square Ruler -->
+              <g transform="translate(185, 76)">
+                <polygon points="0,-32 28,-16 28,16 0,32 -28,16 -28,-16" fill="url(#woodGrad)" stroke="#8A6246" stroke-width="1.8"/>
+                <polygon points="0,-32 28,-16 0,0 -28,-16" fill="#FFF9F1" stroke="#8A6246" stroke-width="1.5"/>
+                <polygon points="-28,-16 0,0 0,32 -28,16" fill="#E9DCCB" stroke="#8A6246" stroke-width="1.5"/>
+              </g>
+              <!-- Pencil & Compass accent -->
+              <g transform="translate(142, 24) rotate(28)">
+                <rect x="0" y="0" width="8" height="58" rx="3" fill="#8A6246"/>
+                <polygon points="0,58 4,68 8,58" fill="#40352D"/>
+                <rect x="0" y="0" width="8" height="10" rx="2" fill="#D6BFA8"/>
+              </g>
+            </svg>
+          </div>
+          <div class="role-card-content">
+            <h3 class="role-card-title">Я преподаватель</h3>
+            <p class="role-card-desc">
+              Демонстрируйте 3D-проекции на интерактивной доске, проводите наглядные разборы эпюра Монжа, проверяйте конструкции и управляйте учебными группами.
+            </p>
+            <ul class="role-features">
+              <li><span>✓</span> Режим демонстрации 3D-деталей и разрезов по ГОСТ</li>
+              <li><span>✓</span> Создание учебных групп и код приглашения для студентов</li>
+              <li><span>✓</span> Готовые интерактивные построения для лекций и практикумов</li>
+            </ul>
+          </div>
+
+          <form class="role-reg-form" id="form-teacher">
+            <div class="form-row-2">
+              <div class="form-field">
+                <label>ФИО преподавателя</label>
+                <input type="text" id="teacher-name" placeholder="Соколов Алексей Викторович" value="Соколов А. В." required />
+              </div>
+              <div class="form-field">
+                <label>Учебное заведение / Кафедра</label>
+                <input type="text" id="teacher-org" placeholder="Кафедра инженерной графики" value="Кафедра инженерной графики" required />
+              </div>
+            </div>
+            <div class="form-row-2">
+              <div class="form-field">
+                <label>Дисциплина / Курс</label>
+                <input type="text" id="teacher-subject" placeholder="Инженерная и компьютерная графика" value="Инженерная графика и CAD" />
+              </div>
+              <div class="form-field">
+                <label>Email или код потока</label>
+                <input type="text" id="teacher-group" placeholder="ПОТОК-ИГ-2026" value="ПОТОК-ИГ-2026" />
+              </div>
+            </div>
+            <button type="submit" class="btn-primary full-width role-submit-btn">
+              <span>ВОЙТИ КАК ПРЕПОДАВАТЕЛЬ</span>
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M13 5l7 7-7 7"/></svg>
+            </button>
+          </form>
+        </div>
+
+        <!-- CARD 2: STUDENT -->
+        <div class="role-card" id="role-card-student">
+          <div class="role-card-badge student-badge">ДЛЯ СТУДЕНТОВ И УЧЕНИКОВ</div>
+          <div class="role-illustration">
+            <svg viewBox="0 0 260 150" class="role-svg">
+              <!-- Soft studio canvas background -->
+              <rect x="24" y="18" width="212" height="114" rx="16" fill="url(#warmGrad1)" stroke="#D6BFA8" stroke-width="1.5"/>
+              <!-- Isometric grid hints -->
+              <line x1="40" y1="115" x2="130" y2="65" stroke="#E4D7C7" stroke-width="1.2"/>
+              <line x1="220" y1="115" x2="130" y2="65" stroke="#E4D7C7" stroke-width="1.2"/>
+              <line x1="130" y1="26" x2="130" y2="122" stroke="#E4D7C7" stroke-width="1.2" stroke-dasharray="4,3"/>
+              <!-- Geometric sculpture: stepped blocks, pyramid & sphere -->
+              <g transform="translate(105, 82)">
+                <polygon points="0,-28 26,-14 26,16 0,30 -26,16 -26,-14" fill="#E9DCCB" stroke="#8A6246" stroke-width="1.7"/>
+                <polygon points="0,-28 26,-14 0,0 -26,-14" fill="#FFF9F1" stroke="#8A6246" stroke-width="1.5"/>
+                <polygon points="0,0 26,-14 26,16 0,30" fill="#D6BFA8" stroke="#8A6246" stroke-width="1.5"/>
+              </g>
+              <!-- Pyramid on right -->
+              <g transform="translate(162, 74)">
+                <polygon points="0,-34 -24,14 2,26" fill="#FFF9F1" stroke="#8A6246" stroke-width="1.6"/>
+                <polygon points="0,-34 2,26 26,12" fill="#BD8D65" stroke="#8A6246" stroke-width="1.6"/>
+              </g>
+              <!-- Warm sphere & drafting triangle on left -->
+              <circle cx="66" cy="78" r="20" fill="#D6BFA8" stroke="#8A6246" stroke-width="1.6"/>
+              <ellipse cx="66" cy="78" rx="20" ry="7" fill="none" stroke="#8A6246" stroke-width="1.2" stroke-dasharray="3,2"/>
+              <!-- XP Star badge -->
+              <rect x="176" y="28" width="46" height="22" rx="11" fill="#FFF9F1" stroke="#BD8D65" stroke-width="1.4"/>
+              <text x="199" y="43" text-anchor="middle" fill="#8A6246" font-family="JetBrains Mono, monospace" font-size="10" font-weight="700">+XP</text>
+            </svg>
+          </div>
+          <div class="role-card-content">
+            <h3 class="role-card-title">Я ученик / студент</h3>
+            <p class="role-card-desc">
+              Изучайте проекции в интерактивной 3D-лаборатории, собирайте изометрические конструкции, проходите испытания и прокачивайте дерево инженерных навыков.
+            </p>
+            <ul class="role-features">
+              <li><span>✓</span> Интерактивный 3D-тренажёр проекций и конструктор</li>
+              <li><span>✓</span> Пошаговые геометрические построения и испытания</li>
+              <li><span>✓</span> Система уровней, XP, карта навыков и портфолио сборок</li>
+            </ul>
+          </div>
+
+          <form class="role-reg-form" id="form-student">
+            <div class="form-row-2">
+              <div class="form-field">
+                <label>Ваше имя и фамилия</label>
+                <input type="text" id="student-name" placeholder="Данил Панин" value="Данил Панин" required />
+              </div>
+              <div class="form-field">
+                <label>Учебная группа / Класс</label>
+                <input type="text" id="student-group" placeholder="ИГ-204 / Курс 1" value="Группа ИГ-204" required />
+              </div>
+            </div>
+            <div class="form-row-2">
+              <div class="form-field">
+                <label>Направление подготовки</label>
+                <select id="student-track">
+                  <option value="Инженерная графика и CAD">Инженерная графика и CAD</option>
+                  <option value="Архитектура и дизайн среды">Архитектура и дизайн среды</option>
+                  <option value="Машиностроительное черчение">Машиностроительное черчение</option>
+                  <option value="Школьный курс черчения">Школьный курс черчения</option>
+                </select>
+              </div>
+              <div class="form-field">
+                <label>Код преподавателя (необязательно)</label>
+                <input type="text" id="student-code" placeholder="ПОТОК-ИГ-2026" value="ПОТОК-ИГ-2026" />
+              </div>
+            </div>
+            <button type="submit" class="btn-primary full-width role-submit-btn student-submit-btn">
+              <span>НАЧАТЬ ОБУЧЕНИЕ В ЛАБОРАТОРИИ</span>
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M13 5l7 7-7 7"/></svg>
+            </button>
+          </form>
+        </div>
+      </div>
+
+      <div class="auth-footer-bar">
+        <span>ГОСТ 2.305-2008 • Метод Гаспара Монжа • Аксонометрия 3D</span>
+        <button class="auth-quick-guest" id="auth-quick-demo-btn">Быстрый демо-вход в один клик →</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- ==========================================
+       TOP NAVIGATION BAR (MAIN PLATFORM)
+       ========================================== -->
+  <header class="topbar" id="main-topbar">
+    <div class="topbar-left">
+      <a href="#home" class="brand-logo" data-nav="home">
+        <div class="logo-cube-icon">
+          <svg viewBox="0 0 32 32" width="26" height="26">
+            <polygon points="16,2 29,9.5 29,24.5 16,30 3,24.5 3,9.5" fill="rgba(214,191,168,0.28)" stroke="#8A6246" stroke-width="1.8"/>
+            <polyline points="3,9.5 16,17 29,9.5" fill="none" stroke="#8A6246" stroke-width="1.4"/>
+            <line x1="16" y1="17" x2="16" y2="30" stroke="#8A6246" stroke-width="1.4"/>
+            <circle cx="16" cy="17" r="2.2" fill="#BD8D65"/>
+          </svg>
+        </div>
+        <div class="brand-text">
+          <span class="brand-title">Графика <span class="accent-cyan">LAB</span></span>
+          <span class="brand-sub" id="topbar-role-sub">ОБРАЗОВАТЕЛЬНАЯ СТУДИЯ</span>
         </div>
       </a>
       <div class="system-pill">
         <span class="pulse-dot"></span>
-        <span>SYS: ONLINE</span>
+        <span id="topbar-group-pill">СТУДИЯ АКТИВНА</span>
       </div>
     </div>
 
@@ -87,36 +308,53 @@
     </nav>
 
     <div class="topbar-right">
-      <div class="xp-badge" title="Опыт инженера">
+      <div class="xp-badge" title="Опыт в лаборатории">
         <span class="xp-label">LVL <strong id="header-lvl">4</strong></span>
         <span class="xp-sep">|</span>
         <span class="xp-val"><strong id="header-xp">1,450</strong> XP</span>
       </div>
-      <button class="profile-btn" id="profile-modal-btn" title="Профиль инженера и настройки">
-        <span class="profile-avatar">ИНЖ</span>
-        <span class="profile-name">Курсант #042</span>
+      <button class="profile-btn" id="profile-modal-btn" title="Профиль и смена роли">
+        <span class="profile-avatar" id="header-role-badge">СТУД</span>
+        <span class="profile-name" id="header-user-name">Данил Панин</span>
+      </button>
+      <button class="switch-role-topbtn" id="switch-role-topbtn" title="Вернуться на экран выбора роли">
+        Сменить роль
       </button>
     </div>
   </header>
 
-  <!-- MAIN WORKSPACE CONTAINER -->
-  <main class="workspace">
+  <!-- ==========================================
+       MAIN WORKSPACE CONTAINER
+       ========================================== -->
+  <main class="workspace" id="main-workspace">
 
     <!-- ==========================================
          VIEW 1: HOME (HERO + DASHBOARD)
          ========================================== -->
     <section id="view-home" class="view-section active">
+      <!-- Role Welcome Banner inside Home -->
+      <div class="role-welcome-strip" id="role-welcome-strip">
+        <div class="rws-left">
+          <span class="rws-badge" id="rws-badge">КАБИНЕТ СТУДЕНТА</span>
+          <span class="rws-greeting" id="rws-greeting">Добро пожаловать в мастерскую, Данил Панин (Группа ИГ-204)</span>
+        </div>
+        <div class="rws-right">
+          <span class="rws-course" id="rws-course">Курс: Инженерная графика и CAD</span>
+          <button class="rws-change-btn" id="rws-change-role-btn">Выбрать другую роль →</button>
+        </div>
+      </div>
+
       <!-- HERO SECTION -->
       <div class="hero-container">
         <div class="hero-left">
           <div class="tech-tag-row">
-            <span class="tech-badge cyan">GOST 2.305-2008 // ISO 128</span>
-            <span class="tech-badge orange">REAL-TIME 3D ENGINE</span>
+            <span class="tech-badge cyan">ГОСТ 2.305-2008 // ЕСКД</span>
+            <span class="tech-badge orange">ИНТЕРАКТИВНОЕ 3D-ЧЕРЧЕНИЕ</span>
           </div>
-          <h1 class="hero-title">ГРАФИКА <span class="accent-cyan">LAB</span></h1>
+          <h1 class="hero-title">Графика <span class="accent-cyan">LAB</span></h1>
           <div class="hero-subtitle">ВИДИ. ПОСТРОЙ. ПОНИМАЙ.</div>
           <p class="hero-desc">
-            Пространственное мышление начинается с одной линии. Исследуй форму, превращай плоскость в объём и научись видеть геометрию по-новому в интерактивной цифровой лаборатории инженерной графики.
+            Пространственное мышление начинается с одной линии. Исследуй форму, превращай плоскость в объём и научись видеть геометрию по-новому в уютной цифровой лаборатории инженерной графики.
           </p>
 
           <div class="hero-cta-row">
@@ -143,7 +381,7 @@
             </div>
             <div class="hq-metric">
               <span class="hq-num">360°</span>
-              <span class="hq-lbl">интерактивный CAD</span>
+              <span class="hq-lbl">интерактивный макет</span>
             </div>
           </div>
         </div>
@@ -157,13 +395,13 @@
               <div>Z: <span id="hero-coord-z">008.50</span></div>
             </div>
             <div class="hud-telemetry top-right">
-              <div>SYSTEM: <span class="accent-cyan">ACTIVE</span></div>
-              <div>MODE: <span id="hero-mode-readout" class="accent-orange">ISOMETRIC</span></div>
+              <div>СТУДИЯ: <span class="accent-cyan">АКТИВНА</span></div>
+              <div>РЕЖИМ: <span id="hero-mode-readout" class="accent-orange">ISOMETRIC</span></div>
               <div>FPS: <span id="hero-fps">60</span></div>
             </div>
             <div class="hud-telemetry bottom-left">
-              <div>ASSEMBLY: <span class="mono-white">CAD-MECH-09</span></div>
-              <div>VERTICES: <span id="hero-verts">148</span> // EDGES: <span id="hero-edges">264</span></div>
+              <div>МОДЕЛЬ: <span class="mono-white">CAD-MECH-09</span></div>
+              <div>ВЕРШИН: <span id="hero-verts">148</span> // РЁБЕР: <span id="hero-edges">264</span></div>
             </div>
 
             <!-- Interactive 3D Hero Canvas -->
@@ -171,10 +409,10 @@
 
             <!-- Interactive Controls overlay on Hero 3D -->
             <div class="hero-3d-controls">
-              <button class="hud-ctrl-btn active" id="hero-btn-solid" title="Твердотельный режим + грани">SOLID</button>
-              <button class="hud-ctrl-btn" id="hero-btn-wire" title="Каркасный режим">WIREFRAME</button>
-              <button class="hud-ctrl-btn" id="hero-btn-xray" title="Скрытые рёбра (штриховые)">X-RAY</button>
-              <button class="hud-ctrl-btn" id="hero-btn-explode" title="Разнести сборочный узел">EXPLODE</button>
+              <button class="hud-ctrl-btn active" id="hero-btn-solid" title="Твердотельный макет">МАКЕТ</button>
+              <button class="hud-ctrl-btn" id="hero-btn-wire" title="Каркасный режим">КАРКАС</button>
+              <button class="hud-ctrl-btn" id="hero-btn-xray" title="Скрытые рёбра (штриховые)">ШТРИХИ</button>
+              <button class="hud-ctrl-btn" id="hero-btn-explode" title="Разнести сборочный узел">ВЗРЫВ-СХЕМА</button>
               <button class="hud-ctrl-btn" id="hero-btn-dims" title="Показать размерные линии">РАЗМЕРЫ</button>
             </div>
           </div>
@@ -192,7 +430,7 @@
       <div class="dashboard-grid">
         <!-- Continue Learning Card -->
         <div class="dash-card continue-card">
-          <div class="card-corner-tag">ТЕКУЩИЙ МОДУЛЬ // УРОК 04</div>
+          <div class="card-corner-tag" id="dash-role-module-tag">ТЕКУЩИЙ МОДУЛЬ // УРОК 04</div>
           <div class="continue-body">
             <div class="continue-info">
               <span class="module-pill">РАЗДЕЛ: ОРТОГОНАЛЬНЫЕ ПРОЕКЦИИ</span>
@@ -217,7 +455,7 @@
         <!-- Daily Quest Card -->
         <div class="dash-card daily-card">
           <div class="card-header-row">
-            <span class="card-kicker accent-orange">ЕЖЕДНЕВНАЯ ЗАДАЧА</span>
+            <span class="card-kicker accent-orange">ЗАДАНИЕ ДНЯ</span>
             <span class="reward-pill">+150 XP</span>
           </div>
           <h4 class="daily-title">СОБЕРИ 3 ИЗОМЕТРИЧЕСКИЕ ФИГУРЫ</h4>
@@ -236,8 +474,8 @@
         <!-- Statistics 6 Metrics -->
         <div class="dash-card stats-card">
           <div class="card-header-row">
-            <span class="card-kicker">СТАТИСТИКА КУРСАНТА</span>
-            <span class="mono-muted">REALTIME TELEMETRY</span>
+            <span class="card-kicker" id="stats-card-title">СТАТИСТИКА ОБУЧЕНИЯ</span>
+            <span class="mono-muted">АКТУАЛЬНЫЕ ДАННЫЕ</span>
           </div>
           <div class="stats-grid-6">
             <div class="stat-box">
@@ -254,7 +492,7 @@
             </div>
             <div class="stat-box">
               <span class="stat-val" id="stat-level">УРОВЕНЬ 4</span>
-              <span class="stat-lbl">Инженер-конструктор</span>
+              <span class="stat-lbl" id="stat-rank-label">Инженер-конструктор</span>
             </div>
             <div class="stat-box">
               <span class="stat-val accent-cyan" id="stat-accuracy">94.2%</span>
@@ -267,12 +505,23 @@
           </div>
         </div>
 
+        <!-- Achievements Card -->
+        <div class="dash-card achievements-card">
+          <div class="card-header-row">
+            <span class="card-kicker">ПОСЛЕДНИЕ ДОСТИЖЕНИЯ</span>
+            <button class="link-btn" data-go="progress">Все награды →</button>
+          </div>
+          <div class="ach-list" id="dash-ach-list">
+            <!-- Rendered by JS -->
+          </div>
+        </div>
+
         <!-- Interactive Skill Tree Map -->
         <div class="dash-card skillmap-card">
           <div class="card-header-row">
             <div>
-              <span class="card-kicker">КАРТА НАВЫКОВ // SKILL MATRIX</span>
-              <h3 class="card-title-sm">Инженерное древо компетенций</h3>
+              <span class="card-kicker">КАРТА НАВЫКОВ // ОБРАЗОВАТЕЛЬНЫЙ МАРШРУТ</span>
+              <h3 class="card-title-sm">Древо инженерных компетенций</h3>
             </div>
             <div class="skill-legend">
               <span class="s-leg passed"><i></i> Пройдено</span>
@@ -299,17 +548,6 @@
             </div>
           </div>
         </div>
-
-        <!-- Achievements Card -->
-        <div class="dash-card achievements-card">
-          <div class="card-header-row">
-            <span class="card-kicker">ПОСЛЕДНИЕ ДОСТИЖЕНИЯ</span>
-            <button class="link-btn" data-go="progress">Все награды →</button>
-          </div>
-          <div class="ach-list" id="dash-ach-list">
-            <!-- Rendered by JS -->
-          </div>
-        </div>
       </div>
     </section>
 
@@ -319,7 +557,7 @@
     <section id="view-projection" class="view-section">
       <div class="lab-header-bar">
         <div>
-          <span class="tech-kicker">MODULE 02 // ORTHOGRAPHIC PROJECTION ENGINE</span>
+          <span class="tech-kicker">МОДУЛЬ 02 // ТРЕНАЖЁР ОРТОГОНАЛЬНЫХ ПРОЕКЦИЙ</span>
           <h2 class="section-title">PROJECTION LAB — ЛАБОРАТОРИЯ ПРОЕКЦИЙ</h2>
         </div>
         <div class="lab-toolbar">
@@ -347,7 +585,7 @@
           </div>
 
           <div class="panel-block">
-            <div class="panel-title">ИНЖЕНЕРНЫЕ СЛОИ</div>
+            <div class="panel-title">ЧЕРТЁЖНЫЕ СЛОИ</div>
             <label class="tech-toggle">
               <input type="checkbox" id="proj-toggle-axes" checked />
               <span class="toggle-slider"></span>
@@ -463,7 +701,7 @@
     <section id="view-builder" class="view-section">
       <div class="lab-header-bar">
         <div>
-          <span class="tech-kicker">MODULE 03 // SPATIAL CAD CONSTRUCTOR</span>
+          <span class="tech-kicker">МОДУЛЬ 03 // ПРОСТРАНСТВЕННЫЙ КОНСТРУКТОР</span>
           <h2 class="section-title">ISOMETRIC BUILDER — ИЗОМЕТРИЧЕСКИЙ КОНСТРУКТОР</h2>
         </div>
         <div class="builder-top-stats">
@@ -478,7 +716,7 @@
         <aside class="builder-palette">
           <div class="panel-block">
             <div class="panel-title">ГЕОМЕТРИЧЕСКИЕ ЭЛЕМЕНТЫ</div>
-            <p class="panel-hint">Нажмите на элемент, чтобы добавить его на изометрическую сетку, или выберите готовый чертёж-задание.</p>
+            <p class="panel-hint">Нажмите на элемент, чтобы добавить его на изометрическую сетку, или выберите готовый макет.</p>
             <div class="primitive-grid">
               <button class="prim-btn" data-prim="cube">
                 <span class="prim-icon">⬡</span>
@@ -607,7 +845,7 @@
     <section id="view-training" class="view-section">
       <div class="lab-header-bar">
         <div>
-          <span class="tech-kicker">MODULE 04 // INTERACTIVE CAD LESSONS &amp; GEOMETRIC CONSTRUCTIONS</span>
+          <span class="tech-kicker">МОДУЛЬ 04 // ИНТЕРАКТИВНЫЕ УРОКИ И ЧЕРТЁЖНЫЕ ПОСТРОЕНИЯ</span>
           <h2 class="section-title">ТРЕНИРОВКИ — ПОШАГОВЫЕ ГЕОМЕТРИЧЕСКИЕ ПОСТРОЕНИЯ</h2>
         </div>
       </div>
@@ -663,13 +901,13 @@
     <section id="view-challenges" class="view-section">
       <div class="lab-header-bar">
         <div>
-          <span class="tech-kicker">MODULE 05 // SPATIAL REASONING &amp; PROJECTION VERIFICATION</span>
-          <h2 class="section-title">ИСПЫТАНИЯ — ПРОВЕРКА ПРОСТРАНСТВЕННОГО МЫШЛЕНИЯ</h2>
+          <span class="tech-kicker">МОДУЛЬ 05 // ТРЕНИРОВКА ПРОСТРАНСТВЕННОГО МЫШЛЕНИЯ</span>
+          <h2 class="section-title">ИСПЫТАНИЯ — ПРОВЕРКА ЧТЕНИЯ ЧЕРТЕЖЕЙ</h2>
         </div>
         <div class="challenge-hud-pills">
           <div class="c-pill">СЕРИЯ: <strong id="chal-streak" class="accent-orange">0</strong></div>
           <div class="c-pill">ОЧКИ ИСПЫТАНИЙ: <strong id="chal-score" class="accent-cyan">0</strong></div>
-          <div class="c-pill">ЗАДАНИЕ: <strong id="chal-index">1 / 6</strong></div>
+          <div class="c-pill">ЗАДАНИЕ: <strong id="chal-index">1 / 4</strong></div>
         </div>
       </div>
 
@@ -705,8 +943,8 @@
     <section id="view-progress" class="view-section">
       <div class="lab-header-bar">
         <div>
-          <span class="tech-kicker">MODULE 06 // ENGINEER DOSSIER &amp; ANALYTICS</span>
-          <h2 class="section-title">МОЙ ПРОГРЕСС — ПРОФИЛЬ ИНЖЕНЕРА</h2>
+          <span class="tech-kicker">МОДУЛЬ 06 // ПОРТФОЛИО И АНАЛИТИКА ОБУЧЕНИЯ</span>
+          <h2 class="section-title">МОЙ ПРОГРЕСС — ПРОФИЛЬ В ЛАБОРАТОРИИ</h2>
         </div>
         <button class="btn-ghost small" id="reset-progress-btn">СБРОСИТЬ ДЕМО-ДАННЫЕ</button>
       </div>
@@ -728,21 +966,24 @@
 
   </main>
 
-  <!-- PROFILE MODAL -->
+  <!-- PROFILE & ABOUT / HELP MODAL -->
   <div class="modal-backdrop" id="profile-modal" style="display:none;">
     <div class="modal-card">
       <div class="modal-header">
         <div>
-          <span class="tech-kicker">ЛИЧНОЕ ДЕЛО КУРСАНТА</span>
-          <h3>Курсант #042 — Кафедра Инженерной Графики</h3>
+          <span class="tech-kicker" id="modal-kicker">ЛИЧНЫЙ КАБИНЕТ</span>
+          <h3 id="modal-title">Профиль участника лаборатории</h3>
         </div>
         <button class="modal-close" id="profile-modal-close">✕</button>
       </div>
       <div class="modal-body">
-        <p class="modal-desc">Все ваши результаты, собранные 3D-конструкции и прогресс по карте навыков автоматически сохраняются в локальном хранилище браузера.</p>
+        <p class="modal-desc" id="modal-desc">
+          Все ваши результаты, выбранная роль (Преподаватель или Студент), собранные 3D-конструкции и прогресс по карте навыков автоматически сохраняются в браузере.
+        </p>
         <div class="modal-actions-row">
-          <button class="btn-secondary" id="replay-boot-btn">ПОВТОРИТЬ 3D-ЗАГРУЗКУ САЙТА</button>
-          <button class="btn-primary" id="close-modal-ok">ВЕРНУТЬСЯ В ЛАБОРАТОРИЮ</button>
+          <button class="btn-ghost small" id="modal-switch-role-btn">СМЕНИТЬ РОЛЬ (ПРЕПОДАВАТЕЛЬ / СТУДЕНТ)</button>
+          <button class="btn-secondary small" id="replay-boot-btn">3D-ЗАСТАВКА</button>
+          <button class="btn-primary small" id="close-modal-ok">ПРОДОЛЖИТЬ</button>
         </div>
       </div>
     </div>

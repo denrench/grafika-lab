@@ -302,7 +302,7 @@ window.GrafikaModels = (function () {
       for (const f of m.faces) {
         faces.push({
           idx: f.idx.map(i => i + offset),
-          color: f.color || '#1D334A',
+          color: f.color || '#D6BFA8',
           smooth: !!f.smooth,
           partDir: partOffset
         });
@@ -371,27 +371,27 @@ window.GrafikaModels = (function () {
       if (z === 2 && x >= 1 && x <= 2) return false; // top channel
       if (y >= 1 && y <= 2 && x >= 1 && x <= 2 && z === 0) return false; // bottom cavity
       return true;
-    }, '#172A3E');
+    }, '#D6BFA8');
     parts.push({ ...core, partOffset: [0, 0, 0] });
 
     // Top cylindrical turret
-    const cylTop = createCylinder(0, 0, 36, 68, 22, 18, '#203B54', 'z');
+    const cylTop = createCylinder(0, 0, 36, 68, 22, 18, '#C8AD92', 'z');
     parts.push({ ...cylTop, partOffset: [0, 0, 34] });
 
     // Left flange bracket
-    const leftFlange = createBox(-72, -26, -24, -48, 26, 20, '#1B334B');
+    const leftFlange = createBox(-72, -26, -24, -48, 26, 20, '#DECAB5');
     parts.push({ ...leftFlange, partOffset: [-36, 0, 0] });
 
     // Right wedge rib
-    const rightWedge = createWedge(48, -26, -24, 78, 26, 24, 'x', '#1E3852');
+    const rightWedge = createWedge(48, -26, -24, 78, 26, 24, 'x', '#BD8D65');
     parts.push({ ...rightWedge, partOffset: [38, 0, 0] });
 
     // Front alignment pin
-    const frontPin = createCylinder(0, 0, -48, -74, 14, 14, '#2A4866', 'y');
+    const frontPin = createCylinder(0, 0, -48, -74, 14, 14, '#B58963', 'y');
     parts.push({ ...frontPin, partOffset: [0, -35, 0] });
 
     // Back counterweight block
-    const backBlock = createBox(-26, 48, -24, 26, 70, 26, '#172E44');
+    const backBlock = createBox(-26, 48, -24, 26, 70, 26, '#D6BFA8');
     parts.push({ ...backBlock, partOffset: [0, 35, 0] });
 
     return mergeMeshes(parts);
@@ -426,7 +426,7 @@ window.GrafikaModels = (function () {
           return false;
         }
         return false;
-      }, '#192E43')
+      }, '#D6BFA8')
     },
     {
       id: 'slotted-bracket',
@@ -445,7 +445,7 @@ window.GrafikaModels = (function () {
         // Step down on middle
         if (z >= 2 && y === 0 && x >= 1 && x <= 3) return false;
         return true;
-      }, '#1B334B')
+      }, '#CFB69E')
     },
     {
       id: 'flange-bushing',
@@ -455,11 +455,11 @@ window.GrafikaModels = (function () {
       difficulty: 'УРОВЕНЬ 2',
       note: 'Тело вращения на прямоугольном основании с боковыми приливами. На виде сверху (H) цилиндрическая башня проецируется в концентрические окружности.',
       build: () => {
-        const base = createBox(-54, -38, -40, 54, 38, -14, '#182C40');
-        const boss = createCylinder(0, 0, -14, 38, 30, 16, '#213D58', 'z');
-        const topNeck = createCylinder(0, 0, 38, 52, 16, 16, '#294968', 'z');
-        const earL = createBox(-54, -16, -14, -30, 16, 10, '#1D354D');
-        const earR = createBox(30, -16, -14, 54, 16, 10, '#1D354D');
+        const base = createBox(-54, -38, -40, 54, 38, -14, '#DECAB5');
+        const boss = createCylinder(0, 0, -14, 38, 30, 16, '#C8AD92', 'z');
+        const topNeck = createCylinder(0, 0, 38, 52, 16, 16, '#BD8D65', 'z');
+        const earL = createBox(-54, -16, -14, -30, 16, 10, '#D6BFA8');
+        const earR = createBox(30, -16, -14, 54, 16, 10, '#D6BFA8');
         return mergeMeshes([base, boss, topNeck, earL, earR]);
       }
     },
@@ -471,11 +471,11 @@ window.GrafikaModels = (function () {
       difficulty: 'УРОВЕНЬ 3',
       note: 'Сочетание горизонтальных граней и наклонного ребра жёсткости. Наклонная грань проецируется с искажением (укорочением) на виды сверху и слева.',
       build: () => {
-        const base = createBox(-56, -36, -36, 56, 36, -12, '#182D42');
-        const wall = createBox(-56, -36, -12, -24, 36, 40, '#1E3852');
-        const rib = createWedge(-24, -14, -12, 48, 14, 34, 'x', '#264666');
-        const frontStep = createBox(20, -36, -12, 56, -18, 6, '#1C334B');
-        const backStep = createBox(20, 18, -12, 56, 36, 6, '#1C334B');
+        const base = createBox(-56, -36, -36, 56, 36, -12, '#DECAB5');
+        const wall = createBox(-56, -36, -12, -24, 36, 40, '#D6BFA8');
+        const rib = createWedge(-24, -14, -12, 48, 14, 34, 'x', '#BD8D65');
+        const frontStep = createBox(20, -36, -12, 56, -18, 6, '#C9AF95');
+        const backStep = createBox(20, 18, -12, 56, 36, 6, '#C9AF95');
         return mergeMeshes([base, wall, rib, frontStep, backStep]);
       }
     },
@@ -498,7 +498,7 @@ window.GrafikaModels = (function () {
         // Vertical central bore
         if (x === 2 && y === 2) return false;
         return true;
-      }, '#1B334B')
+      }, '#D6BFA8')
     },
     {
       id: 'complex-slider',
@@ -508,11 +508,11 @@ window.GrafikaModels = (function () {
       difficulty: 'УРОВЕНЬ 4',
       note: 'Комплексная машиностроительная деталь типа «Ползун» с ласточкиным пазом, призматической надстройкой и цилиндрической цапфой.',
       build: () => {
-        const leftLeg = createBox(-55, -38, -42, -22, 38, -12, '#172A3E');
-        const rightLeg = createBox(22, -38, -42, 55, 38, -12, '#172A3E');
-        const bridge = createBox(-55, -38, -12, 55, 38, 12, '#1E364F');
-        const gable = createWedge(-36, -26, 12, 36, 26, 42, 'y', '#23405E');
-        const pin = createCylinder(0, 14, 38, 56, 12, 14, '#2C5073', 'y');
+        const leftLeg = createBox(-55, -38, -42, -22, 38, -12, '#DECAB5');
+        const rightLeg = createBox(22, -38, -42, 55, 38, -12, '#DECAB5');
+        const bridge = createBox(-55, -38, -12, 55, 38, 12, '#D6BFA8');
+        const gable = createWedge(-36, -26, 12, 36, 26, 42, 'y', '#C8AD92');
+        const pin = createCylinder(0, 14, 38, 56, 12, 14, '#BD8D65', 'y');
         return mergeMeshes([leftLeg, rightLeg, bridge, gable, pin]);
       }
     }
@@ -526,7 +526,7 @@ window.GrafikaModels = (function () {
     const cx = gx * U;
     const cy = gy * U;
     const cz = gz * U;
-    const baseColor = isSelected ? '#275478' : '#1A3148';
+    const baseColor = isSelected ? '#BD8D65' : '#D6BFA8';
 
     let raw;
     if (type === 'cube') {

@@ -62,9 +62,9 @@ window.GrafikaEngine3D = (function () {
     return [nx, ny, nz];
   }
 
-  // Shade hex color by brightness factor [0.35 .. 1.25]
+  // Shade hex color by brightness factor [0.72 .. 1.08]
   function shadeColor(hex, factor, alpha) {
-    const clean = (hex || '#1C344D').replace('#', '');
+    const clean = (hex || '#D6BFA8').replace('#', '');
     const r = Math.min(255, Math.max(0, Math.round(parseInt(clean.substring(0, 2), 16) * factor)));
     const g = Math.min(255, Math.max(0, Math.round(parseInt(clean.substring(2, 4), 16) * factor)));
     const b = Math.min(255, Math.max(0, Math.round(parseInt(clean.substring(4, 6), 16) * factor)));
@@ -78,7 +78,7 @@ window.GrafikaEngine3D = (function () {
   function draw3DFloorGrid(ctx, cx, cy, yaw, pitch, scale, gridZ, radiusUnits, stepPx) {
     ctx.save();
     ctx.lineWidth = 1;
-    ctx.strokeStyle = 'rgba(66, 217, 255, 0.08)';
+    ctx.strokeStyle = 'rgba(138, 98, 70, 0.14)';
 
     const maxCoord = radiusUnits * stepPx;
     for (let i = -radiusUnits; i <= radiusUnits; i++) {
@@ -104,9 +104,9 @@ window.GrafikaEngine3D = (function () {
   function draw3DAxes(ctx, cx, cy, yaw, pitch, scale, length) {
     const origin = transformPoint([0, 0, 0], yaw, pitch, scale);
     const axes = [
-      { label: 'X', end: [length, 0, 0], color: '#FF5E7E' },
-      { label: 'Y', end: [0, length, 0], color: '#39E58C' },
-      { label: 'Z', end: [0, 0, length], color: '#42D9FF' }
+      { label: 'X', end: [length, 0, 0], color: '#B8564B' },
+      { label: 'Y', end: [0, length, 0], color: '#5B7F58' },
+      { label: 'Z', end: [0, 0, length], color: '#8A6246' }
     ];
 
     ctx.save();
@@ -134,9 +134,9 @@ window.GrafikaEngine3D = (function () {
   function drawProjectionPlanes3D(ctx, cx, cy, yaw, pitch, scale) {
     const S = 85;
     const planes = [
-      { name: 'V', corners: [[-S, S, -S], [S, S, -S], [S, S, S], [-S, S, S]], color: 'rgba(66, 217, 255, 0.06)', border: 'rgba(66, 217, 255, 0.28)' },
-      { name: 'H', corners: [[-S, -S, -S], [S, -S, -S], [S, S, -S], [-S, S, -S]], color: 'rgba(255, 157, 69, 0.05)', border: 'rgba(255, 157, 69, 0.25)' },
-      { name: 'W', corners: [[S, -S, -S], [S, S, -S], [S, S, S], [S, -S, S]], color: 'rgba(57, 229, 140, 0.05)', border: 'rgba(57, 229, 140, 0.25)' }
+      { name: 'V', corners: [[-S, S, -S], [S, S, -S], [S, S, S], [-S, S, S]], color: 'rgba(138, 98, 70, 0.08)', border: 'rgba(138, 98, 70, 0.35)' },
+      { name: 'H', corners: [[-S, -S, -S], [S, -S, -S], [S, S, -S], [-S, S, -S]], color: 'rgba(189, 141, 101, 0.08)', border: 'rgba(189, 141, 101, 0.35)' },
+      { name: 'W', corners: [[S, -S, -S], [S, S, -S], [S, S, S], [S, -S, S]], color: 'rgba(214, 191, 168, 0.14)', border: 'rgba(138, 98, 70, 0.3)' }
     ];
 
     ctx.save();
@@ -155,7 +155,7 @@ window.GrafikaEngine3D = (function () {
       ctx.fill();
       ctx.stroke();
 
-      ctx.fillStyle = pl.border;
+      ctx.fillStyle = '#8A6246';
       ctx.fillText(pl.name, cx + pts[2].sx - 14, cy + pts[2].sy + 14);
     }
     ctx.restore();
@@ -169,9 +169,9 @@ window.GrafikaEngine3D = (function () {
     const b1 = transformPoint([pB[0] + offsetVec[0], pB[1] + offsetVec[1], pB[2] + offsetVec[2]], yaw, pitch, scale);
 
     ctx.save();
-    ctx.strokeStyle = 'rgba(255, 157, 69, 0.75)';
-    ctx.fillStyle = '#FF9D45';
-    ctx.lineWidth = 1;
+    ctx.strokeStyle = '#8A6246';
+    ctx.fillStyle = '#8A6246';
+    ctx.lineWidth = 1.1;
 
     // Extension lines
     ctx.beginPath();
@@ -190,12 +190,12 @@ window.GrafikaEngine3D = (function () {
     // Midpoint label
     const mx = cx + (a1.sx + b1.sx) / 2;
     const my = cy + (a1.sy + b1.sy) / 2;
-    ctx.font = '600 10px "JetBrains Mono", monospace';
-    ctx.fillStyle = '#080B10';
-    const tw = ctx.measureText(label).width + 8;
+    ctx.font = '700 10px "JetBrains Mono", monospace';
+    ctx.fillStyle = '#FFF9F1';
+    const tw = ctx.measureText(label).width + 10;
     ctx.fillRect(mx - tw / 2, my - 7, tw, 14);
     ctx.strokeRect(mx - tw / 2, my - 7, tw, 14);
-    ctx.fillStyle = '#FF9D45';
+    ctx.fillStyle = '#40352D';
     ctx.textAlign = 'center';
     ctx.textBaseline = 'middle';
     ctx.fillText(label, mx, my);
@@ -246,7 +246,7 @@ window.GrafikaEngine3D = (function () {
       // Facing camera if tNorm[2] < 0
       const isFront = tNorm[2] < 0.02;
       const diffuse = Math.max(0, Models.vecDot(f.normal, lightDir));
-      const brightness = 0.55 + diffuse * 0.68;
+      const brightness = 0.78 + diffuse * 0.34;
 
       return {
         fIdx,
@@ -265,8 +265,8 @@ window.GrafikaEngine3D = (function () {
     // 1. If hidden edges are enabled, draw back-facing / occluded crease edges first as dashed lines
     if (showHiddenEdges && mode !== 'wireframe') {
       ctx.save();
-      ctx.strokeStyle = 'rgba(255, 157, 69, 0.52)';
-      ctx.lineWidth = 1.15;
+      ctx.strokeStyle = 'rgba(138, 98, 70, 0.55)';
+      ctx.lineWidth = 1.2;
       ctx.setLineDash([5, 4]);
 
       for (const edge of mesh.edges) {
@@ -298,18 +298,18 @@ window.GrafikaEngine3D = (function () {
       ctx.closePath();
 
       if (mode !== 'wireframe') {
-        const fillAlpha = showHiddenEdges ? 0.84 : 0.96;
+        const fillAlpha = showHiddenEdges ? 0.82 : 0.97;
         ctx.fillStyle = shadeColor(pf.face.color, pf.brightness, fillAlpha);
         ctx.fill();
 
         // Subtle polygon edge seal
-        ctx.strokeStyle = pf.face.smooth ? shadeColor(pf.face.color, pf.brightness * 1.05, fillAlpha) : 'rgba(66, 217, 255, 0.22)';
+        ctx.strokeStyle = pf.face.smooth ? shadeColor(pf.face.color, pf.brightness * 0.98, fillAlpha) : 'rgba(138, 98, 70, 0.22)';
         ctx.lineWidth = 0.75;
         ctx.stroke();
       } else {
         // Wireframe mode
-        ctx.strokeStyle = pf.isFront ? 'rgba(66, 217, 255, 0.85)' : 'rgba(66, 217, 255, 0.22)';
-        ctx.lineWidth = pf.isFront ? 1.25 : 0.8;
+        ctx.strokeStyle = pf.isFront ? 'rgba(64, 53, 45, 0.85)' : 'rgba(138, 98, 70, 0.25)';
+        ctx.lineWidth = pf.isFront ? 1.3 : 0.8;
         ctx.stroke();
       }
     }
@@ -317,8 +317,8 @@ window.GrafikaEngine3D = (function () {
     // 3. Draw sharp visible CAD feature edges on front-facing geometry
     if (mode !== 'wireframe') {
       ctx.save();
-      ctx.strokeStyle = options.highlightOutline ? '#FF9D45' : '#42D9FF';
-      ctx.lineWidth = options.highlightOutline ? 1.8 : 1.35;
+      ctx.strokeStyle = options.highlightOutline ? '#BD8D65' : '#40352D';
+      ctx.lineWidth = options.highlightOutline ? 2.0 : 1.45;
 
       for (const edge of mesh.edges) {
         if (!edge.isCrease) continue;
@@ -374,11 +374,11 @@ window.GrafikaEngine3D = (function () {
       ].map(c => transformPoint(c, yaw, pitch, scale));
 
       ctx.save();
-      ctx.fillStyle = 'rgba(66, 217, 255, 0.16)';
-      ctx.strokeStyle = '#42D9FF';
+      ctx.fillStyle = 'rgba(189, 141, 101, 0.22)';
+      ctx.strokeStyle = '#8A6246';
       ctx.lineWidth = 2;
-      ctx.shadowColor = '#42D9FF';
-      ctx.shadowBlur = 14;
+      ctx.shadowColor = '#BD8D65';
+      ctx.shadowBlur = 12;
       ctx.beginPath();
       corners.forEach((p, i) => {
         if (i === 0) ctx.moveTo(cx + p.sx, cy + p.sy);
@@ -562,7 +562,7 @@ window.GrafikaEngine3D = (function () {
 
     // Subtle millimeter grid
     ctx.save();
-    ctx.strokeStyle = 'rgba(66, 217, 255, 0.045)';
+    ctx.strokeStyle = 'rgba(138, 98, 70, 0.08)';
     ctx.lineWidth = 1;
     const step = 20;
     for (let x = (cx % step); x < w; x += step) {
@@ -576,7 +576,7 @@ window.GrafikaEngine3D = (function () {
     // Symmetry centerlines (dash-dot GOST line)
     if (showAxes) {
       ctx.save();
-      ctx.strokeStyle = 'rgba(135, 149, 167, 0.32)';
+      ctx.strokeStyle = 'rgba(136, 122, 110, 0.42)';
       ctx.lineWidth = 1;
       ctx.setLineDash([12, 4, 2, 4]);
       ctx.beginPath();
@@ -588,11 +588,11 @@ window.GrafikaEngine3D = (function () {
 
     const { visibleSegments, hiddenSegments } = computeOrthoDrawing(mesh, viewType, options.variantMutation);
 
-    // Draw hidden edges (dashed orange/cyan)
+    // Draw hidden edges (dashed caramel/brown)
     if (showHidden && hiddenSegments.length > 0) {
       ctx.save();
-      ctx.strokeStyle = '#FF9D45';
-      ctx.lineWidth = 1.25;
+      ctx.strokeStyle = '#BD8D65';
+      ctx.lineWidth = 1.3;
       ctx.setLineDash([6, 4]);
       const maxH = Math.ceil(hiddenSegments.length * drawProgress);
       for (let i = 0; i < maxH; i++) {
@@ -605,10 +605,10 @@ window.GrafikaEngine3D = (function () {
       ctx.restore();
     }
 
-    // Draw visible edges (solid thick technical cyan/white)
+    // Draw visible edges (solid thick technical espresso ink)
     ctx.save();
-    ctx.strokeStyle = '#42D9FF';
-    ctx.lineWidth = 2.0;
+    ctx.strokeStyle = '#40352D';
+    ctx.lineWidth = 2.1;
     ctx.lineCap = 'round';
     const maxV = Math.ceil(visibleSegments.length * drawProgress);
     for (let i = 0; i < maxV; i++) {
@@ -630,9 +630,9 @@ window.GrafikaEngine3D = (function () {
         maxV = Math.max(maxV, s.v1, s.v2);
       }
       ctx.save();
-      ctx.strokeStyle = 'rgba(240, 244, 248, 0.45)';
-      ctx.fillStyle = '#F0F4F8';
-      ctx.font = '500 10px "JetBrains Mono", monospace';
+      ctx.strokeStyle = '#8A6246';
+      ctx.fillStyle = '#8A6246';
+      ctx.font = '600 10px "JetBrains Mono", monospace';
       const dimY = cy + maxV * scale + 18;
       if (dimY < h - 8) {
         ctx.beginPath();
@@ -664,8 +664,8 @@ window.GrafikaEngine3D = (function () {
 
     // Coordinate axes X, Y, Z and 45 deg bisector
     ctx.save();
-    ctx.strokeStyle = 'rgba(66, 217, 255, 0.35)';
-    ctx.lineWidth = 1;
+    ctx.strokeStyle = 'rgba(138, 98, 70, 0.45)';
+    ctx.lineWidth = 1.1;
     ctx.beginPath();
     ctx.moveTo(10, oy); ctx.lineTo(w - 10, oy); // X / Y1 axis
     ctx.moveTo(ox, 10); ctx.lineTo(ox, h - 10); // Z / Y axis
@@ -673,18 +673,18 @@ window.GrafikaEngine3D = (function () {
 
     // 45-degree constant line in bottom-right quadrant
     const bisLen = Math.min(w - ox, h - oy) - 10;
-    ctx.strokeStyle = 'rgba(255, 157, 69, 0.45)';
+    ctx.strokeStyle = '#BD8D65';
     ctx.beginPath();
     ctx.moveTo(ox, oy);
     ctx.lineTo(ox + bisLen, oy + bisLen);
     ctx.stroke();
 
-    ctx.fillStyle = '#8795A7';
-    ctx.font = '600 9px "JetBrains Mono", monospace';
+    ctx.fillStyle = '#887A6E';
+    ctx.font = '700 9px "JetBrains Mono", monospace';
     ctx.fillText('V', 14, 20);
     ctx.fillText('W', w - 22, 20);
     ctx.fillText('H', 14, h - 10);
-    ctx.fillStyle = '#FF9D45';
+    ctx.fillStyle = '#8A6246';
     ctx.fillText('45°', ox + bisLen - 22, oy + bisLen - 6);
     ctx.restore();
 
@@ -705,7 +705,7 @@ window.GrafikaEngine3D = (function () {
       }
 
       ctx.save();
-      ctx.strokeStyle = 'rgba(66, 217, 255, 0.22)';
+      ctx.strokeStyle = 'rgba(189, 141, 101, 0.45)';
       ctx.lineWidth = 0.9;
       ctx.setLineDash([3, 3]);
 
@@ -744,7 +744,7 @@ window.GrafikaEngine3D = (function () {
       const { visibleSegments, hiddenSegments } = computeOrthoDrawing(mesh, viewType);
       if (showHidden) {
         ctx.save();
-        ctx.strokeStyle = 'rgba(255, 157, 69, 0.75)';
+        ctx.strokeStyle = '#BD8D65';
         ctx.lineWidth = 1;
         ctx.setLineDash([3, 3]);
         for (const s of hiddenSegments) {
@@ -756,8 +756,8 @@ window.GrafikaEngine3D = (function () {
         ctx.restore();
       }
       ctx.save();
-      ctx.strokeStyle = '#42D9FF';
-      ctx.lineWidth = 1.4;
+      ctx.strokeStyle = '#40352D';
+      ctx.lineWidth = 1.45;
       for (const s of visibleSegments) {
         ctx.beginPath();
         ctx.moveTo(subCx + s.u1 * sc, subCy + s.v1 * sc);

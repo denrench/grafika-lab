@@ -28,6 +28,10 @@
     dailyCompleted: false,
     currentView: 'home',
     selectedSkillId: 'iso-1',
+    userRole: null, // 'teacher' | 'student'
+    userName: 'Данил Панин',
+    userGroup: 'Группа ИГ-204',
+    userTrack: 'Инженерная графика и CAD',
     savedConstructions: [
       {
         name: 'Сборка #01: Портальная рама',
@@ -102,6 +106,30 @@
     if (statTasks) statTasks.textContent = appState.tasksDone;
     if (statLessons) statLessons.textContent = `${appState.lessonsDone} / 12`;
 
+    // Role personalization in Topbar & Welcome Strip
+    const roleBadge = document.getElementById('header-role-badge');
+    const userNameEl = document.getElementById('header-user-name');
+    const roleSubEl = document.getElementById('topbar-role-sub');
+    const groupPill = document.getElementById('topbar-group-pill');
+    const rwsBadge = document.getElementById('rws-badge');
+    const rwsGreeting = document.getElementById('rws-greeting');
+    const rwsCourse = document.getElementById('rws-course');
+    const rankLbl = document.getElementById('stat-rank-label');
+
+    const isTeacher = appState.userRole === 'teacher';
+    if (roleBadge) roleBadge.textContent = isTeacher ? 'ПРЕП' : 'СТУД';
+    if (userNameEl) userNameEl.textContent = appState.userName || 'Данил Панин';
+    if (roleSubEl) roleSubEl.textContent = isTeacher ? 'КАБИНЕТ ПРЕПОДАВАТЕЛЯ' : 'ОБРАЗОВАТЕЛЬНАЯ СТУДИЯ';
+    if (groupPill) groupPill.textContent = appState.userGroup || 'СТУДИЯ АКТИВНА';
+    if (rwsBadge) rwsBadge.textContent = isTeacher ? 'РЕЖИМ ПРЕПОДАВАТЕЛЯ' : 'КАБИНЕТ СТУДЕНТА';
+    if (rwsGreeting) {
+      rwsGreeting.textContent = isTeacher
+        ? `Здравствуйте, ${appState.userName}! Режим демонстрации и управления потоком (${appState.userGroup})`
+        : `Добро пожаловать в мастерскую, ${appState.userName} (${appState.userGroup})`;
+    }
+    if (rwsCourse) rwsCourse.textContent = `Дисциплина: ${appState.userTrack}`;
+    if (rankLbl) rankLbl.textContent = isTeacher ? 'Преподаватель кафедры' : 'Инженер-конструктор';
+
     // Daily quest step 3
     const step3 = document.getElementById('daily-step-3');
     const statusTxt = document.getElementById('daily-status-text');
@@ -113,6 +141,121 @@
         step3.classList.remove('done');
         statusTxt.textContent = `${appState.dailyCount} / 3 ВЫПОЛНЕНО`;
       }
+    }
+  }
+
+  // ==========================================================================
+  // 0. WELCOME & ROLE REGISTRATION GATEWAY (TEACHER / STUDENT)
+  // ==========================================================================
+  function initAuthGateway() {
+    const gateway = document.getElementById('auth-gateway');
+    if (!gateway) return;
+
+    // Always show the welcome role selection screen on fresh page entry unless already chosen in this tab session
+    if (sessionStorage.getItem('grafika_role_active') === '1' && appState.userRole) {
+      gateway.classList.add('hidden');
+    } else {
+      gateway.classList.remove('hidden');
+    }
+
+    function completeRegistration(role, name, group, track) {
+      appState.userRole = role;
+      appState.userName = name;
+      appState.userGroup = group;
+      appState.userTrack = track;
+      appState.currentView = 'home';
+      saveState();
+      sessionStorage.setItem('grafika_role_active', '1');
+      updateDashboardHeaderUI();
+      switchView('home');
+      gateway.classList.add('hidden');
+      showToast(
+        role === 'teacher'
+          ? `Добро пожаловать, преподаватель ${name}!`
+          : `Добро пожаловать в Графика LAB, ${name}!`
+      );
+    }
+
+    const teacherForm = document.getElementById('form-teacher');
+    if (teacherForm) {
+      teacherForm.addEventListener('submit', (e) => {
+        e.preventDefault();
+        const name = (document.getElementById('teacher-name').value || 'Соколов А. В.').trim();
+        const org = (document.getElementById('teacher-org').value || 'Кафедра инженерной графики').trim();
+        const subj = (document.getElementById('teacher-subject').value || 'Инженерная графика и CAD').trim();
+        completeRegistration('teacher', name, org, subj);
+      });
+    }
+
+    const studentForm = document.getElementById('form-student');
+    if (studentForm) {
+      studentForm.addEventListener('submit', (e) => {
+        e.preventDefault();
+        const name = (document.getElementById('student-name').value || 'Данил Панин').trim();
+        const grp = (document.getElementById('student-group').value || 'Группа ИГ-204').trim();
+        const trk = (document.getElementById('student-track').value || 'Инженерная графика и CAD').trim();
+        completeRegistration('student', name, grp, trk);
+      });
+    }
+
+    const quickDemoBtn = document.getElementById('auth-quick-demo-btn');
+    if (quickDemoBtn) {
+      quickDemoBtn.addEventListener('click', () => {
+        completeRegistration('student', 'Данил Панин', 'Группа ИГ-204', 'Инженерная графика и CAD');
+      });
+    }
+
+    // Buttons to return to Role Selection Gateway
+    const openGateway = () => {
+      sessionStorage.removeItem('grafika_role_active');
+      gateway.classList.remove('hidden');
+      const modal = document.getElementById('profile-modal');
+      if (modal) modal.style.display = 'none';
+    };
+
+    const topSwitchBtn = document.getElementById('switch-role-topbtn');
+    const rwsSwitchBtn = document.getElementById('rws-change-role-btn');
+    const modalSwitchBtn = document.getElementById('modal-switch-role-btn');
+    if (topSwitchBtn) topSwitchBtn.addEventListener('click', openGateway);
+    if (rwsSwitchBtn) rwsSwitchBtn.addEventListener('click', openGateway);
+    if (modalSwitchBtn) modalSwitchBtn.addEventListener('click', openGateway);
+
+    // Language switcher pills on welcome page
+    document.querySelectorAll('.lang-btn').forEach(btn => {
+      btn.addEventListener('click', () => {
+        document.querySelectorAll('.lang-btn').forEach(b => b.classList.remove('active'));
+        btn.classList.add('active');
+        showToast(`Язык интерфейса: ${btn.textContent}`);
+      });
+    });
+
+    // About & Help buttons on welcome page
+    const aboutBtn = document.getElementById('auth-about-btn');
+    const helpBtn = document.getElementById('auth-help-btn');
+    const modal = document.getElementById('profile-modal');
+    const mKicker = document.getElementById('modal-kicker');
+    const mTitle = document.getElementById('modal-title');
+    const mDesc = document.getElementById('modal-desc');
+
+    if (aboutBtn && modal) {
+      aboutBtn.addEventListener('click', () => {
+        if (mKicker) mKicker.textContent = 'О ПРОЕКТЕ // ГРАФИКА LAB';
+        if (mTitle) mTitle.textContent = 'Интерактивная образовательная 3D-платформа';
+        if (mDesc) {
+          mDesc.textContent = '«Графика LAB» объединяет наглядный 3D-тренажёр ортогональных проекций по ГОСТ 2.305-2008, изометрический конструктор, пошаговые геометрические построения и систему испытаний пространственного мышления.';
+        }
+        modal.style.display = 'flex';
+      });
+    }
+    if (helpBtn && modal) {
+      helpBtn.addEventListener('click', () => {
+        if (mKicker) mKicker.textContent = 'СПРАВКА И ПОМОЩЬ';
+        if (mTitle) mTitle.textContent = 'Как начать работу в лаборатории';
+        if (mDesc) {
+          mDesc.textContent = 'Выберите вашу роль («Я преподаватель» или «Я ученик / студент»), укажите имя и группу, после чего нажмите кнопку входа. Вы в любой момент можете переключить роль кнопкой «Сменить роль» в верхней панели.';
+        }
+        modal.style.display = 'flex';
+      });
     }
   }
 
@@ -133,8 +276,8 @@
 
     if (!overlay || !canvas) return;
 
-    // Only show once per session unless replayed
-    if (!forceReplay && sessionStorage.getItem('grafika_boot_done') === '1') {
+    // Only show when explicitly replayed so the Welcome Role Registration Gateway appears immediately on entry
+    if (!forceReplay) {
       overlay.classList.add('hidden');
       return;
     }
@@ -208,9 +351,9 @@
     const L = 75 * axisP;
     const origin = Engine.transformPoint([0, 0, 0], yaw, pitch, scale);
     const axes = [
-      { name: 'X', pt: [L, 0, 0], color: '#FF5E7E' },
-      { name: 'Y', pt: [0, L, 0], color: '#39E58C' },
-      { name: 'Z', pt: [0, 0, L], color: '#42D9FF' }
+      { name: 'X', pt: [L, 0, 0], color: '#B8564B' },
+      { name: 'Y', pt: [0, L, 0], color: '#5B7F58' },
+      { name: 'Z', pt: [0, 0, L], color: '#8A6246' }
     ];
 
     ctx.font = '700 11px "JetBrains Mono", monospace';
@@ -243,7 +386,7 @@
         [0, 4], [1, 5], [2, 6], [3, 7]
       ];
 
-      ctx.strokeStyle = '#42D9FF';
+      ctx.strokeStyle = '#8A6246';
       ctx.lineWidth = 1.8;
       const totalEdges = edges.length;
       const drawCount = cubeP * totalEdges;
@@ -538,10 +681,10 @@
 
     // Background technical grid lines inside SVG
     for (let x = 40; x < 780; x += 60) {
-      html += `<line x1="${x}" y1="0" x2="${x}" y2="340" stroke="rgba(66,217,255,0.04)" stroke-width="1"/>`;
+      html += `<line x1="${x}" y1="0" x2="${x}" y2="340" stroke="rgba(138, 98, 70, 0.06)" stroke-width="1"/>`;
     }
     for (let y = 40; y < 340; y += 60) {
-      html += `<line x1="0" y1="${y}" x2="780" y2="${y}" stroke="rgba(66,217,255,0.04)" stroke-width="1"/>`;
+      html += `<line x1="0" y1="${y}" x2="780" y2="${y}" stroke="rgba(138, 98, 70, 0.06)" stroke-width="1"/>`;
     }
 
     // Connection edges
@@ -550,35 +693,35 @@
         const t = nodeMap[targetId];
         if (!t) return;
         const isActiveLink = n.status === 'passed';
-        const stroke = isActiveLink ? '#42D9FF' : '#2A3B4E';
+        const stroke = isActiveLink ? '#8A6246' : '#D6BFA8';
         const dash = isActiveLink ? '' : 'stroke-dasharray="5,5"';
-        html += `<line x1="${n.x}" y1="${n.y}" x2="${t.x}" y2="${t.y}" stroke="${stroke}" stroke-width="2" ${dash} />`;
+        html += `<line x1="${n.x}" y1="${n.y}" x2="${t.x}" y2="${t.y}" stroke="${stroke}" stroke-width="2.2" ${dash} />`;
       });
     });
 
-    // Nodes (with opaque base rect so connector lines never bleed through node cards)
+    // Nodes (with opaque warm base rect so connector lines never bleed through node cards)
     nodes.forEach(n => {
       const isSelected = appState.selectedSkillId === n.id;
-      let fill = '#101720';
-      let stroke = '#3A4A5E';
-      let tagColor = '#8795A7';
+      let fill = '#F3EAE0';
+      let stroke = '#D6BFA8';
+      let tagColor = '#887A6E';
 
       if (n.status === 'passed') {
-        fill = '#12293A';
-        stroke = '#42D9FF';
-        tagColor = '#42D9FF';
+        fill = '#E9DCCB';
+        stroke = '#8A6246';
+        tagColor = '#8A6246';
       } else if (n.status === 'current') {
-        fill = '#29211C';
-        stroke = '#FF9D45';
-        tagColor = '#FF9D45';
+        fill = '#FFF9F1';
+        stroke = '#BD8D65';
+        tagColor = '#8A6246';
       } else if (n.status === 'available') {
-        fill = '#12202E';
-        stroke = 'rgba(66, 217, 255, 0.55)';
-        tagColor = '#F0F4F8';
+        fill = '#FFF9F1';
+        stroke = '#D6BFA8';
+        tagColor = '#40352D';
       }
 
       const ring = isSelected
-        ? `<rect x="${n.x - 74}" y="${n.y - 36}" width="148" height="72" fill="none" stroke="${stroke}" stroke-width="1.5" stroke-dasharray="4,3"/>`
+        ? `<rect x="${n.x - 74}" y="${n.y - 36}" width="148" height="72" rx="14" fill="none" stroke="#8A6246" stroke-width="1.6" stroke-dasharray="4,3"/>`
         : '';
 
       const displayBranch = n.shortBranch || n.branch;
@@ -586,9 +729,9 @@
       html += `
         <g class="skill-node-group" data-skill-id="${n.id}">
           ${ring}
-          <rect x="${n.x - 66}" y="${n.y - 28}" width="132" height="56" fill="${fill}" stroke="${stroke}" stroke-width="2"/>
+          <rect x="${n.x - 66}" y="${n.y - 28}" width="132" height="56" rx="11" fill="${fill}" stroke="${stroke}" stroke-width="2"/>
           <text x="${n.x}" y="${n.y - 6}" text-anchor="middle" fill="${tagColor}" font-family="JetBrains Mono, monospace" font-size="9.5" font-weight="700">${displayBranch}</text>
-          <text x="${n.x}" y="${n.y + 13}" text-anchor="middle" fill="#F0F4F8" font-family="Inter, sans-serif" font-size="10.5" font-weight="600">${n.mod}</text>
+          <text x="${n.x}" y="${n.y + 13}" text-anchor="middle" fill="#40352D" font-family="Inter, sans-serif" font-size="10.5" font-weight="700">${n.mod}</text>
         </g>
       `;
     });
@@ -1443,7 +1586,7 @@
     ctx.clearRect(0, 0, w, h);
 
     // Millimeter grid
-    ctx.strokeStyle = 'rgba(66, 217, 255, 0.05)';
+    ctx.strokeStyle = 'rgba(138, 98, 70, 0.08)';
     ctx.lineWidth = 1;
     for (let x = 25; x < w; x += 25) {
       ctx.beginPath(); ctx.moveTo(x, 0); ctx.lineTo(x, h); ctx.stroke();
@@ -1462,13 +1605,13 @@
       const O2 = { x: 500, y: 265, r: 44 };
 
       // Base circles O1, O2
-      ctx.strokeStyle = '#42D9FF';
-      ctx.lineWidth = 2;
+      ctx.strokeStyle = '#40352D';
+      ctx.lineWidth = 2.1;
       ctx.beginPath(); ctx.arc(O1.x, O1.y, O1.r, 0, Math.PI * 2); ctx.stroke();
       ctx.beginPath(); ctx.arc(O2.x, O2.y, O2.r, 0, Math.PI * 2); ctx.stroke();
 
       // Centers
-      ctx.fillStyle = '#F0F4F8';
+      ctx.fillStyle = '#40352D';
       ctx.font = '600 12px "JetBrains Mono", monospace';
       ctx.fillText('O₁ (R₁=58)', O1.x - 34, O1.y + 22);
       ctx.fillText('O₂ (R₂=44)', O2.x - 34, O2.y + 22);
@@ -1487,14 +1630,14 @@
       if (step >= 1) {
         // Auxiliary construction arcs (R1+R) and (R2+R) centered around their true intersection O3
         ctx.save();
-        ctx.strokeStyle = 'rgba(255, 157, 69, 0.55)';
-        ctx.lineWidth = 1.25;
+        ctx.strokeStyle = '#BD8D65';
+        ctx.lineWidth = 1.4;
         ctx.setLineDash([6, 4]);
         ctx.beginPath(); ctx.arc(O1.x, O1.y, rA, angO1ToO3 - 0.35, angO1ToO3 + 0.35); ctx.stroke();
         ctx.beginPath(); ctx.arc(O2.x, O2.y, rB, angO2ToO3 - 0.35, angO2ToO3 + 0.35); ctx.stroke();
         ctx.restore();
 
-        ctx.fillStyle = '#FF9D45';
+        ctx.fillStyle = '#8A6246';
         ctx.beginPath(); ctx.arc(O3.x, O3.y, 4.5, 0, Math.PI * 2); ctx.fill();
         ctx.fillText(`O₃ (R=${Math.round(R)})`, O3.x - 36, O3.y - 14);
       }
@@ -1507,7 +1650,7 @@
 
       if (step >= 2) {
         ctx.save();
-        ctx.strokeStyle = 'rgba(66, 217, 255, 0.45)';
+        ctx.strokeStyle = 'rgba(138, 98, 70, 0.55)';
         ctx.lineWidth = 1.1;
         ctx.setLineDash([3, 3]);
         ctx.beginPath();
@@ -1516,7 +1659,7 @@
         ctx.stroke();
         ctx.restore();
 
-        ctx.fillStyle = '#2EE59D';
+        ctx.fillStyle = '#5B7F58';
         ctx.beginPath(); ctx.arc(K1.x, K1.y, 4.5, 0, Math.PI * 2); ctx.fill();
         ctx.beginPath(); ctx.arc(K2.x, K2.y, 4.5, 0, Math.PI * 2); ctx.fill();
         ctx.fillText('K₁', K1.x - 24, K1.y - 8);
@@ -1526,10 +1669,8 @@
       if (step >= 3) {
         // Final thick tangent fillet arc from K2 to K1
         ctx.save();
-        ctx.strokeStyle = '#FF9D45';
+        ctx.strokeStyle = '#8A6246';
         ctx.lineWidth = 3.2;
-        ctx.shadowColor = '#FF9D45';
-        ctx.shadowBlur = 10;
         ctx.beginPath();
         ctx.arc(O3.x, O3.y, R, ang2, ang1);
         ctx.stroke();
@@ -1541,7 +1682,7 @@
       const W = 110, H = 75, Y = R; // groove depth
 
       // Axes
-      ctx.strokeStyle = 'rgba(66, 217, 255, 0.45)';
+      ctx.strokeStyle = 'rgba(138, 98, 70, 0.45)';
       ctx.lineWidth = 1.4;
       ctx.beginPath();
       ctx.moveTo(40, oy); ctx.lineTo(w - 40, oy);
@@ -1550,7 +1691,7 @@
 
       // Step 1: Front view V
       const vx = ox - 150, vy = oy - 25;
-      ctx.strokeStyle = '#42D9FF';
+      ctx.strokeStyle = '#40352D';
       ctx.lineWidth = 2.2;
       ctx.beginPath();
       ctx.moveTo(vx - W, vy);
@@ -1568,14 +1709,14 @@
         // Projection lines down to H and Top View
         const hy = oy + 30;
         ctx.save();
-        ctx.strokeStyle = 'rgba(66, 217, 255, 0.25)';
+        ctx.strokeStyle = 'rgba(138, 98, 70, 0.35)';
         ctx.setLineDash([4, 4]);
         for (const xOff of [-W, -W + 35, -35, 0]) {
           ctx.beginPath(); ctx.moveTo(vx + xOff, vy); ctx.lineTo(vx + xOff, hy + Y); ctx.stroke();
         }
         ctx.restore();
 
-        ctx.strokeStyle = '#42D9FF';
+        ctx.strokeStyle = '#40352D';
         ctx.lineWidth = 2.2;
         ctx.strokeRect(vx - W, hy, W, Y);
         ctx.beginPath();
@@ -1586,13 +1727,13 @@
 
       if (step >= 2) {
         // 45 degree bisector & horizontal rays
-        ctx.strokeStyle = '#FF9D45';
-        ctx.lineWidth = 1.4;
+        ctx.strokeStyle = '#BD8D65';
+        ctx.lineWidth = 1.5;
         ctx.beginPath(); ctx.moveTo(ox, oy); ctx.lineTo(ox + 165, oy + 165); ctx.stroke();
 
         const hy = oy + 30;
         ctx.save();
-        ctx.strokeStyle = 'rgba(255, 157, 69, 0.35)';
+        ctx.strokeStyle = 'rgba(189, 141, 101, 0.5)';
         ctx.setLineDash([4, 4]);
         for (const yVal of [hy, hy + Y]) {
           const d = yVal - oy;
@@ -1608,12 +1749,12 @@
       if (step >= 3) {
         // Left View W with dashed hidden groove line
         const wx = ox + 30;
-        ctx.strokeStyle = '#42D9FF';
+        ctx.strokeStyle = '#40352D';
         ctx.lineWidth = 2.2;
         ctx.strokeRect(wx, vy - H, Y, H);
 
         ctx.save();
-        ctx.strokeStyle = '#FF9D45';
+        ctx.strokeStyle = '#8A6246';
         ctx.lineWidth = 1.8;
         ctx.setLineDash([7, 4]);
         ctx.beginPath();
@@ -1629,7 +1770,7 @@
       const sin30 = 0.5;
 
       // Step 1: 120 deg axes
-      ctx.strokeStyle = 'rgba(66, 217, 255, 0.5)';
+      ctx.strokeStyle = 'rgba(138, 98, 70, 0.5)';
       ctx.lineWidth = 1.5;
       ctx.beginPath();
       ctx.moveTo(cx, cy - 140); ctx.lineTo(cx, cy + 140); // Z
@@ -1644,7 +1785,7 @@
       const D = { x: cx, y: cy + R };
 
       if (step >= 1) {
-        ctx.strokeStyle = 'rgba(240, 244, 248, 0.55)';
+        ctx.strokeStyle = '#887A6E';
         ctx.lineWidth = 1.4;
         ctx.beginPath();
         ctx.moveTo(A.x, A.y); ctx.lineTo(B.x, B.y);
@@ -1661,7 +1802,7 @@
         const m4 = { x: (D.x + C.x) / 2, y: (D.y + C.y) / 2 };
 
         ctx.save();
-        ctx.strokeStyle = 'rgba(255, 157, 69, 0.45)';
+        ctx.strokeStyle = '#BD8D65';
         ctx.setLineDash([4, 4]);
         ctx.beginPath();
         ctx.moveTo(D.x, D.y); ctx.lineTo(m1.x, m1.y);
@@ -1677,7 +1818,7 @@
         const rx = R * Math.sqrt(1.5);
         const ry = R * Math.sqrt(0.5);
         ctx.save();
-        ctx.strokeStyle = '#42D9FF';
+        ctx.strokeStyle = '#40352D';
         ctx.lineWidth = 2.6;
         ctx.beginPath();
         ctx.ellipse(cx, cy, rx, ry, 0, 0, Math.PI * 2);
@@ -1828,14 +1969,14 @@
           chalState.streak++;
           chalState.score += chal.xp;
           appState.tasksDone++;
-          if (fb) fb.innerHTML = `<strong style="color:#2EE59D;">ВЕРНО!</strong> ${chal.explanation}`;
+          if (fb) fb.innerHTML = `<strong style="color:#5B7F58;">ВЕРНО!</strong> ${chal.explanation}`;
           addXP(chal.xp, `Испытание #${chal.id} пройдено верно`);
         } else {
           btn.classList.add('wrong');
           const rightEl = grid.querySelector(`[data-opt-idx="${chal.correctOption}"]`);
           if (rightEl) rightEl.classList.add('correct');
           chalState.streak = 0;
-          if (fb) fb.innerHTML = `<strong style="color:#FF5470;">ОШИБКА ЧТЕНИЯ ЧЕРТЕЖА.</strong> ${chal.explanation}`;
+          if (fb) fb.innerHTML = `<strong style="color:#B8564B;">ОШИБКА ЧТЕНИЯ ЧЕРТЕЖА.</strong> ${chal.explanation}`;
         }
 
         document.getElementById('chal-streak').textContent = chalState.streak;
@@ -1899,7 +2040,7 @@
     // Draw concentric hex webs
     for (let ring = 1; ring <= 4; ring++) {
       const r = (R * ring) / 4;
-      ctx.strokeStyle = ring === 4 ? 'rgba(66, 217, 255, 0.35)' : 'rgba(135, 149, 167, 0.15)';
+      ctx.strokeStyle = ring === 4 ? 'rgba(138, 98, 70, 0.45)' : 'rgba(138, 98, 70, 0.16)';
       ctx.lineWidth = 1;
       ctx.beginPath();
       for (let i = 0; i < 6; i++) {
@@ -1915,13 +2056,13 @@
 
     // Spokes & labels
     ctx.font = '600 11px "JetBrains Mono", monospace';
-    ctx.fillStyle = '#F0F4F8';
+    ctx.fillStyle = '#40352D';
     ctx.textAlign = 'center';
     for (let i = 0; i < 6; i++) {
       const ang = (i * Math.PI) / 3 - Math.PI / 2;
       const px = cx + R * Math.cos(ang);
       const py = cy + R * Math.sin(ang);
-      ctx.strokeStyle = 'rgba(135, 149, 167, 0.2)';
+      ctx.strokeStyle = 'rgba(138, 98, 70, 0.22)';
       ctx.beginPath();
       ctx.moveTo(cx, cy);
       ctx.lineTo(px, py);
@@ -1933,9 +2074,9 @@
     }
 
     // Data polygon
-    ctx.fillStyle = 'rgba(66, 217, 255, 0.22)';
-    ctx.strokeStyle = '#42D9FF';
-    ctx.lineWidth = 2;
+    ctx.fillStyle = 'rgba(189, 141, 101, 0.28)';
+    ctx.strokeStyle = '#8A6246';
+    ctx.lineWidth = 2.2;
     ctx.beginPath();
     for (let i = 0; i < 6; i++) {
       const ang = (i * Math.PI) / 3 - Math.PI / 2;
@@ -1954,6 +2095,8 @@
   // INITIALIZE ALL MODULES ON DOM READY
   // ==========================================================================
   window.addEventListener('DOMContentLoaded', () => {
+    appState.currentView = 'home';
+    initAuthGateway();
     initNavigation();
     runBootSequence(false);
     initHero3D();
