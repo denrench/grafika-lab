@@ -72,6 +72,62 @@
       </div>
 
       <div class="auth-top-links">
+        <!-- Theme Selector in Auth Topbar -->
+        <div class="theme-switcher-wrap">
+          <button class="theme-menu-trigger" data-target-menu="auth-theme-menu" title="Сменить цветовую атмосферу (LIGHT MODE / ATMOSPHERE)">
+            <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <circle cx="12" cy="12" r="5"/>
+              <line x1="12" y1="1" x2="12" y2="3"/><line x1="12" y1="21" x2="12" y2="23"/>
+              <line x1="4.22" y1="4.22" x2="5.64" y2="5.64"/><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"/>
+              <line x1="1" y1="12" x2="3" y2="12"/><line x1="21" y1="12" x2="23" y2="12"/>
+              <line x1="4.22" y1="19.78" x2="5.64" y2="18.36"/><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"/>
+            </svg>
+            <span>THEME: <strong class="current-theme-label">Warm Paper</strong></span>
+          </button>
+          <div class="theme-dropdown-menu" id="auth-theme-menu">
+            <div class="theme-menu-header">LIGHT MODE // ATMOSPHERE</div>
+            <button class="theme-option-item" data-theme-pick="arctic" role="menuitemradio">
+              <span class="theme-radio-dot"></span>
+              <div class="theme-opt-info">
+                <span class="theme-opt-title">Arctic <small>Арктика</small></span>
+                <span class="theme-opt-sub">Морозное стекло и северный свет</span>
+              </div>
+              <div class="theme-mini-palette">
+                <i style="background:#EAF4F7"></i><i style="background:#D4E7ED"></i><i style="background:#83AEBF"></i><i style="background:#537E91"></i>
+              </div>
+            </button>
+            <button class="theme-option-item" data-theme-pick="pink-graphite" role="menuitemradio">
+              <span class="theme-radio-dot"></span>
+              <div class="theme-opt-info">
+                <span class="theme-opt-title">Pink Graphite <small>Розовый графит</small></span>
+                <span class="theme-opt-sub">Пыльно-розовый и мягкий графит</span>
+              </div>
+              <div class="theme-mini-palette">
+                <i style="background:#F5EEF1"></i><i style="background:#E5CFD8"></i><i style="background:#CBA8B7"></i><i style="background:#A47D91"></i>
+              </div>
+            </button>
+            <button class="theme-option-item" data-theme-pick="fresh-sage" role="menuitemradio">
+              <span class="theme-radio-dot"></span>
+              <div class="theme-opt-info">
+                <span class="theme-opt-title">Fresh Sage <small>Свежая зелень</small></span>
+                <span class="theme-opt-sub">Природная эстетика и мягкий свет</span>
+              </div>
+              <div class="theme-mini-palette">
+                <i style="background:#F1F5ED"></i><i style="background:#DCE8D9"></i><i style="background:#94AD8B"></i><i style="background:#668064"></i>
+              </div>
+            </button>
+            <button class="theme-option-item active" data-theme-pick="warm-paper" role="menuitemradio">
+              <span class="theme-radio-dot"></span>
+              <div class="theme-opt-info">
+                <span class="theme-opt-title">Warm Paper <small>Тёплая бумага</small></span>
+                <span class="theme-opt-sub">Уютная мастерская и тёплый беж</span>
+              </div>
+              <div class="theme-mini-palette">
+                <i style="background:#F5EFE5"></i><i style="background:#E9DCCB"></i><i style="background:#BD8D65"></i><i style="background:#8A6246"></i>
+              </div>
+            </button>
+          </div>
+        </div>
         <button class="auth-nav-link" id="auth-about-btn">О проекте</button>
         <button class="auth-nav-link" id="auth-help-btn">Помощь</button>
         <div class="lang-switch" role="group" aria-label="Выбор языка">
@@ -293,21 +349,81 @@
       <button class="nav-btn" data-nav="projection">
         <span class="nav-idx">02</span> Лаборатория проекций
       </button>
+      <button class="nav-btn" data-nav="album">
+        <span class="nav-idx">03</span> Альбом чертежей
+      </button>
       <button class="nav-btn" data-nav="builder">
-        <span class="nav-idx">03</span> Изометрия 3D
+        <span class="nav-idx">04</span> Изометрия 3D
       </button>
       <button class="nav-btn" data-nav="training">
-        <span class="nav-idx">04</span> Тренировки
+        <span class="nav-idx">05</span> Тренировки
       </button>
       <button class="nav-btn" data-nav="challenges">
-        <span class="nav-idx">05</span> Испытания
+        <span class="nav-idx">06</span> Испытания
       </button>
       <button class="nav-btn" data-nav="progress">
-        <span class="nav-idx">06</span> Мой прогресс
+        <span class="nav-idx">07</span> Мой прогресс
       </button>
     </nav>
 
     <div class="topbar-right">
+      <!-- Theme Switcher in Main Topbar -->
+      <div class="theme-switcher-wrap">
+        <button class="theme-menu-trigger" id="main-theme-trigger" data-target-menu="main-theme-menu" title="Сменить атмосферу сайта (LIGHT MODE / ATMOSPHERE)">
+          <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <circle cx="12" cy="12" r="5"/>
+            <line x1="12" y1="1" x2="12" y2="3"/><line x1="12" y1="21" x2="12" y2="23"/>
+            <line x1="4.22" y1="4.22" x2="5.64" y2="5.64"/><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"/>
+            <line x1="1" y1="12" x2="3" y2="12"/><line x1="21" y1="12" x2="23" y2="12"/>
+            <line x1="4.22" y1="19.78" x2="5.64" y2="18.36"/><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"/>
+          </svg>
+          <span>THEME: <strong class="current-theme-label">Warm Paper</strong></span>
+        </button>
+        <div class="theme-dropdown-menu" id="main-theme-menu">
+          <div class="theme-menu-header">LIGHT MODE // ATMOSPHERE</div>
+          <button class="theme-option-item" data-theme-pick="arctic" role="menuitemradio">
+            <span class="theme-radio-dot"></span>
+            <div class="theme-opt-info">
+              <span class="theme-opt-title">Arctic <small>Арктика</small></span>
+              <span class="theme-opt-sub">Морозное стекло и северный свет</span>
+            </div>
+            <div class="theme-mini-palette">
+              <i style="background:#EAF4F7"></i><i style="background:#D4E7ED"></i><i style="background:#83AEBF"></i><i style="background:#537E91"></i>
+            </div>
+          </button>
+          <button class="theme-option-item" data-theme-pick="pink-graphite" role="menuitemradio">
+            <span class="theme-radio-dot"></span>
+            <div class="theme-opt-info">
+              <span class="theme-opt-title">Pink Graphite <small>Розовый графит</small></span>
+              <span class="theme-opt-sub">Пыльно-розовый и мягкий графит</span>
+            </div>
+            <div class="theme-mini-palette">
+              <i style="background:#F5EEF1"></i><i style="background:#E5CFD8"></i><i style="background:#CBA8B7"></i><i style="background:#A47D91"></i>
+            </div>
+          </button>
+          <button class="theme-option-item" data-theme-pick="fresh-sage" role="menuitemradio">
+            <span class="theme-radio-dot"></span>
+            <div class="theme-opt-info">
+              <span class="theme-opt-title">Fresh Sage <small>Свежая зелень</small></span>
+              <span class="theme-opt-sub">Природная эстетика и мягкий свет</span>
+            </div>
+            <div class="theme-mini-palette">
+              <i style="background:#F1F5ED"></i><i style="background:#DCE8D9"></i><i style="background:#94AD8B"></i><i style="background:#668064"></i>
+            </div>
+          </button>
+          <button class="theme-option-item active" data-theme-pick="warm-paper" role="menuitemradio">
+            <span class="theme-radio-dot"></span>
+            <div class="theme-opt-info">
+              <span class="theme-opt-title">Warm Paper <small>Тёплая бумага</small></span>
+              <span class="theme-opt-sub">Уютная мастерская и тёплый беж</span>
+            </div>
+            <div class="theme-mini-palette">
+              <i style="background:#F5EFE5"></i><i style="background:#E9DCCB"></i><i style="background:#BD8D65"></i><i style="background:#8A6246"></i>
+            </div>
+          </button>
+        </div>
+      </div>
+
       <div class="xp-badge" title="Опыт в лаборатории">
         <span class="xp-label">LVL <strong id="header-lvl">4</strong></span>
         <span class="xp-sep">|</span>
@@ -362,11 +478,11 @@
               <span>НАЧАТЬ ОБУЧЕНИЕ</span>
               <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M13 5l7 7-7 7"/></svg>
             </button>
-            <button class="btn-secondary" data-go="projection">
-              <span>ОТКРЫТЬ 3D-ЛАБОРАТОРИЮ</span>
+            <button class="btn-secondary" data-go="album">
+              <span>ОТКРЫТЬ АЛЬБОМ ЧЕРТЕЖЕЙ</span>
             </button>
-            <button class="btn-ghost" data-go="builder">
-              <span>ИЗОМЕТРИЧЕСКИЙ КОНСТРУКТОР</span>
+            <button class="btn-ghost" data-go="projection">
+              <span>3D-ЛАБОРАТОРИЯ ПРОЕКЦИЙ</span>
             </button>
           </div>
 
@@ -696,6 +812,75 @@
     </section>
 
     <!-- ==========================================
+         VIEW 2B: DRAWING ALBUM (ИНТЕРАКТИВНЫЙ АЛЬБОМ ЧЕРТЕЖЕЙ С 3D-ПЕРЕЛИСТЫВАНИЕМ)
+         ========================================== -->
+    <section id="view-album" class="view-section">
+      <div class="lab-header-bar">
+        <div>
+          <span class="tech-kicker">МОДУЛЬ 03 // DRAWING ALBUM • ИНЖЕНЕРНАЯ ТЕТРАДЬ ЕСКД</span>
+          <h2 class="section-title">DRAWING ALBUM — ИНТЕРАКТИВНЫЙ АЛЬБОМ ЧЕРТЕЖЕЙ</h2>
+        </div>
+
+        <div class="album-toolbar">
+          <div class="mode-switch-group" role="group" aria-label="Режимы просмотра альбома">
+            <button class="mode-btn active" data-album-mode="album">ALBUM (2 СТР.)</button>
+            <button class="mode-btn" data-album-mode="single">SINGLE PAGE</button>
+            <button class="mode-btn" data-album-mode="thumbnails">THUMBNAILS</button>
+          </div>
+
+          <button class="btn-ghost small album-bm-filter-btn" id="album-filter-bookmarks" title="Показать сохранённые в закладки листы">
+            <span>★ ЗАКЛАДКИ</span>
+            <strong id="album-bm-count">2</strong>
+          </button>
+
+          <div class="album-pagination-bar">
+            <button class="album-nav-pill" id="album-prev-btn" title="Предыдущий разворот">← НАЗАД</button>
+            <span class="album-page-counter" id="album-page-counter">01–02 / 12</span>
+            <button class="album-nav-pill" id="album-next-btn" title="Следующий разворот">ВПЕРЁД →</button>
+          </div>
+        </div>
+      </div>
+
+      <!-- Main Open Book Desk Area -->
+      <div class="album-stage-area" id="album-stage-area">
+        <!-- Large Left Page Turn Arrow -->
+        <button class="album-big-arrow left" id="album-arrow-left" aria-label="Предыдущая страница" title="Перелистнуть назад">
+          <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2">
+            <polyline points="15 18 9 12 15 6"/>
+          </svg>
+        </button>
+
+        <!-- 2-Page Open Book Spread with 3D Page-Flip Engine -->
+        <div class="album-book-spread" id="album-book-spread">
+          <!-- Book outer cover rim & shadow -->
+          <div class="album-page-slot left-page" id="album-page-left"></div>
+          <div class="album-spine-crease" aria-hidden="true">
+            <div class="spine-stitch"></div>
+          </div>
+          <div class="album-page-slot right-page" id="album-page-right"></div>
+
+          <!-- 3D Rotating Two-Sided Leaf during Page Turn -->
+          <div class="album-flip-leaf" id="album-flip-leaf" aria-hidden="true"></div>
+        </div>
+
+        <!-- Single Page View Container -->
+        <div class="album-single-wrap" id="album-single-wrap" style="display:none;"></div>
+
+        <!-- Large Right Page Turn Arrow -->
+        <button class="album-big-arrow right" id="album-arrow-right" aria-label="Следующая страница" title="Перелистнуть вперёд">
+          <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2">
+            <polyline points="9 18 15 12 9 6"/>
+          </svg>
+        </button>
+      </div>
+
+      <!-- Thumbnails Drawer View -->
+      <div class="album-thumbnails-wrap" id="album-thumbnails-wrap" style="display:none;">
+        <div class="album-thumbnails-grid" id="album-thumbnails-grid"></div>
+      </div>
+    </section>
+
+    <!-- ==========================================
          VIEW 3: ISOMETRIC BUILDER (ИЗОМЕТРИЧЕСКИЙ КОНСТРУКТОР)
          ========================================== -->
     <section id="view-builder" class="view-section">
@@ -980,6 +1165,54 @@
         <p class="modal-desc" id="modal-desc">
           Все ваши результаты, выбранная роль (Преподаватель или Студент), собранные 3D-конструкции и прогресс по карте навыков автоматически сохраняются в браузере.
         </p>
+
+        <!-- Theme Picker inside Settings Modal -->
+        <div class="modal-theme-section">
+          <div class="panel-title">LIGHT MODE / ATMOSPHERE (ЦВЕТОВАЯ СРЕДА)</div>
+          <div class="modal-theme-grid">
+            <button class="theme-option-item" data-theme-pick="arctic">
+              <span class="theme-radio-dot"></span>
+              <div class="theme-opt-info">
+                <span class="theme-opt-title">Arctic</span>
+                <span class="theme-opt-sub">Арктика</span>
+              </div>
+              <div class="theme-mini-palette">
+                <i style="background:#EAF4F7"></i><i style="background:#D4E7ED"></i><i style="background:#83AEBF"></i><i style="background:#537E91"></i>
+              </div>
+            </button>
+            <button class="theme-option-item" data-theme-pick="pink-graphite">
+              <span class="theme-radio-dot"></span>
+              <div class="theme-opt-info">
+                <span class="theme-opt-title">Pink Graphite</span>
+                <span class="theme-opt-sub">Розовый графит</span>
+              </div>
+              <div class="theme-mini-palette">
+                <i style="background:#F5EEF1"></i><i style="background:#E5CFD8"></i><i style="background:#CBA8B7"></i><i style="background:#A47D91"></i>
+              </div>
+            </button>
+            <button class="theme-option-item" data-theme-pick="fresh-sage">
+              <span class="theme-radio-dot"></span>
+              <div class="theme-opt-info">
+                <span class="theme-opt-title">Fresh Sage</span>
+                <span class="theme-opt-sub">Свежая зелень</span>
+              </div>
+              <div class="theme-mini-palette">
+                <i style="background:#F1F5ED"></i><i style="background:#DCE8D9"></i><i style="background:#94AD8B"></i><i style="background:#668064"></i>
+              </div>
+            </button>
+            <button class="theme-option-item active" data-theme-pick="warm-paper">
+              <span class="theme-radio-dot"></span>
+              <div class="theme-opt-info">
+                <span class="theme-opt-title">Warm Paper</span>
+                <span class="theme-opt-sub">Тёплая бумага</span>
+              </div>
+              <div class="theme-mini-palette">
+                <i style="background:#F5EFE5"></i><i style="background:#E9DCCB"></i><i style="background:#BD8D65"></i><i style="background:#8A6246"></i>
+              </div>
+            </button>
+          </div>
+        </div>
+
         <div class="modal-actions-row">
           <button class="btn-ghost small" id="modal-switch-role-btn">СМЕНИТЬ РОЛЬ (ПРЕПОДАВАТЕЛЬ / СТУДЕНТ)</button>
           <button class="btn-secondary small" id="replay-boot-btn">3D-ЗАСТАВКА</button>
@@ -989,11 +1222,35 @@
     </div>
   </div>
 
+  <!-- DRAWING ALBUM ZOOM LIGHTBOX MODAL -->
+  <div class="modal-backdrop" id="album-zoom-modal" style="display:none;">
+    <div class="zoom-modal-card">
+      <div class="zoom-modal-header">
+        <div>
+          <span class="tech-kicker" id="zoom-sheet-meta">ГОСТ 2.305-2008 • Масштаб 1:1</span>
+          <h3 id="zoom-sheet-title">DRAWING 01 — Чертёж</h3>
+        </div>
+        <div class="zoom-controls-bar">
+          <button class="mini-btn" id="zoom-btn-out" title="Уменьшить (Zoom Out)">− ZOOM OUT</button>
+          <span class="zoom-scale-readout" id="zoom-scale-readout">100%</span>
+          <button class="mini-btn" id="zoom-btn-in" title="Увеличить (Zoom In)">+ ZOOM IN</button>
+          <button class="mini-btn" id="zoom-btn-reset" title="Сбросить масштаб">RESET</button>
+          <button class="modal-close" id="zoom-modal-close" title="Закрыть">✕</button>
+        </div>
+      </div>
+      <div class="zoom-pan-viewport" id="zoom-pan-viewport">
+        <div class="zoom-canvas-holder" id="zoom-canvas-holder"></div>
+        <div class="viewport-hint">Колесо мыши или кнопки + / − для масштабирования • Зажмите ЛКМ для перемещения листа</div>
+      </div>
+    </div>
+  </div>
+
   <!-- TOAST NOTIFICATION -->
   <div id="toast-container" class="toast-container"></div>
 
   <script src="js/models.js"></script>
   <script src="js/engine3d.js"></script>
+  <script src="js/album.js"></script>
   <script src="js/app.js"></script>
 </body>
 </html>

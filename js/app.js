@@ -82,6 +82,7 @@
       setTimeout(() => el.remove(), 300);
     }, 3400);
   }
+  window.GrafikaShowToast = showToast;
 
   function addXP(amount, reason) {
     appState.xp += amount;
@@ -442,6 +443,8 @@
     // Trigger immediate redraw for the activated view
     if (viewName === 'projection') {
       renderProjectionLabAll();
+    } else if (viewName === 'album' && window.GrafikaAlbumAndTheme) {
+      window.GrafikaAlbumAndTheme.renderAlbumView();
     } else if (viewName === 'builder') {
       renderBuilderAll();
     } else if (viewName === 'training') {
@@ -673,6 +676,18 @@
     const svg = document.getElementById('skill-tree-svg');
     if (!svg) return;
 
+    const tc = (window.GrafikaAlbumAndTheme && window.GrafikaAlbumAndTheme.getActiveTheme)
+      ? window.GrafikaAlbumAndTheme.getActiveTheme().canvas
+      : {
+          paperGrid: 'rgba(138, 98, 70, 0.06)',
+          inkAccent: '#8A6246',
+          inkHidden: '#BD8D65',
+          inkMain: '#40352D',
+          inkMuted: '#887A6E',
+          paperBg: '#FFF9F1',
+          meshPrimary: '#E9DCCB'
+        };
+
     const nodes = Models.SKILL_NODES;
     const nodeMap = {};
     nodes.forEach(n => { nodeMap[n.id] = n; });
@@ -681,10 +696,10 @@
 
     // Background technical grid lines inside SVG
     for (let x = 40; x < 780; x += 60) {
-      html += `<line x1="${x}" y1="0" x2="${x}" y2="340" stroke="rgba(138, 98, 70, 0.06)" stroke-width="1"/>`;
+      html += `<line x1="${x}" y1="0" x2="${x}" y2="340" stroke="${tc.paperGrid}" stroke-width="1"/>`;
     }
     for (let y = 40; y < 340; y += 60) {
-      html += `<line x1="0" y1="${y}" x2="780" y2="${y}" stroke="rgba(138, 98, 70, 0.06)" stroke-width="1"/>`;
+      html += `<line x1="0" y1="${y}" x2="780" y2="${y}" stroke="${tc.paperGrid}" stroke-width="1"/>`;
     }
 
     // Connection edges
@@ -693,35 +708,35 @@
         const t = nodeMap[targetId];
         if (!t) return;
         const isActiveLink = n.status === 'passed';
-        const stroke = isActiveLink ? '#8A6246' : '#D6BFA8';
+        const stroke = isActiveLink ? tc.inkAccent : tc.inkHidden;
         const dash = isActiveLink ? '' : 'stroke-dasharray="5,5"';
         html += `<line x1="${n.x}" y1="${n.y}" x2="${t.x}" y2="${t.y}" stroke="${stroke}" stroke-width="2.2" ${dash} />`;
       });
     });
 
-    // Nodes (with opaque warm base rect so connector lines never bleed through node cards)
+    // Nodes (with opaque base rect so connector lines never bleed through node cards)
     nodes.forEach(n => {
       const isSelected = appState.selectedSkillId === n.id;
-      let fill = '#F3EAE0';
-      let stroke = '#D6BFA8';
-      let tagColor = '#887A6E';
+      let fill = tc.paperBg;
+      let stroke = tc.inkHidden;
+      let tagColor = tc.inkMuted;
 
       if (n.status === 'passed') {
-        fill = '#E9DCCB';
-        stroke = '#8A6246';
-        tagColor = '#8A6246';
+        fill = tc.meshPrimary;
+        stroke = tc.inkAccent;
+        tagColor = tc.inkAccent;
       } else if (n.status === 'current') {
-        fill = '#FFF9F1';
-        stroke = '#BD8D65';
-        tagColor = '#8A6246';
+        fill = tc.paperBg;
+        stroke = tc.inkHidden;
+        tagColor = tc.inkAccent;
       } else if (n.status === 'available') {
-        fill = '#FFF9F1';
-        stroke = '#D6BFA8';
-        tagColor = '#40352D';
+        fill = tc.paperBg;
+        stroke = tc.inkHidden;
+        tagColor = tc.inkMain;
       }
 
       const ring = isSelected
-        ? `<rect x="${n.x - 74}" y="${n.y - 36}" width="148" height="72" rx="14" fill="none" stroke="#8A6246" stroke-width="1.6" stroke-dasharray="4,3"/>`
+        ? `<rect x="${n.x - 74}" y="${n.y - 36}" width="148" height="72" rx="14" fill="none" stroke="${tc.inkAccent}" stroke-width="1.6" stroke-dasharray="4,3"/>`
         : '';
 
       const displayBranch = n.shortBranch || n.branch;
@@ -731,7 +746,7 @@
           ${ring}
           <rect x="${n.x - 66}" y="${n.y - 28}" width="132" height="56" rx="11" fill="${fill}" stroke="${stroke}" stroke-width="2"/>
           <text x="${n.x}" y="${n.y - 6}" text-anchor="middle" fill="${tagColor}" font-family="JetBrains Mono, monospace" font-size="9.5" font-weight="700">${displayBranch}</text>
-          <text x="${n.x}" y="${n.y + 13}" text-anchor="middle" fill="#40352D" font-family="Inter, sans-serif" font-size="10.5" font-weight="700">${n.mod}</text>
+          <text x="${n.x}" y="${n.y + 13}" text-anchor="middle" fill="${tc.inkMain}" font-family="Inter, sans-serif" font-size="10.5" font-weight="700">${n.mod}</text>
         </g>
       `;
     });
@@ -2106,5 +2121,14 @@
     initTrainingModule();
     initChallengesModule();
     initProgressModule();
+
+    window.addEventListener('grafika:themechange', () => {
+      renderSkillTreeSVG();
+      renderProjectionLabAll();
+      renderBuilderAll();
+      renderTrainingCanvas();
+      renderCurrentChallenge();
+      renderProgressPage();
+    });
   });
 })();
