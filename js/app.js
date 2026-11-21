@@ -181,6 +181,13 @@
     if (teacherForm) {
       teacherForm.addEventListener('submit', (e) => {
         e.preventDefault();
+        const pinEl = document.getElementById('teacher-pin');
+        const pinVal = pinEl ? pinEl.value.trim().toUpperCase() : 'LAB-2026';
+        if (pinVal !== 'LAB-2026' && pinVal !== '2026' && pinVal !== 'ADMIN') {
+          showToast('Неверный код доступа кафедры (используйте LAB-2026)');
+          if (pinEl) pinEl.focus();
+          return;
+        }
         const name = (document.getElementById('teacher-name').value || 'Соколов А. В.').trim();
         const org = (document.getElementById('teacher-org').value || 'Кафедра инженерной графики').trim();
         const subj = (document.getElementById('teacher-subject').value || 'Инженерная графика и CAD').trim();

@@ -22,119 +22,119 @@ window.GrafikaAlbumAndTheme = (function () {
   'use strict';
 
   // ==========================================================================
-  // 1. DYNAMIC LIGHT ATMOSPHERE PALETTES
+  // 1. DYNAMIC LIGHT ATMOSPHERE PALETTES (REFINED SOFT PASTEL EDITION)
   // ==========================================================================
   const THEMES = {
     'warm-paper': {
       id: 'warm-paper',
       name: 'Warm Paper',
-      ruName: 'Тёплая бумага',
-      desc: 'Уютная чертёжная мастерская и тёплый солнечный свет',
-      swatches: ['#F5EFE5', '#FFF9F0', '#E9DCCB', '#BD8D65', '#8A6246'],
+      ruName: 'Светлая бумага',
+      desc: 'Нежная чертёжная бумага, мягкий свет и пастельный уют',
+      swatches: ['#FAF7F1', '#FFFDF9', '#F1EAE0', '#E3D0BA', '#B49779'],
       canvas: {
-        meshPrimary: '#D6BFA8',
-        meshSecondary: '#C8AD92',
-        meshAccent: '#BD8D65',
-        meshSelected: '#BD8D65',
-        edgeVisible: '#40352D',
-        edgeHidden: '#BD8D65',
-        gridLine: 'rgba(138, 98, 70, 0.13)',
-        orthoGrid: 'rgba(138, 98, 70, 0.08)',
-        axisX: '#B8564B',
-        axisY: '#5B7F58',
-        axisZ: '#8A6246',
-        dimColor: '#8A6246',
-        paperBg: '#FFFDF8',
-        paperGrid: 'rgba(138, 98, 70, 0.09)',
-        inkMain: '#40352D',
-        inkAccent: '#8A6246',
-        inkHidden: '#BD8D65',
-        inkMuted: '#887A6E',
-        frameBorder: '#C7B29B'
+        meshPrimary: '#E3D0BA',
+        meshSecondary: '#D6BFA6',
+        meshAccent: '#B49779',
+        meshSelected: '#B49779',
+        edgeVisible: '#625244',
+        edgeHidden: '#B49779',
+        gridLine: 'rgba(180, 151, 121, 0.13)',
+        orthoGrid: 'rgba(180, 151, 121, 0.08)',
+        axisX: '#C47A72',
+        axisY: '#7A9A78',
+        axisZ: '#B49779',
+        dimColor: '#B49779',
+        paperBg: '#FFFDF9',
+        paperGrid: 'rgba(180, 151, 121, 0.08)',
+        inkMain: '#625244',
+        inkAccent: '#9C8063',
+        inkHidden: '#C7AE94',
+        inkMuted: '#A09285',
+        frameBorder: '#DECBB6'
       }
     },
     'arctic': {
       id: 'arctic',
       name: 'Arctic',
-      ruName: 'Арктика',
-      desc: 'Морозное стекло, северный свет и кристальная чистота',
-      swatches: ['#EAF4F7', '#F8FCFD', '#D4E7ED', '#83AEBF', '#537E91'],
+      ruName: 'Мягкая арктика',
+      desc: 'Нежный лёд, свет, воздушность и мягкие голубые оттенки',
+      swatches: ['#F4F8FA', '#FCFDFE', '#EAF1F5', '#B8D2DF', '#7F9EAF'],
       canvas: {
-        meshPrimary: '#C5DDE6',
-        meshSecondary: '#B0CEDB',
-        meshAccent: '#83AEBF',
-        meshSelected: '#537E91',
-        edgeVisible: '#2B4454',
-        edgeHidden: '#739FB0',
-        gridLine: 'rgba(83, 126, 145, 0.15)',
-        orthoGrid: 'rgba(83, 126, 145, 0.09)',
-        axisX: '#B85D68',
-        axisY: '#4E8774',
-        axisZ: '#537E91',
-        dimColor: '#537E91',
-        paperBg: '#F9FDFF',
-        paperGrid: 'rgba(83, 126, 145, 0.10)',
-        inkMain: '#2D4757',
-        inkAccent: '#537E91',
-        inkHidden: '#83AEBF',
-        inkMuted: '#6C8A99',
-        frameBorder: '#A8C6D1'
+        meshPrimary: '#CBE0EA',
+        meshSecondary: '#B8D2DF',
+        meshAccent: '#96B8C8',
+        meshSelected: '#7F9EAF',
+        edgeVisible: '#425766',
+        edgeHidden: '#8FAEC0',
+        gridLine: 'rgba(127, 158, 175, 0.13)',
+        orthoGrid: 'rgba(127, 158, 175, 0.08)',
+        axisX: '#C27D85',
+        axisY: '#6E9E8D',
+        axisZ: '#7F9EAF',
+        dimColor: '#7F9EAF',
+        paperBg: '#FCFDFE',
+        paperGrid: 'rgba(127, 158, 175, 0.08)',
+        inkMain: '#425766',
+        inkAccent: '#6E8E9F',
+        inkHidden: '#9EBAC9',
+        inkMuted: '#8C9CA6',
+        frameBorder: '#C6D9E3'
       }
     },
     'pink-graphite': {
       id: 'pink-graphite',
       name: 'Pink Graphite',
-      ruName: 'Розовый графит',
-      desc: 'Пыльно-розовые акценты и мягкая графитовая глубина',
-      swatches: ['#F5EEF1', '#FCF8FA', '#E5CFD8', '#CBA8B7', '#A47D91'],
+      ruName: 'Пудровый розовый',
+      desc: 'Пудровый розовый, нежность и мягкая дизайнерская эстетика',
+      swatches: ['#FAF5F7', '#FFFCFD', '#F2E7EC', '#DCC1CF', '#AC899D'],
       canvas: {
-        meshPrimary: '#DEC6D0',
-        meshSecondary: '#CEB0BE',
-        meshAccent: '#B58D9F',
-        meshSelected: '#A47D91',
-        edgeVisible: '#302A33',
-        edgeHidden: '#A47D91',
-        gridLine: 'rgba(164, 125, 145, 0.15)',
-        orthoGrid: 'rgba(164, 125, 145, 0.09)',
-        axisX: '#B55B73',
-        axisY: '#5D8272',
-        axisZ: '#8C6278',
-        dimColor: '#8C6278',
-        paperBg: '#FFFBFD',
-        paperGrid: 'rgba(164, 125, 145, 0.10)',
-        inkMain: '#302A33',
-        inkAccent: '#8F687C',
-        inkHidden: '#B892A4',
-        inkMuted: '#7F6D78',
-        frameBorder: '#CBB2BD'
+        meshPrimary: '#E8D3DE',
+        meshSecondary: '#DCC1CF',
+        meshAccent: '#C4A3B5',
+        meshSelected: '#AC899D',
+        edgeVisible: '#594853',
+        edgeHidden: '#B897AA',
+        gridLine: 'rgba(172, 137, 157, 0.13)',
+        orthoGrid: 'rgba(172, 137, 157, 0.08)',
+        axisX: '#C27A8E',
+        axisY: '#769989',
+        axisZ: '#AC899D',
+        dimColor: '#AC899D',
+        paperBg: '#FFFCFD',
+        paperGrid: 'rgba(172, 137, 157, 0.08)',
+        inkMain: '#594853',
+        inkAccent: '#9A788B',
+        inkHidden: '#C4A6B7',
+        inkMuted: '#A08D98',
+        frameBorder: '#DEC8D4'
       }
     },
     'fresh-sage': {
       id: 'fresh-sage',
       name: 'Fresh Sage',
-      ruName: 'Свежая зелень',
-      desc: 'Природная эстетика, спокойствие и мягкий зелёный свет',
-      swatches: ['#F1F5ED', '#FAFCF8', '#DCE8D9', '#94AD8B', '#668064'],
+      ruName: 'Пастельная зелень',
+      desc: 'Нежный шалфей, свежесть, природа и комфорт',
+      swatches: ['#F5F8F3', '#FCFDFB', '#EAF0E7', '#C8D9C3', '#91AA8C'],
       canvas: {
-        meshPrimary: '#C8D9C3',
-        meshSecondary: '#B5C9AF',
-        meshAccent: '#94AD8B',
-        meshSelected: '#668064',
-        edgeVisible: '#2B3E2E',
-        edgeHidden: '#7F9977',
-        gridLine: 'rgba(102, 128, 100, 0.15)',
-        orthoGrid: 'rgba(102, 128, 100, 0.09)',
-        axisX: '#B56357',
-        axisY: '#4E7D56',
-        axisZ: '#668064',
-        dimColor: '#5B7559',
-        paperBg: '#FBFEFA',
-        paperGrid: 'rgba(102, 128, 100, 0.10)',
-        inkMain: '#2F4333',
-        inkAccent: '#5D785B',
-        inkHidden: '#8AA382',
-        inkMuted: '#6D806F',
-        frameBorder: '#B2C4AE'
+        meshPrimary: '#D5E3D0',
+        meshSecondary: '#C8D9C3',
+        meshAccent: '#ACC2A6',
+        meshSelected: '#91AA8C',
+        edgeVisible: '#4B5C49',
+        edgeHidden: '#9BB396',
+        gridLine: 'rgba(145, 170, 140, 0.13)',
+        orthoGrid: 'rgba(145, 170, 140, 0.08)',
+        axisX: '#C27F76',
+        axisY: '#6E9975',
+        axisZ: '#91AA8C',
+        dimColor: '#91AA8C',
+        paperBg: '#FCFDFB',
+        paperGrid: 'rgba(145, 170, 140, 0.08)',
+        inkMain: '#4B5C49',
+        inkAccent: '#7C9677',
+        inkHidden: '#A8BEA3',
+        inkMuted: '#929E8D',
+        frameBorder: '#C8D8C3'
       }
     }
   };
@@ -835,25 +835,23 @@ window.GrafikaAlbumAndTheme = (function () {
         <div class="flip-leaf-face flip-leaf-front">
           ${renderSheetHTML(curRightPage)}
           <div class="flip-curl-gradient"></div>
+          <div class="flip-specular-highlight"></div>
         </div>
         <div class="flip-leaf-face flip-leaf-back">
           ${renderSheetHTML(newLeftPage)}
           <div class="flip-curl-gradient back"></div>
+          <div class="flip-specular-highlight back"></div>
         </div>
       `;
 
       flipLeaf.className = 'album-flip-leaf flip-forward-start';
       bookSpread.classList.add('is-flipping-forward');
 
-      // Force layout reflow so 3D transition triggers reliably
+      // Force layout reflow so 3D keyframe animation triggers reliably
       void flipLeaf.offsetWidth;
       flipLeaf.classList.add('flip-forward-active');
     } else {
       // Flipping backward (Left page lifts and rotates +180deg over to the Right side):
-      // - Front of flipping leaf (positioned on left) = current left page (leftPageIdx)
-      // - Back of flipping leaf = new right page (targetLeftIdx + 1)
-      // - Underneath on the left slot = new left page (targetLeftIdx)
-      // - Underneath on the right slot = current right page (leftPageIdx + 1)
       const curLeftPage = ALBUM_PAGES[albumState.leftPageIdx];
       const newLeftPage = ALBUM_PAGES[targetLeftIdx];
       const newRightPage = ALBUM_PAGES[targetLeftIdx + 1];
@@ -864,10 +862,12 @@ window.GrafikaAlbumAndTheme = (function () {
         <div class="flip-leaf-face flip-leaf-front">
           ${renderSheetHTML(curLeftPage)}
           <div class="flip-curl-gradient"></div>
+          <div class="flip-specular-highlight"></div>
         </div>
         <div class="flip-leaf-face flip-leaf-back">
           ${renderSheetHTML(newRightPage)}
           <div class="flip-curl-gradient back"></div>
+          <div class="flip-specular-highlight back"></div>
         </div>
       `;
 
@@ -883,7 +883,7 @@ window.GrafikaAlbumAndTheme = (function () {
       albumState.isFlipping = false;
       bookSpread.classList.remove('is-flipping-forward', 'is-flipping-backward');
       renderAlbumView();
-    }, 760);
+    }, 820);
   }
 
   function renderThumbnailsGrid() {
@@ -965,8 +965,147 @@ window.GrafikaAlbumAndTheme = (function () {
   }
 
   // ==========================================================================
-  // 5. ZOOM LIGHTBOX FOR DETAILED DRAWING INSPECTION
+  // 5B. MULTILINGUAL SYSTEM (RU / KZ / EN) & ROLE SECURITY
   // ==========================================================================
+  const I18N_DICT = {
+    ru: {
+      authSub: 'ИНТЕРАКТИВНАЯ ЛАБОРАТОРИЯ ИНЖЕНЕРНОЙ ГРАФИКИ',
+      aboutBtn: 'О проекте',
+      helpBtn: 'Помощь',
+      heroPill: 'ОБРАЗОВАТЕЛЬНАЯ 3D-ПЛАТФОРМА И ТРЕНАЖЁР ЧЕРЧЕНИЯ',
+      heroMotto: 'ВИДИ. ПОСТРОЙ. ПОНИМАЙ.',
+      heroQuote: '«Изучай черчение, проекции и изометрию через практику, эксперименты и интерактивные задания».',
+      whoAreYou: 'Кто вы?',
+      teacherBadge: 'ДЛЯ ПРЕПОДАВАТЕЛЕЙ И КАФЕДР (ЗАЩИЩЁННЫЙ ДОСТУП)',
+      teacherTitle: 'Я преподаватель',
+      teacherDesc: 'Демонстрируйте 3D-проекции на интерактивной доске, проводите наглядные разборы эпюра Монжа, проверяйте конструкции и управляйте учебными группами.',
+      teacherSubmit: 'ВОЙТИ КАК ПРЕПОДАВАТЕЛЬ',
+      studentBadge: 'ДЛЯ СТУДЕНТОВ И УЧЕНИКОВ',
+      studentTitle: 'Я ученик / студент',
+      studentDesc: 'Изучайте проекции в интерактивной 3D-лаборатории, собирайте изометрические конструкции, проходите испытания и прокачивайте дерево инженерных навыков.',
+      studentSubmit: 'НАЧАТЬ ОБУЧЕНИЕ В ЛАБОРАТОРИИ',
+      nav1: 'Главная',
+      nav2: 'Лаборатория проекций',
+      nav3: 'Альбом чертежей',
+      nav4: 'Изометрия 3D',
+      nav5: 'Тренировки',
+      nav6: 'Испытания',
+      nav7: 'Мой прогресс',
+      switchRole: 'Сменить роль',
+      ctaStart: 'НАЧАТЬ ОБУЧЕНИЕ',
+      ctaAlbum: 'ОТКРЫТЬ АЛЬБОМ ЧЕРТЕЖЕЙ',
+      ctaProj: '3D-ЛАБОРАТОРИЯ ПРОЕКЦИЙ'
+    },
+    kz: {
+      authSub: 'ИНЖЕНЕРЛІК ГРАФИКАНЫҢ ИНТЕРАКТИВТІ ЗЕРТХАНАСЫ',
+      aboutBtn: 'Жоба туралы',
+      helpBtn: 'Көмек',
+      heroPill: 'БІЛІМ БЕРУ 3D-ПЛАТФОРМАСЫ ЖӘНЕ СЫЗУ ТРЕНАЖЕРІ',
+      heroMotto: 'КӨР. ҚҰРАСТЫР. ТҮСІН.',
+      heroQuote: '«Сызуды, проекцияларды және изометрияны тәжірибе мен интерактивті тапсырмалар арқылы үйрен».',
+      whoAreYou: 'Сіз кімсіз?',
+      teacherBadge: 'ОҚЫТУШЫЛАР МЕН КАФЕДРАЛАР ҮШІН (ҚОРҒАЛҒАН КІРУ)',
+      teacherTitle: 'Мен оқытушымын',
+      teacherDesc: 'Интерактивті тақтада 3D-проекцияларды көрсетіңіз, Монж эпюрін талдаңыз, құрылымдарды тексеріңіз және оқу топтарын басқарыңыз.',
+      teacherSubmit: 'ОҚЫТУШЫ РЕТІНДЕ КІРУ',
+      studentBadge: 'СТУДЕНТТЕР МЕН ОҚУШЫЛАР ҮШІН',
+      studentTitle: 'Мен оқушымын / студентпін',
+      studentDesc: 'Интерактивті 3D-зертханада проекцияларды зерттеңіз, изометриялық фигураларды жинаңыз, сынақтардан өтіп, инженерлік дағдыларды дамытыңыз.',
+      studentSubmit: 'ЗЕРТХАНАДА ОҚУДЫ БАСТАУ',
+      nav1: 'Басты бет',
+      nav2: 'Проекциялар зертханасы',
+      nav3: 'Сызбалар альбомы',
+      nav4: 'Изометрия 3D',
+      nav5: 'Жаттығулар',
+      nav6: 'Сынақтар',
+      nav7: 'Менің прогресім',
+      switchRole: 'Рөлді ауыстыру',
+      ctaStart: 'ОҚУДЫ БАСТАУ',
+      ctaAlbum: 'СЫЗБАЛАР АЛЬБОМЫН АШУ',
+      ctaProj: '3D-ПРОЕКЦИЯЛАР ЗЕРТХАНАСЫ'
+    },
+    en: {
+      authSub: 'INTERACTIVE ENGINEERING GRAPHICS LABORATORY',
+      aboutBtn: 'About',
+      helpBtn: 'Help',
+      heroPill: 'EDUCATIONAL 3D PLATFORM & DRAFTING TRAINER',
+      heroMotto: 'SEE. BUILD. UNDERSTAND.',
+      heroQuote: '“Master technical drafting, orthographic projections, and isometry through hands-on practice and interactive challenges.”',
+      whoAreYou: 'Who are you?',
+      teacherBadge: 'FOR INSTRUCTORS & DEPARTMENTS (VERIFIED ACCESS)',
+      teacherTitle: 'I am a Teacher',
+      teacherDesc: 'Demonstrate 3D projections on an interactive board, explain Monge epures, inspect student constructions, and manage study groups.',
+      teacherSubmit: 'ENTER AS TEACHER',
+      studentBadge: 'FOR STUDENTS & LEARNERS',
+      studentTitle: 'I am a Student',
+      studentDesc: 'Explore projections in the interactive 3D lab, build isometric constructions, complete spatial challenges, and level up your skill tree.',
+      studentSubmit: 'START LEARNING IN LAB',
+      nav1: 'Home',
+      nav2: 'Projection Lab',
+      nav3: 'Drawing Album',
+      nav4: 'Isometry 3D',
+      nav5: 'Training',
+      nav6: 'Challenges',
+      nav7: 'My Progress',
+      switchRole: 'Switch Role',
+      ctaStart: 'START TRAINING',
+      ctaAlbum: 'OPEN DRAWING ALBUM',
+      ctaProj: '3D PROJECTION LAB'
+    }
+  };
+
+  function applyLanguage(lang) {
+    const dict = I18N_DICT[lang] || I18N_DICT.ru;
+    localStorage.setItem('grafika_lang_v2', lang);
+
+    document.querySelectorAll('.lang-btn').forEach(b => {
+      b.classList.toggle('active', b.dataset.lang === lang);
+    });
+
+    const setTxt = (sel, txt) => {
+      const el = document.querySelector(sel);
+      if (el && txt) el.textContent = txt;
+    };
+
+    setTxt('.auth-brand .brand-sub', dict.authSub);
+    setTxt('#auth-about-btn', dict.aboutBtn);
+    setTxt('#auth-help-btn', dict.helpBtn);
+    setTxt('.auth-pill-tag', dict.heroPill);
+    setTxt('.auth-main-subtitle', dict.heroMotto);
+    setTxt('.auth-main-desc', dict.heroQuote);
+    setTxt('.auth-who-question', dict.whoAreYou);
+    setTxt('#role-card-teacher .role-card-badge', dict.teacherBadge);
+    setTxt('#role-card-teacher .role-card-title', dict.teacherTitle);
+    setTxt('#role-card-teacher .role-card-desc', dict.teacherDesc);
+    setTxt('#form-teacher .role-submit-btn span', dict.teacherSubmit);
+    setTxt('#role-card-student .role-card-badge', dict.studentBadge);
+    setTxt('#role-card-student .role-card-title', dict.studentTitle);
+    setTxt('#role-card-student .role-card-desc', dict.studentDesc);
+    setTxt('#form-student .role-submit-btn span', dict.studentSubmit);
+
+    // Main nav items
+    const navMap = {
+      home: ['01', dict.nav1],
+      projection: ['02', dict.nav2],
+      album: ['03', dict.nav3],
+      builder: ['04', dict.nav4],
+      training: ['05', dict.nav5],
+      challenges: ['06', dict.nav6],
+      progress: ['07', dict.nav7]
+    };
+    Object.keys(navMap).forEach(key => {
+      const btn = document.querySelector(`.main-nav [data-nav="${key}"]`);
+      if (btn) {
+        btn.innerHTML = `<span class="nav-idx">${navMap[key][0]}</span> ${navMap[key][1]}`;
+      }
+    });
+
+    setTxt('#switch-role-topbtn', dict.switchRole);
+    setTxt('.hero-subtitle', dict.heroMotto);
+    setTxt('.hero-cta-row [data-go="training"] span', dict.ctaStart);
+    setTxt('.hero-cta-row [data-go="album"] span', dict.ctaAlbum);
+    setTxt('.hero-cta-row [data-go="projection"] span', dict.ctaProj);
+  }
   function openZoomModal(pageNum) {
     const pageObj = ALBUM_PAGES.find(p => p.page === pageNum);
     if (!pageObj) return;
@@ -1007,6 +1146,15 @@ window.GrafikaAlbumAndTheme = (function () {
   function initAlbumAndThemes() {
     // Apply saved or default theme immediately
     applyTheme(currentThemeId, false);
+
+    // Apply saved or default language (RU / KZ / EN)
+    const savedLang = localStorage.getItem('grafika_lang_v2') || 'ru';
+    applyLanguage(savedLang);
+    document.querySelectorAll('.lang-btn').forEach(btn => {
+      btn.addEventListener('click', () => {
+        applyLanguage(btn.dataset.lang);
+      });
+    });
 
     // Theme dropdown toggle buttons
     const themeToggleBtns = document.querySelectorAll('.theme-menu-trigger');
