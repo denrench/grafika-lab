@@ -3679,7 +3679,7 @@ body {
 }
 
 @media (max-width: 1180px) {
-  .system-pill, .profile-name {
+  .system-pill {
     display: none;
   }
 }

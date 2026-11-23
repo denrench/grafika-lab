@@ -8,6 +8,7 @@
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600;700&family=Space+Grotesk:wght@600;700;800&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="css/styles.css" />
+  <link rel="stylesheet" href="css/upgrade.css" />
 </head>
 <body>
   <!-- ==========================================
@@ -138,181 +139,208 @@
       </div>
     </header>
 
-    <!-- Central Part of Welcome Page -->
+    <!-- Central Part of Welcome Page (Multi-Step: Role Select -> Registration / Login) -->
     <div class="auth-center-wrap">
-      <div class="auth-hero-text">
-        <span class="auth-pill-tag">ОБРАЗОВАТЕЛЬНАЯ 3D-ПЛАТФОРМА И ТРЕНАЖЁР ЧЕРЧЕНИЯ</span>
-        <h1 class="auth-main-title">Графика <span>LAB</span></h1>
-        <div class="auth-main-subtitle">ВИДИ. ПОСТРОЙ. ПОНИМАЙ.</div>
-        <p class="auth-main-desc">
-          «Изучай черчение, проекции и изометрию через практику, эксперименты и интерактивные задания».
-        </p>
-        <h2 class="auth-who-question">Кто вы?</h2>
+      <!-- PANEL 1: ROLE SELECTION -->
+      <div class="auth-step-panel active" id="auth-panel-roles">
+        <div class="auth-hero-text">
+          <span class="auth-pill-tag" data-i18n="welcome_pill">ОБРАЗОВАТЕЛЬНАЯ 3D-ПЛАТФОРМА И ТРЕНАЖЁР ЧЕРЧЕНИЯ</span>
+          <h1 class="auth-main-title">Графика <span>LAB</span></h1>
+          <div class="auth-main-subtitle" data-i18n="brand_sub">ВИЗУАЛЬНАЯ ЛАБОРАТОРИЯ ИНЖЕНЕРНОЙ ГРАФИКИ</div>
+          <p class="auth-main-desc" data-i18n="welcome_desc">
+            «Изучай геометрию, создавай объёмные модели и превращай чертежи в реальные формы».
+          </p>
+          <h2 class="auth-who-question" data-i18n="who_are_you">Кто вы?</h2>
+        </div>
+
+        <div class="role-cards-grid">
+          <!-- CARD 1: STUDENT -->
+          <div class="role-card" id="role-card-student">
+            <div class="role-card-badge student-badge" data-i18n="role_student_badge">ДЛЯ СТУДЕНТОВ И УЧЕНИКОВ</div>
+            <div class="role-illustration">
+              <svg viewBox="0 0 260 140" class="role-svg">
+                <rect x="24" y="14" width="212" height="112" rx="16" fill="var(--surface-secondary)" stroke="var(--border-tech)" stroke-width="1.5"/>
+                <g transform="translate(102, 74)">
+                  <polygon points="0,-28 26,-14 26,16 0,30 -26,16 -26,-14" fill="var(--primary)" stroke="var(--text-primary)" stroke-width="1.5"/>
+                  <polygon points="0,-28 26,-14 0,0 -26,-14" fill="var(--surface)" stroke="var(--text-primary)" stroke-width="1.4"/>
+                </g>
+                <g transform="translate(162, 68)">
+                  <polygon points="0,-32 -22,14 2,24" fill="var(--surface)" stroke="var(--text-primary)" stroke-width="1.5"/>
+                  <polygon points="0,-32 2,24 24,12" fill="var(--accent)" stroke="var(--text-primary)" stroke-width="1.5"/>
+                </g>
+                <circle cx="64" cy="72" r="18" fill="var(--primary-hover)" stroke="var(--text-primary)" stroke-width="1.5"/>
+              </svg>
+            </div>
+            <div class="role-card-content">
+              <h3 class="role-card-title" data-i18n="role_student_title">Студент</h3>
+              <p class="role-card-desc" data-i18n="role_student_desc">
+                Изучай. Практикуйся. Создавай. Отслеживай свой прогресс и открывай новые возможности.
+              </p>
+            </div>
+            <button type="button" class="btn-primary full-width role-submit-btn" id="btn-choose-student">
+              <span data-i18n="role_student_btn">Я студент</span>
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M13 5l7 7-7 7"/></svg>
+            </button>
+          </div>
+
+          <!-- CARD 2: TEACHER -->
+          <div class="role-card" id="role-card-teacher">
+            <div class="role-card-badge" data-i18n="role_teacher_badge">ДЛЯ ПРЕПОДАВАТЕЛЕЙ И КАФЕДР</div>
+            <div class="role-illustration">
+              <svg viewBox="0 0 260 140" class="role-svg">
+                <rect x="24" y="14" width="212" height="112" rx="16" fill="var(--surface-secondary)" stroke="var(--border-tech)" stroke-width="1.5"/>
+                <rect x="46" y="28" width="106" height="82" rx="8" fill="var(--surface)" stroke="var(--accent)" stroke-width="1.6"/>
+                <rect x="58" y="40" width="34" height="24" fill="none" stroke="var(--text-primary)" stroke-width="1.5"/>
+                <rect x="58" y="72" width="34" height="20" fill="none" stroke="var(--text-primary)" stroke-width="1.5"/>
+                <rect x="102" y="40" width="28" height="24" fill="none" stroke="var(--accent)" stroke-width="1.4" stroke-dasharray="3,2"/>
+                <g transform="translate(188, 72)">
+                  <polygon points="0,-28 24,-14 24,14 0,28 -24,14 -24,-14" fill="var(--accent)" stroke="var(--text-primary)" stroke-width="1.5"/>
+                  <polygon points="0,-28 24,-14 0,0 -24,-14" fill="var(--surface)" stroke="var(--text-primary)" stroke-width="1.4"/>
+                </g>
+              </svg>
+            </div>
+            <div class="role-card-content">
+              <h3 class="role-card-title" data-i18n="role_teacher_title">Преподаватель</h3>
+              <p class="role-card-desc" data-i18n="role_teacher_desc">
+                Создавайте учебные группы, выдавайте задания, проверяйте работы и отслеживайте прогресс студентов.
+              </p>
+            </div>
+            <button type="button" class="btn-secondary full-width role-submit-btn" id="btn-choose-teacher">
+              <span data-i18n="role_teacher_btn">Я преподаватель</span>
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M13 5l7 7-7 7"/></svg>
+            </button>
+          </div>
+        </div>
+
+        <div class="auth-demo-row">
+          <button type="button" class="btn-ghost small" id="btn-open-login" data-i18n="auth_login_link">Уже есть аккаунт? Войти</button>
+          <button type="button" class="auth-quick-guest" id="demo-login-student" data-i18n="demo_quick_student">Демо-вход: Студент</button>
+          <button type="button" class="auth-quick-guest" id="demo-login-teacher" data-i18n="demo_quick_teacher">Демо-вход: Преподаватель (Verified)</button>
+        </div>
       </div>
 
-      <!-- Two Large Role Selection Cards -->
-      <div class="role-cards-grid">
-        <!-- CARD 1: TEACHER -->
-        <div class="role-card" id="role-card-teacher">
-          <div class="role-card-badge">ДЛЯ ПРЕПОДАВАТЕЛЕЙ И КАФЕДР</div>
-          <div class="role-illustration">
-            <svg viewBox="0 0 260 150" class="role-svg">
-              <defs>
-                <linearGradient id="warmGrad1" x1="0" y1="0" x2="1" y2="1">
-                  <stop offset="0%" stop-color="#F6F0E7"/>
-                  <stop offset="100%" stop-color="#E9DCCB"/>
-                </linearGradient>
-                <linearGradient id="woodGrad" x1="0" y1="0" x2="1" y2="1">
-                  <stop offset="0%" stop-color="#D6BFA8"/>
-                  <stop offset="100%" stop-color="#BD8D65"/>
-                </linearGradient>
-              </defs>
-              <!-- Soft drafting board background -->
-              <rect x="24" y="18" width="212" height="114" rx="16" fill="url(#warmGrad1)" stroke="#D6BFA8" stroke-width="1.5"/>
-              <!-- Drafting grid lines -->
-              <line x1="24" y1="55" x2="236" y2="55" stroke="#E4D7C7" stroke-width="1"/>
-              <line x1="24" y1="92" x2="236" y2="92" stroke="#E4D7C7" stroke-width="1"/>
-              <line x1="90" y1="18" x2="90" y2="132" stroke="#E4D7C7" stroke-width="1"/>
-              <line x1="165" y1="18" x2="165" y2="132" stroke="#E4D7C7" stroke-width="1"/>
-              <!-- Drawing tablet & orthographic projection sheet -->
-              <rect x="44" y="32" width="110" height="84" rx="8" fill="#FFF9F1" stroke="#BD8D65" stroke-width="1.8"/>
-              <rect x="56" y="44" width="36" height="26" fill="none" stroke="#8A6246" stroke-width="1.6"/>
-              <rect x="56" y="78" width="36" height="22" fill="none" stroke="#8A6246" stroke-width="1.6"/>
-              <rect x="102" y="44" width="28" height="26" fill="none" stroke="#BD8D65" stroke-width="1.5" stroke-dasharray="3,2"/>
-              <line x1="94" y1="72" x2="128" y2="102" stroke="#BD8D65" stroke-width="1.2"/>
-              <!-- 3D Isometric Cube & Set Square Ruler -->
-              <g transform="translate(185, 76)">
-                <polygon points="0,-32 28,-16 28,16 0,32 -28,16 -28,-16" fill="url(#woodGrad)" stroke="#8A6246" stroke-width="1.8"/>
-                <polygon points="0,-32 28,-16 0,0 -28,-16" fill="#FFF9F1" stroke="#8A6246" stroke-width="1.5"/>
-                <polygon points="-28,-16 0,0 0,32 -28,16" fill="#E9DCCB" stroke="#8A6246" stroke-width="1.5"/>
-              </g>
-              <!-- Pencil & Compass accent -->
-              <g transform="translate(142, 24) rotate(28)">
-                <rect x="0" y="0" width="8" height="58" rx="3" fill="#8A6246"/>
-                <polygon points="0,58 4,68 8,58" fill="#40352D"/>
-                <rect x="0" y="0" width="8" height="10" rx="2" fill="#D6BFA8"/>
-              </g>
-            </svg>
+      <!-- PANEL 2A: STUDENT REGISTRATION FORM -->
+      <div class="auth-step-panel" id="auth-panel-student">
+        <div class="auth-form-card">
+          <button type="button" class="auth-back-btn" data-auth-back data-i18n="auth_back_roles">← Назад к выбору роли</button>
+          <div class="auth-form-header">
+            <span class="tech-badge cyan">РЕГИСТРАЦИЯ // РОЛЬ: СТУДЕНТ (НЕИЗМЕНЯЕМО)</span>
+            <h2 data-i18n="reg_student_title">Регистрация студента</h2>
+            <p data-i18n="reg_student_sub">Создайте личный учебный аккаунт. Роль закрепляется за аккаунтом постоянно.</p>
           </div>
-          <div class="role-card-content">
-            <h3 class="role-card-title">Я преподаватель</h3>
-            <p class="role-card-desc">
-              Демонстрируйте 3D-проекции на интерактивной доске, проводите наглядные разборы эпюра Монжа, проверяйте конструкции и управляйте учебными группами.
-            </p>
-            <ul class="role-features">
-              <li><span>✓</span> Режим демонстрации 3D-деталей и разрезов по ГОСТ</li>
-              <li><span>✓</span> Создание учебных групп и код приглашения для студентов</li>
-              <li><span>✓</span> Готовые интерактивные построения для лекций и практикумов</li>
-            </ul>
-          </div>
+          <div class="auth-error-box" id="err-student"></div>
+          <div class="auth-success-box" id="ok-student"></div>
+          <form id="form-reg-student" class="role-reg-form">
+            <div class="form-row-2">
+              <div class="form-field"><label data-i18n="f_first_name">Имя *</label><input type="text" id="st-fname" required placeholder="Данил" /></div>
+              <div class="form-field"><label data-i18n="f_last_name">Фамилия *</label><input type="text" id="st-lname" required placeholder="Панин" /></div>
+            </div>
+            <div class="form-row-2">
+              <div class="form-field"><label data-i18n="f_email">Email *</label><input type="email" id="st-email" required placeholder="student@example.com" /></div>
+              <div class="form-field"><label data-i18n="f_institution">Учебное заведение *</label><input type="text" id="st-inst" required placeholder="Политехнический колледж" /></div>
+            </div>
+            <div class="form-row-2">
+              <div class="form-field"><label data-i18n="f_group">Группа / Класс *</label><input type="text" id="st-group" required placeholder="ИГ-204" /></div>
+              <div class="form-field"><label data-i18n="f_join_code">Код присоединения к группе</label><input type="text" id="st-join" placeholder="IG-204 (необязательно)" /></div>
+            </div>
+            <div class="form-row-2">
+              <div class="form-field"><label data-i18n="f_password">Пароль (мин. 6 символов) *</label><input type="password" id="st-pass" required minlength="6" /></div>
+              <div class="form-field"><label data-i18n="f_password2">Повтор пароля *</label><input type="password" id="st-pass2" required minlength="6" /></div>
+            </div>
+            <div class="form-field">
+              <label data-i18n="f_language">Язык интерфейса</label>
+              <select id="st-lang" class="reg-lang-select">
+                <option value="ru">Русский (RU)</option>
+                <option value="en">English (EN)</option>
+                <option value="kz">Қазақша (KZ)</option>
+              </select>
+            </div>
+            <button type="submit" class="btn-primary full-width role-submit-btn" id="btn-submit-student">
+              <span data-i18n="btn_create_student">Создать аккаунт студента</span>
+            </button>
+          </form>
+        </div>
+      </div>
 
-          <form class="role-reg-form" id="form-teacher">
+      <!-- PANEL 2B: TEACHER REGISTRATION + VERIFICATION FORM -->
+      <div class="auth-step-panel" id="auth-panel-teacher">
+        <div class="auth-form-card">
+          <button type="button" class="auth-back-btn" data-auth-back data-i18n="auth_back_roles">← Назад к выбору роли</button>
+          <div class="auth-form-header">
+            <span class="tech-badge orange">РЕГИСТРАЦИЯ // РОЛЬ: ПРЕПОДАВАТЕЛЬ (DEMO-ПРОВЕРКА)</span>
+            <h2 data-i18n="reg_teacher_title">Регистрация преподавателя</h2>
+            <p data-i18n="reg_teacher_sub">Для доступа к преподавательским инструментам требуется подтверждение статуса (DEMO-система заявок).</p>
+          </div>
+          <div class="auth-error-box" id="err-teacher"></div>
+          <div class="auth-success-box" id="ok-teacher"></div>
+          <form id="form-reg-teacher" class="role-reg-form">
             <div class="form-row-2">
-              <div class="form-field">
-                <label>ФИО преподавателя</label>
-                <input type="text" id="teacher-name" placeholder="Соколов Алексей Викторович" value="Соколов А. В." required />
-              </div>
-              <div class="form-field">
-                <label>Учебное заведение / Кафедра</label>
-                <input type="text" id="teacher-org" placeholder="Кафедра инженерной графики" value="Кафедра инженерной графики" required />
+              <div class="form-field"><label data-i18n="f_first_name">Имя *</label><input type="text" id="tc-fname" required placeholder="Алексей" /></div>
+              <div class="form-field"><label data-i18n="f_last_name">Фамилия *</label><input type="text" id="tc-lname" required placeholder="Соколов" /></div>
+            </div>
+            <div class="form-row-2">
+              <div class="form-field"><label data-i18n="f_email">Email *</label><input type="email" id="tc-email" required placeholder="teacher@uni.edu" /></div>
+              <div class="form-field"><label data-i18n="f_institution">Учебное заведение *</label><input type="text" id="tc-inst" required placeholder="Кафедра инженерной графики" /></div>
+            </div>
+            <div class="form-row-2">
+              <div class="form-field"><label data-i18n="f_position">Должность *</label><input type="text" id="tc-pos" required placeholder="Доцент / Преподаватель" /></div>
+              <div class="form-field"><label data-i18n="f_subject">Преподаваемая дисциплина *</label><input type="text" id="tc-subj" required placeholder="Инженерная графика" /></div>
+            </div>
+            <div class="verify-box-card">
+              <div class="verify-box-title" data-i18n="verify_block_title">Подтверждение преподавательского статуса (DEMO)</div>
+              <div class="form-row-2">
+                <div class="form-field">
+                  <label data-i18n="verify_method_label">Способ подтверждения</label>
+                  <select id="tc-vmethod">
+                    <option value="admin" data-i18n="verify_m_admin">Код администратора (DEMO: ADMIN-2026)</option>
+                    <option value="inst" data-i18n="verify_m_inst">Код учреждения (DEMO: INST-77)</option>
+                    <option value="email" data-i18n="verify_m_email">Учебная почта (.edu / .ac)</option>
+                    <option value="app" data-i18n="verify_m_app">Заявка на подтверждение (Pending)</option>
+                  </select>
+                </div>
+                <div class="form-field">
+                  <label data-i18n="f_verify_code">Код или комментарий</label>
+                  <input type="text" id="tc-vcode" placeholder="ADMIN-2026 или оставьте пустым для Pending" />
+                </div>
               </div>
             </div>
             <div class="form-row-2">
-              <div class="form-field">
-                <label>Дисциплина / Курс</label>
-                <input type="text" id="teacher-subject" placeholder="Инженерная и компьютерная графика" value="Инженерная графика и CAD" />
-              </div>
-              <div class="form-field">
-                <label>Код доступа кафедры (PIN: LAB-2026)</label>
-                <input type="password" id="teacher-pin" placeholder="LAB-2026" value="LAB-2026" required />
-              </div>
+              <div class="form-field"><label data-i18n="f_password">Пароль (мин. 6 символов) *</label><input type="password" id="tc-pass" required minlength="6" /></div>
+              <div class="form-field"><label data-i18n="f_password2">Подтверждение пароля *</label><input type="password" id="tc-pass2" required minlength="6" /></div>
             </div>
+            <div class="form-field">
+              <label data-i18n="f_language">Язык интерфейса</label>
+              <select id="tc-lang" class="reg-lang-select">
+                <option value="ru">Русский (RU)</option>
+                <option value="en">English (EN)</option>
+                <option value="kz">Қазақша (KZ)</option>
+              </select>
+            </div>
+            <button type="submit" class="btn-primary full-width role-submit-btn" id="btn-submit-teacher">
+              <span data-i18n="btn_create_teacher">Создать аккаунт преподавателя</span>
+            </button>
+          </form>
+        </div>
+      </div>
+
+      <!-- PANEL 3: SIGN IN FORM -->
+      <div class="auth-step-panel" id="auth-panel-login">
+        <div class="auth-form-card">
+          <button type="button" class="auth-back-btn" data-auth-back data-i18n="auth_back_roles">← Назад к выбору роли</button>
+          <div class="auth-form-header">
+            <span class="tech-badge cyan">ВХОД В АККАУНТ</span>
+            <h2 data-i18n="login_title">Вход в аккаунт Графика LAB</h2>
+            <p data-i18n="login_sub">Введите email и пароль. Роль аккаунта и язык восстановятся автоматически.</p>
+          </div>
+          <div class="auth-error-box" id="err-login"></div>
+          <form id="form-login" class="role-reg-form">
+            <div class="form-field"><label data-i18n="f_email">Email</label><input type="email" id="lg-email" required placeholder="student@grafika.lab или teacher@uni.edu" /></div>
+            <div class="form-field"><label data-i18n="f_password">Пароль</label><input type="password" id="lg-pass" required placeholder="123456 (для демо-аккаунтов)" /></div>
             <button type="submit" class="btn-primary full-width role-submit-btn">
-              <span>ВОЙТИ КАК ПРЕПОДАВАТЕЛЬ</span>
-              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M13 5l7 7-7 7"/></svg>
+              <span data-i18n="btn_login">Войти в кабинет</span>
             </button>
           </form>
         </div>
-
-        <!-- CARD 2: STUDENT -->
-        <div class="role-card" id="role-card-student">
-          <div class="role-card-badge student-badge">ДЛЯ СТУДЕНТОВ И УЧЕНИКОВ</div>
-          <div class="role-illustration">
-            <svg viewBox="0 0 260 150" class="role-svg">
-              <!-- Soft studio canvas background -->
-              <rect x="24" y="18" width="212" height="114" rx="16" fill="url(#warmGrad1)" stroke="#D6BFA8" stroke-width="1.5"/>
-              <!-- Isometric grid hints -->
-              <line x1="40" y1="115" x2="130" y2="65" stroke="#E4D7C7" stroke-width="1.2"/>
-              <line x1="220" y1="115" x2="130" y2="65" stroke="#E4D7C7" stroke-width="1.2"/>
-              <line x1="130" y1="26" x2="130" y2="122" stroke="#E4D7C7" stroke-width="1.2" stroke-dasharray="4,3"/>
-              <!-- Geometric sculpture: stepped blocks, pyramid & sphere -->
-              <g transform="translate(105, 82)">
-                <polygon points="0,-28 26,-14 26,16 0,30 -26,16 -26,-14" fill="#E9DCCB" stroke="#8A6246" stroke-width="1.7"/>
-                <polygon points="0,-28 26,-14 0,0 -26,-14" fill="#FFF9F1" stroke="#8A6246" stroke-width="1.5"/>
-                <polygon points="0,0 26,-14 26,16 0,30" fill="#D6BFA8" stroke="#8A6246" stroke-width="1.5"/>
-              </g>
-              <!-- Pyramid on right -->
-              <g transform="translate(162, 74)">
-                <polygon points="0,-34 -24,14 2,26" fill="#FFF9F1" stroke="#8A6246" stroke-width="1.6"/>
-                <polygon points="0,-34 2,26 26,12" fill="#BD8D65" stroke="#8A6246" stroke-width="1.6"/>
-              </g>
-              <!-- Warm sphere & drafting triangle on left -->
-              <circle cx="66" cy="78" r="20" fill="#D6BFA8" stroke="#8A6246" stroke-width="1.6"/>
-              <ellipse cx="66" cy="78" rx="20" ry="7" fill="none" stroke="#8A6246" stroke-width="1.2" stroke-dasharray="3,2"/>
-              <!-- XP Star badge -->
-              <rect x="176" y="28" width="46" height="22" rx="11" fill="#FFF9F1" stroke="#BD8D65" stroke-width="1.4"/>
-              <text x="199" y="43" text-anchor="middle" fill="#8A6246" font-family="JetBrains Mono, monospace" font-size="10" font-weight="700">+XP</text>
-            </svg>
-          </div>
-          <div class="role-card-content">
-            <h3 class="role-card-title">Я ученик / студент</h3>
-            <p class="role-card-desc">
-              Изучайте проекции в интерактивной 3D-лаборатории, собирайте изометрические конструкции, проходите испытания и прокачивайте дерево инженерных навыков.
-            </p>
-            <ul class="role-features">
-              <li><span>✓</span> Интерактивный 3D-тренажёр проекций и конструктор</li>
-              <li><span>✓</span> Пошаговые геометрические построения и испытания</li>
-              <li><span>✓</span> Система уровней, XP, карта навыков и портфолио сборок</li>
-            </ul>
-          </div>
-
-          <form class="role-reg-form" id="form-student">
-            <div class="form-row-2">
-              <div class="form-field">
-                <label>Ваше имя и фамилия</label>
-                <input type="text" id="student-name" placeholder="Данил Панин" value="Данил Панин" required />
-              </div>
-              <div class="form-field">
-                <label>Учебная группа / Класс</label>
-                <input type="text" id="student-group" placeholder="ИГ-204 / Курс 1" value="Группа ИГ-204" required />
-              </div>
-            </div>
-            <div class="form-row-2">
-              <div class="form-field">
-                <label>Направление подготовки</label>
-                <select id="student-track">
-                  <option value="Инженерная графика и CAD">Инженерная графика и CAD</option>
-                  <option value="Архитектура и дизайн среды">Архитектура и дизайн среды</option>
-                  <option value="Машиностроительное черчение">Машиностроительное черчение</option>
-                  <option value="Школьный курс черчения">Школьный курс черчения</option>
-                </select>
-              </div>
-              <div class="form-field">
-                <label>Код преподавателя (необязательно)</label>
-                <input type="text" id="student-code" placeholder="ПОТОК-ИГ-2026" value="ПОТОК-ИГ-2026" />
-              </div>
-            </div>
-            <button type="submit" class="btn-primary full-width role-submit-btn student-submit-btn">
-              <span>НАЧАТЬ ОБУЧЕНИЕ В ЛАБОРАТОРИИ</span>
-              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M13 5l7 7-7 7"/></svg>
-            </button>
-          </form>
-        </div>
-      </div>
-
-      <div class="auth-footer-bar">
-        <span>ГОСТ 2.305-2008 • Метод Гаспара Монжа • Аксонометрия 3D</span>
-        <button class="auth-quick-guest" id="auth-quick-demo-btn">Быстрый демо-вход в один клик →</button>
       </div>
     </div>
   </div>
@@ -344,25 +372,31 @@
 
     <nav class="main-nav" aria-label="Основная навигация">
       <button class="nav-btn active" data-nav="home">
-        <span class="nav-idx">01</span> Главная
+        <span class="nav-idx">01</span> <span data-i18n="nav_home">Главная</span>
+      </button>
+      <button class="nav-btn" data-nav="figures">
+        <span class="nav-idx">02</span> <span data-i18n="nav_figures">Фигуры 3D</span>
+      </button>
+      <button class="nav-btn" data-nav="lessons">
+        <span class="nav-idx">03</span> <span data-i18n="nav_lessons">Уроки</span>
       </button>
       <button class="nav-btn" data-nav="projection">
-        <span class="nav-idx">02</span> Лаборатория проекций
+        <span class="nav-idx">04</span> <span data-i18n="nav_projection">Проекции</span>
       </button>
       <button class="nav-btn" data-nav="album">
-        <span class="nav-idx">03</span> Альбом чертежей
+        <span class="nav-idx">05</span> <span data-i18n="nav_album">Альбом</span>
       </button>
       <button class="nav-btn" data-nav="builder">
-        <span class="nav-idx">04</span> Изометрия 3D
+        <span class="nav-idx">06</span> <span data-i18n="nav_builder">Конструктор</span>
       </button>
-      <button class="nav-btn" data-nav="training">
-        <span class="nav-idx">05</span> Тренировки
+      <button class="nav-btn" data-nav="guided">
+        <span class="nav-idx">07</span> <span data-i18n="nav_guided">По шагам</span>
       </button>
-      <button class="nav-btn" data-nav="challenges">
-        <span class="nav-idx">06</span> Испытания
+      <button class="nav-btn" data-nav="store">
+        <span class="nav-idx">08</span> <span data-i18n="nav_store">Магазин</span>
       </button>
-      <button class="nav-btn" data-nav="progress">
-        <span class="nav-idx">07</span> Мой прогресс
+      <button class="nav-btn" data-nav="teacher" style="display:none;">
+        <span class="nav-idx">★</span> <span data-i18n="nav_teacher">Кабинет преподавателя</span>
       </button>
     </nav>
 
@@ -424,22 +458,22 @@
         </div>
       </div>
 
-      <div class="xp-badge" title="Опыт в лаборатории">
-        <span class="xp-label">LVL <strong id="header-lvl">4</strong></span>
+      <div class="xp-badge" title="Graphica Points">
+        <span class="xp-label">LVL <strong id="header-lvl">1</strong></span>
         <span class="xp-sep">|</span>
-        <span class="xp-val"><strong id="header-xp">1,450</strong> XP</span>
+        <span class="xp-val"><strong id="header-xp">45</strong> PTS</span>
       </div>
-      <button class="profile-btn" id="profile-modal-btn" title="Профиль и смена роли">
+      <button class="profile-btn" data-nav="account" id="topbar-account-btn" title="Личный кабинет и оценки">
         <span class="profile-avatar" id="header-role-badge">СТУД</span>
-        <span class="profile-name" id="header-user-name">Данил Панин</span>
+        <span class="profile-name" data-i18n="nav_account">Аккаунт</span>
       </button>
       <div class="lang-switch topbar-lang-switch" role="group" aria-label="Язык">
         <button class="lang-btn active" data-lang="ru">RU</button>
         <button class="lang-btn" data-lang="kz">KZ</button>
         <button class="lang-btn" data-lang="en">EN</button>
       </div>
-      <button class="switch-role-topbtn" id="switch-role-topbtn" title="Вернуться на экран выбора роли">
-        Сменить роль
+      <button class="switch-role-topbtn" id="btn-logout-topbar" title="Выйти из аккаунта" data-i18n="btn_logout">
+        Выйти
       </button>
     </div>
   </header>
@@ -457,11 +491,28 @@
       <div class="role-welcome-strip" id="role-welcome-strip">
         <div class="rws-left">
           <span class="rws-badge" id="rws-badge">КАБИНЕТ СТУДЕНТА</span>
-          <span class="rws-greeting" id="rws-greeting">Добро пожаловать в мастерскую, Данил Панин (Группа ИГ-204)</span>
+          <span class="rws-greeting" id="rws-greeting">Добро пожаловать в мастерскую!</span>
         </div>
         <div class="rws-right">
           <span class="rws-course" id="rws-course">Курс: Инженерная графика и CAD</span>
-          <button class="rws-change-btn" id="rws-change-role-btn">Выбрать другую роль →</button>
+          <button class="rws-change-btn" data-go="account">Мой аккаунт и оценки →</button>
+        </div>
+      </div>
+
+      <!-- QUICK ACCESS STRIP -->
+      <div class="dash-card" style="margin-bottom:22px;">
+        <div class="card-header-row" style="margin-bottom:4px;">
+          <span class="card-kicker" data-i18n="dash_quick_title">БЫСТРЫЙ ДОСТУП К РАЗДЕЛАМ ПЛАТФОРМЫ</span>
+          <span class="mono-muted">ВСЕ ИНСТРУМЕНТЫ В ОДИН КЛИК</span>
+        </div>
+        <div class="quick-access-grid">
+          <button class="qa-tile" data-go="figures"><span class="qa-icon">⬡</span><span class="qa-title">Геометрические фигуры</span><span class="qa-sub">11 фигур: от куба до деталей</span></button>
+          <button class="qa-tile" data-go="lessons"><span class="qa-icon">📘</span><span class="qa-title">Уроки + Практика</span><span class="qa-sub">Теория, 3D-демо, оценки</span></button>
+          <button class="qa-tile" data-go="guided"><span class="qa-icon">🧭</span><span class="qa-title">Построение по шагам</span><span class="qa-sub">Guided Build для новичков</span></button>
+          <button class="qa-tile" data-go="projection"><span class="qa-icon">📐</span><span class="qa-title">Проекции (Монж)</span><span class="qa-sub">3 вида V/H/W и скан 3D</span></button>
+          <button class="qa-tile" data-go="album"><span class="qa-icon">📖</span><span class="qa-title">Альбом чертежей</span><span class="qa-sub">3D-листание, шаги, zoom</span></button>
+          <button class="qa-tile" data-go="builder"><span class="qa-icon">🧱</span><span class="qa-title">3D-конструктор</span><span class="qa-sub">Сборка объектов по сетке</span></button>
+          <button class="qa-tile" data-go="store"><span class="qa-icon">✦</span><span class="qa-title">Магазин баллов</span><span class="qa-sub">Подсказки и оформление</span></button>
         </div>
       </div>
 
@@ -846,6 +897,18 @@
         </div>
       </div>
 
+      <!-- Step-by-Step Drafting Stages Bar -->
+      <div class="album-steps-bar">
+        <span class="mono-muted" id="album-stage-readout">Этап 4/4: Полный чертёж</span>
+        <div class="album-steps-btns">
+          <button class="mini-btn" id="album-step-prev" data-i18n="alb_step_prev">← Предыдущий шаг</button>
+          <button class="mini-btn" id="album-step-next" data-i18n="alb_step_next">Следующий шаг →</button>
+          <button class="mini-btn" id="album-step-all" data-i18n="alb_step_all">Показать всё построение</button>
+          <button class="mini-btn" id="album-dims-toggle" data-i18n="alb_dims_toggle">Скрыть размеры</button>
+          <button class="btn-secondary small" id="album-compare-3d" data-i18n="alb_compare_3d">Сравнить с 3D</button>
+        </div>
+      </div>
+
       <!-- Main Open Book Desk Area -->
       <div class="album-stage-area" id="album-stage-area">
         <!-- Large Left Page Turn Arrow -->
@@ -1154,6 +1217,213 @@
       </div>
     </section>
 
+    <!-- ==========================================
+         NEW VIEW A: GEOMETRY FIGURES CATALOG (11 ФИГУР)
+         ========================================== -->
+    <section id="view-figures" class="view-section">
+      <div class="lab-header-bar">
+        <div>
+          <span class="tech-kicker" data-i18n="fig_kicker">КАТАЛОГ ГЕОМЕТРИЧЕСКИХ ТЕЛ // ОТ ПРОСТОГО К СЛОЖНОМУ</span>
+          <h2 class="section-title" data-i18n="fig_title">ГЕОМЕТРИЧЕСКИЕ ФИГУРЫ — ПОНЯТНОЕ ИЗУЧЕНИЕ</h2>
+        </div>
+        <div class="figures-filter-bar">
+          <button class="mode-btn active" data-fig-filter="All">Все (11)</button>
+          <button class="mode-btn" data-fig-filter="Beginner">Beginner</button>
+          <button class="mode-btn" data-fig-filter="Intermediate">Intermediate</button>
+          <button class="mode-btn" data-fig-filter="Advanced">Advanced</button>
+        </div>
+      </div>
+      <div class="figures-catalog-grid" id="figures-catalog-grid"></div>
+    </section>
+
+    <!-- ==========================================
+         NEW VIEW B: GUIDED BUILD (ПОСТРОЕНИЕ ПО ШАГАМ)
+         ========================================== -->
+    <section id="view-guided" class="view-section">
+      <div class="lab-header-bar">
+        <div>
+          <span class="tech-kicker" data-i18n="gb_kicker">GUIDED BUILD // ПОШАГОВОЕ 3D-ПОСТРОЕНИЕ</span>
+          <h2 class="section-title" id="gb-tut-title">Построение ступенчатого объекта</h2>
+        </div>
+        <div class="figures-filter-bar">
+          <button class="mini-btn" data-gb-select="0">1. Ступенчатый объект</button>
+          <button class="mini-btn" data-gb-select="1">2. Точный куб 40×40×40</button>
+          <button class="mini-btn" data-gb-select="2">3. Цилиндрическая втулка</button>
+        </div>
+      </div>
+
+      <div class="guided-build-grid">
+        <!-- Left: Instruction -->
+        <div class="gb-instruction-card">
+          <div class="panel-title">ИНСТРУКЦИЯ ТЕКУЩЕГО ШАГА</div>
+          <div class="lp-track"><div class="lp-fill" id="gb-progress-bar" style="width:20%;"></div></div>
+          <h3 id="gb-step-title">Шаг 1: Создай основу объекта</h3>
+          <p id="gb-step-instr" style="font-size:13.5px;color:var(--text-sec);"></p>
+          <div class="gb-hint-box" id="gb-step-hint-box" style="display:none;"></div>
+          <div style="display:flex;gap:8px;flex-wrap:wrap;margin-top:auto;">
+            <button class="btn-ghost small" id="gb-btn-hint">💡 Подсказка</button>
+            <button class="btn-ghost small" id="gb-btn-repeat">↺ Повторить</button>
+            <button class="btn-primary small full-width" id="gb-next-btn" data-gb-tool="finish">Следующий шаг →</button>
+          </div>
+        </div>
+
+        <!-- Center: Solid 3D Viewport -->
+        <div class="gb-viewport-card">
+          <div class="viewport-topbar">
+            <span class="vp-title">РАБОЧАЯ 3D-СЦЕНА (SOLID MODE)</span>
+            <button class="mini-btn" id="gb-btn-orbit" data-gb-tool="orbit">↻ Осмотреть 360°</button>
+          </div>
+          <div class="canvas-wrapper">
+            <canvas id="guided-3d-canvas" width="680" height="480"></canvas>
+            <div class="viewport-hint">Вращайте модель мышью • Все грани непрозрачные с корректной глубиной</div>
+          </div>
+        </div>
+
+        <!-- Right: Parameters & Steps -->
+        <div class="gb-params-card">
+          <div class="panel-title">ПРОСТЫЕ ИНСТРУМЕНТЫ И РАЗМЕРЫ (ММ)</div>
+          <div style="display:flex;flex-direction:column;gap:8px;">
+            <button class="btn-secondary small full-width" id="gb-btn-add-block" data-gb-tool="add-block">+ Прямоугольный блок (Основа)</button>
+            <button class="btn-secondary small full-width" id="gb-btn-add-top" data-gb-tool="add-top">+ Добавить куб (Верхняя часть)</button>
+            <button class="btn-secondary small full-width" id="gb-btn-add-cyl" data-gb-tool="add-cyl">+ Добавить цилиндр</button>
+          </div>
+
+          <div class="gb-dim-inputs" data-gb-tool="dims">
+            <label>Ширина (мм)<input type="number" id="gb-input-w" value="60" step="10" min="20" max="100" /></label>
+            <label>Высота (мм)<input type="number" id="gb-input-h" value="40" step="10" min="20" max="80" /></label>
+            <label>Глубина (мм)<input type="number" id="gb-input-d" value="40" step="10" min="20" max="80" /></label>
+          </div>
+
+          <div class="panel-title" style="margin-top:6px;">ЭТАПЫ ПОСТРОЕНИЯ</div>
+          <div class="gb-steps-list" id="gb-steps-list"></div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ==========================================
+         NEW VIEW C: INTERACTIVE LESSONS + PRACTICE + GRADING
+         ========================================== -->
+    <section id="view-lessons" class="view-section">
+      <div class="lab-header-bar">
+        <div>
+          <span class="tech-kicker" data-i18n="les_kicker">ИНТЕРАКТИВНЫЕ УРОКИ // ТЕОРИЯ + ДЕМО + ПРАКТИКА</span>
+          <h2 class="section-title" data-i18n="les_title">УРОКИ ИНЖЕНЕРНОЙ ГРАФИКИ И ПРАКТИКА</h2>
+        </div>
+      </div>
+      <div class="edu-lessons-layout">
+        <aside class="training-sidebar">
+          <div class="panel-title">ПРОГРАММА ОБУЧЕНИЯ</div>
+          <div class="lesson-nav-list" id="edu-lessons-nav"></div>
+        </aside>
+        <div id="edu-lesson-body"></div>
+      </div>
+    </section>
+
+    <!-- ==========================================
+         NEW VIEW D: GRAPHICA POINTS STORE (МАГАЗИН НАГРАД)
+         ========================================== -->
+    <section id="view-store" class="view-section">
+      <div class="lab-header-bar">
+        <div>
+          <span class="tech-kicker" data-i18n="store_kicker">GRAPHICA POINTS // МАГАЗИН НАГРАД</span>
+          <h2 class="section-title" data-i18n="store_title">POINTS STORE — ПОЛЕЗНЫЕ УЛУЧШЕНИЯ</h2>
+        </div>
+        <div class="b-stat"><span data-i18n="store_balance">Ваш баланс:</span> <strong id="store-balance-val" class="accent-cyan">45 PTS</strong></div>
+      </div>
+      <div class="store-fair-banner" data-i18n="store_fair_note">
+        Баллы нельзя тратить на покупку оценок или пропуск обязательных заданий — только на подсказки, дополнительные учебные материалы и декоративное оформление профиля.
+      </div>
+      <div class="points-store-grid" id="points-store-grid"></div>
+    </section>
+
+    <!-- ==========================================
+         NEW VIEW E: FULL STUDENT ACCOUNT & ANALYTICS
+         ========================================== -->
+    <section id="view-account" class="view-section">
+      <div class="lab-header-bar">
+        <div>
+          <span class="tech-kicker" data-i18n="acc_kicker">ЛИЧНЫЙ ПРОФИЛЬ СТУДЕНТА</span>
+          <h2 class="section-title" data-i18n="acc_title">МОЙ АККАУНТ, ОЦЕНКИ И АНАЛИТИКА</h2>
+        </div>
+        <span class="tech-badge cyan" id="acc-role-badge">СТУДЕНТ (НЕИЗМЕНЯЕМО)</span>
+      </div>
+
+      <div class="account-hero-card">
+        <div class="acc-identity">
+          <div class="acc-avatar-circle" id="acc-avatar-circle">ДП</div>
+          <div>
+            <h3 id="acc-fullname" style="font-size:22px;">Данил Панин</h3>
+            <div class="mono-muted"><span id="acc-email">student@grafika.lab</span> • <span id="acc-inst">Политехнический колледж</span> • Группа: <strong id="acc-group">ИГ-204</strong></div>
+            <div class="mono-muted">Дата регистрации: <span id="acc-regdate">2026-11-23</span></div>
+          </div>
+        </div>
+        <div style="display:flex;gap:12px;align-items:center;">
+          <div class="b-stat"><strong id="acc-level">УРОВЕНЬ 1</strong></div>
+          <div class="b-stat"><strong id="acc-points" class="accent-cyan">45 PTS</strong></div>
+        </div>
+      </div>
+
+      <div class="acc-stats-strip">
+        <div class="stat-box"><span class="stat-val accent-cyan" id="acc-stat-lessons">1 / 4</span><span class="stat-lbl">Пройдено уроков</span></div>
+        <div class="stat-box"><span class="stat-val" id="acc-stat-tasks">1</span><span class="stat-lbl">Выполнено заданий</span></div>
+        <div class="stat-box"><span class="stat-val accent-cyan" id="acc-stat-avg">92%</span><span class="stat-lbl">Средняя оценка</span></div>
+        <div class="stat-box"><span class="stat-val" id="acc-stat-best">92%</span><span class="stat-lbl">Лучший результат</span></div>
+        <div class="stat-box"><span class="stat-val accent-cyan" id="acc-stat-course">25%</span><span class="stat-lbl">Завершение курса</span></div>
+      </div>
+
+      <div class="account-main-grid">
+        <div style="display:flex;flex-direction:column;gap:18px;">
+          <div class="dash-card">
+            <div class="panel-title" data-i18n="acc_grades">ТАБЛИЦА ОЦЕНОК (НАЖМИТЕ НА СТРОКУ ДЛЯ РАЗБОРА)</div>
+            <div class="grades-table-wrap">
+              <table class="grades-table">
+                <thead>
+                  <tr><th>Урок</th><th>Задание</th><th>Дата</th><th>Результат</th><th>Оценка</th><th>Баллы</th><th>Статус</th></tr>
+                </thead>
+                <tbody id="acc-grades-tbody"></tbody>
+              </table>
+            </div>
+            <div id="acc-grade-detail" class="gb-hint-box" style="display:none;margin-top:12px;"></div>
+          </div>
+
+          <div class="dash-card">
+            <div class="panel-title">ГРАФИК ОЦЕНОК И ПРОГРЕССА</div>
+            <canvas id="acc-grades-chart" width="540" height="200" style="width:100%;height:auto;"></canvas>
+          </div>
+        </div>
+
+        <div style="display:flex;flex-direction:column;gap:18px;">
+          <div class="dash-card">
+            <div class="panel-title" data-i18n="acc_strengths">СИЛЬНЫЕ СТОРОНЫ</div>
+            <div id="acc-strengths-list"></div>
+          </div>
+
+          <div class="dash-card">
+            <div class="panel-title" data-i18n="acc_difficulties">ГДЕ ВОЗНИКАЮТ СЛОЖНОСТИ И РЕКОМЕНДАЦИИ</div>
+            <div id="acc-difficulties-list"></div>
+          </div>
+
+          <div class="dash-card">
+            <div class="panel-title" data-i18n="acc_ledger">ЖУРНАЛ НАЧИСЛЕНИЙ GRAPHICA POINTS</div>
+            <div id="acc-points-ledger"></div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ==========================================
+         NEW VIEW F: TEACHER DASHBOARD (ГРУППЫ, ЗАДАНИЯ, ПРОВЕРКА, АНАЛИТИКА)
+         ========================================== -->
+    <section id="view-teacher" class="view-section">
+      <div class="lab-header-bar">
+        <div>
+          <span class="tech-kicker" data-i18n="tch_kicker">TEACHER DASHBOARD // УПРАВЛЕНИЕ ОБУЧЕНИЕМ (DEMO)</span>
+          <h2 class="section-title" data-i18n="tch_title">КАБИНЕТ ПРЕПОДАВАТЕЛЯ</h2>
+        </div>
+      </div>
+      <div id="teacher-dashboard-root"></div>
+    </section>
+
   </main>
 
   <!-- PROFILE & ABOUT / HELP MODAL -->
@@ -1219,7 +1489,6 @@
         </div>
 
         <div class="modal-actions-row">
-          <button class="btn-ghost small" id="modal-switch-role-btn">СМЕНИТЬ РОЛЬ (ПРЕПОДАВАТЕЛЬ / СТУДЕНТ)</button>
           <button class="btn-secondary small" id="replay-boot-btn">3D-ЗАСТАВКА</button>
           <button class="btn-primary small" id="close-modal-ok">ПРОДОЛЖИТЬ</button>
         </div>
@@ -1253,9 +1522,12 @@
   <!-- TOAST NOTIFICATION -->
   <div id="toast-container" class="toast-container"></div>
 
+  <script src="js/i18n.js"></script>
+  <script src="js/auth.js"></script>
   <script src="js/models.js"></script>
   <script src="js/engine3d.js"></script>
   <script src="js/album.js"></script>
+  <script src="js/edu.js"></script>
   <script src="js/app.js"></script>
 </body>
 </html>

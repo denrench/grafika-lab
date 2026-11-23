@@ -1,0 +1,637 @@
+/* ==========================================================================
+   ГРАФИКА LAB — COMPLETE EDUCATIONAL PLATFORM STYLES (css/upgrade.css)
+   Uses exclusively the centralized pastel theme CSS variables from styles.css
+   ========================================================================== */
+
+/* ---- AUTH GATEWAY MULTI-STEP FLOW ---- */
+.auth-step-panel {
+  display: none;
+  animation: viewEnter 0.35s ease;
+}
+.auth-step-panel.active {
+  display: block;
+}
+
+.auth-form-card {
+  max-width: 680px;
+  margin: 0 auto;
+  background: var(--bg-panel);
+  border: 1.5px solid var(--border-tech);
+  border-radius: 22px;
+  padding: 28px 32px;
+  box-shadow: var(--shadow-card);
+}
+
+.auth-form-header {
+  margin-bottom: 18px;
+}
+.auth-form-header h2 {
+  font-family: var(--font-display);
+  font-size: 26px;
+  margin: 8px 0 4px;
+}
+.auth-form-header p {
+  color: var(--text-sec);
+  font-size: 13.5px;
+}
+
+.auth-back-btn {
+  background: transparent;
+  border: none;
+  color: var(--accent-cyan);
+  font-family: var(--font-mono);
+  font-size: 12px;
+  font-weight: 700;
+  cursor: pointer;
+  margin-bottom: 8px;
+  display: inline-block;
+}
+
+.auth-error-box {
+  background: rgba(196, 122, 114, 0.14);
+  border: 1px solid var(--accent-red);
+  color: var(--accent-red);
+  border-radius: 10px;
+  padding: 10px 14px;
+  font-size: 12.5px;
+  font-weight: 600;
+  margin-bottom: 14px;
+  display: none;
+}
+
+.auth-success-box {
+  background: rgba(122, 154, 120, 0.15);
+  border: 1px solid var(--accent-green);
+  color: var(--text-main);
+  border-radius: 12px;
+  padding: 14px 16px;
+  font-size: 13px;
+  font-weight: 600;
+  margin-bottom: 14px;
+  display: none;
+}
+
+.verify-box-card {
+  background: var(--bg-main);
+  border: 1.5px dashed var(--border-tech);
+  border-radius: 14px;
+  padding: 14px 16px;
+  margin: 6px 0 8px;
+}
+.verify-box-title {
+  font-family: var(--font-mono);
+  font-size: 11px;
+  font-weight: 700;
+  color: var(--accent-cyan);
+  margin-bottom: 10px;
+}
+
+.auth-demo-row {
+  display: flex;
+  justify-content: center;
+  flex-wrap: wrap;
+  gap: 10px;
+  margin-top: 22px;
+}
+
+/* ---- QUICK ACCESS GRID ON STUDENT DASHBOARD ---- */
+.quick-access-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(175px, 1fr));
+  gap: 12px;
+  margin-top: 12px;
+}
+.qa-tile {
+  background: var(--bg-main);
+  border: 1px solid var(--border-line);
+  border-radius: 14px;
+  padding: 16px 14px;
+  cursor: pointer;
+  text-align: left;
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  transition: all 0.2s ease;
+}
+.qa-tile:hover {
+  border-color: var(--accent-cyan);
+  background: var(--bg-warm-beige);
+  transform: translateY(-2px);
+}
+.qa-icon { font-size: 20px; }
+.qa-title { font-weight: 700; font-size: 13.5px; color: var(--text-main); }
+.qa-sub { font-size: 11.5px; color: var(--text-sec); }
+
+/* ---- GEOMETRY FIGURES CATALOG ---- */
+.figures-filter-bar {
+  display: flex;
+  gap: 8px;
+  flex-wrap: wrap;
+}
+.figures-catalog-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(275px, 1fr));
+  gap: 18px;
+}
+.figure-card {
+  background: var(--bg-panel);
+  border: 1px solid var(--border-line);
+  border-radius: 16px;
+  padding: 18px;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  box-shadow: var(--shadow-soft);
+  transition: transform 0.2s, border-color 0.2s;
+}
+.figure-card:hover {
+  transform: translateY(-3px);
+  border-color: var(--accent-cyan);
+}
+.fig-card-top {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  font-family: var(--font-mono);
+  font-size: 10.5px;
+}
+.fig-level-badge {
+  padding: 3px 9px;
+  border-radius: 99px;
+  font-weight: 700;
+  background: var(--bg-warm-beige);
+  color: var(--accent-cyan);
+  border: 1px solid var(--border-tech);
+}
+.fig-time { color: var(--text-sec); }
+.fig-preview-box {
+  background: var(--bg-main);
+  border: 1px solid var(--border-line);
+  border-radius: 12px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 6px;
+}
+.fig-name { font-size: 16px; font-weight: 700; color: var(--text-main); }
+.fig-desc { font-size: 12.5px; color: var(--text-sec); flex: 1; }
+.fig-actions {
+  display: grid;
+  grid-template-columns: 1fr 1.3fr;
+  gap: 8px;
+  margin-top: 4px;
+}
+
+/* ---- GUIDED BUILD 3-COLUMN STUDIO ---- */
+.guided-build-grid {
+  display: grid;
+  grid-template-columns: minmax(240px, 290px) minmax(320px, 1fr) minmax(240px, 285px);
+  gap: 16px;
+  align-items: stretch;
+}
+.gb-instruction-card, .gb-params-card {
+  background: var(--bg-panel);
+  border: 1px solid var(--border-line);
+  border-radius: 16px;
+  padding: 20px;
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+  box-shadow: var(--shadow-soft);
+}
+.gb-viewport-card {
+  background: var(--bg-panel);
+  border: 1.5px solid var(--border-tech);
+  border-radius: 16px;
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+  box-shadow: var(--shadow-soft);
+}
+#guided-3d-canvas {
+  width: 100%;
+  height: auto;
+  max-height: 480px;
+  aspect-ratio: 680 / 480;
+  object-fit: contain;
+  cursor: grab;
+  display: block;
+}
+.gb-steps-list {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+.gb-step-pill {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 8px 10px;
+  border-radius: 9px;
+  font-size: 12px;
+  background: var(--bg-main);
+  border: 1px solid var(--border-line);
+  color: var(--text-sec);
+}
+.gb-step-pill.active {
+  background: var(--bg-warm-beige);
+  border-color: var(--accent-cyan);
+  color: var(--text-main);
+  font-weight: 700;
+}
+.gb-step-pill.done {
+  color: var(--accent-green);
+  border-color: rgba(122, 154, 120, 0.45);
+}
+.gb-hint-box {
+  background: var(--bg-warm-beige);
+  border: 1px dashed var(--accent-cyan);
+  border-radius: 10px;
+  padding: 10px 12px;
+  font-size: 12px;
+  color: var(--text-main);
+}
+.gb-dim-inputs {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 8px;
+}
+.gb-dim-inputs label {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  font-family: var(--font-mono);
+  font-size: 10.5px;
+  color: var(--text-sec);
+}
+.gb-dim-inputs input {
+  width: 100%;
+  padding: 7px 8px;
+  border-radius: 8px;
+  border: 1px solid var(--border-tech);
+  background: var(--bg-main);
+  color: var(--text-main);
+  font-family: var(--font-mono);
+  font-weight: 700;
+}
+.gb-pulse-highlight {
+  box-shadow: 0 0 0 3px var(--accent-cyan-border), var(--shadow-soft) !important;
+  border-color: var(--accent-cyan) !important;
+}
+
+/* ---- INTERACTIVE LESSONS & POST-LESSON PRACTICE ---- */
+.edu-lessons-layout {
+  display: grid;
+  grid-template-columns: 290px 1fr;
+  gap: 20px;
+}
+.edu-lesson-card, .edu-practice-card {
+  background: var(--bg-panel);
+  border: 1px solid var(--border-line);
+  border-radius: 18px;
+  padding: 24px;
+  box-shadow: var(--shadow-soft);
+  margin-bottom: 20px;
+}
+.edu-les-header, .edu-prac-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  flex-wrap: wrap;
+  gap: 12px;
+  margin-bottom: 18px;
+}
+.edu-les-title { font-family: var(--font-display); font-size: 24px; margin-top: 6px; }
+.edu-two-col {
+  display: grid;
+  grid-template-columns: 1.1fr 1fr;
+  gap: 22px;
+}
+.edu-box {
+  background: var(--bg-main);
+  border: 1px solid var(--border-line);
+  border-radius: 12px;
+  padding: 14px 16px;
+  margin-bottom: 12px;
+}
+.edu-box h4 { font-size: 14px; color: var(--accent-cyan); margin-bottom: 6px; }
+.edu-list { list-style: none; display: flex; flex-direction: column; gap: 5px; font-size: 13px; }
+.edu-list li span { color: var(--accent-cyan); font-weight: 700; margin-right: 6px; }
+.edu-blocks-row { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
+.edu-mini-block {
+  background: var(--bg-warm-beige);
+  border-radius: 10px;
+  padding: 12px;
+}
+.edu-mini-block h5 { font-size: 13px; margin-bottom: 4px; }
+.edu-mini-block p { font-size: 12px; color: var(--text-sec); }
+.edu-canvas-pair {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 10px;
+  margin-bottom: 12px;
+}
+.edu-canvas-pair canvas {
+  width: 100%;
+  height: auto;
+  background: var(--album-paper);
+  border: 1px solid var(--border-line);
+  border-radius: 10px;
+}
+.edu-demo-actions { display: flex; flex-wrap: wrap; gap: 8px; }
+.edu-hint-banner {
+  background: var(--bg-warm-beige);
+  border: 1px dashed var(--accent-cyan);
+  border-radius: 10px;
+  padding: 12px 14px;
+  margin-bottom: 14px;
+  font-size: 13px;
+}
+.edu-quiz-list { display: flex; flex-direction: column; gap: 14px; }
+.edu-quiz-item {
+  background: var(--bg-main);
+  border: 1px solid var(--border-line);
+  border-radius: 12px;
+  padding: 14px 16px;
+}
+.edu-q-title { font-weight: 700; font-size: 14px; margin-bottom: 10px; }
+.edu-q-opts { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; }
+.edu-radio-opt {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  background: var(--bg-panel);
+  border: 1px solid var(--border-line);
+  border-radius: 8px;
+  padding: 9px 12px;
+  cursor: pointer;
+  font-size: 13px;
+}
+.edu-radio-opt:hover { border-color: var(--accent-cyan); }
+.edu-grade-result {
+  margin-top: 18px;
+  background: var(--bg-main);
+  border: 1.5px solid var(--border-tech);
+  border-radius: 14px;
+  padding: 18px;
+}
+.grade-summary-top {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  margin-bottom: 14px;
+}
+.grade-score-circle {
+  width: 64px;
+  height: 64px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-family: var(--font-mono);
+  font-size: 18px;
+  font-weight: 800;
+  background: var(--bg-warm-beige);
+  border: 2px solid var(--accent-cyan);
+  color: var(--text-main);
+  flex-shrink: 0;
+}
+.grade-details-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
+.gd-box {
+  background: var(--bg-panel);
+  border: 1px solid var(--border-line);
+  border-radius: 10px;
+  padding: 12px;
+  font-size: 12.5px;
+}
+
+/* ---- POINTS STORE ---- */
+.store-fair-banner {
+  background: var(--bg-warm-beige);
+  border: 1px solid var(--border-tech);
+  border-radius: 12px;
+  padding: 12px 16px;
+  font-size: 12.5px;
+  color: var(--text-main);
+  margin-bottom: 18px;
+}
+.points-store-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+  gap: 16px;
+}
+.store-card {
+  background: var(--bg-panel);
+  border: 1px solid var(--border-line);
+  border-radius: 16px;
+  padding: 18px;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  box-shadow: var(--shadow-soft);
+}
+.store-card.owned { border-color: var(--accent-green); }
+.store-card-top { display: flex; justify-content: space-between; font-family: var(--font-mono); font-size: 10.5px; }
+.store-cat-pill { color: var(--text-sec); }
+.store-price-pill { font-weight: 700; color: var(--accent-cyan); background: var(--bg-warm-beige); padding: 2px 9px; border-radius: 99px; }
+.store-icon { font-size: 26px; }
+.store-name { font-size: 15px; font-weight: 700; }
+.store-desc { font-size: 12.5px; color: var(--text-sec); flex: 1; }
+
+/* ---- STUDENT ACCOUNT PAGE ---- */
+.account-hero-card {
+  background: var(--bg-panel);
+  border: 1px solid var(--border-tech);
+  border-radius: 18px;
+  padding: 22px 26px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 18px;
+  margin-bottom: 20px;
+  box-shadow: var(--shadow-soft);
+}
+.acc-identity { display: flex; align-items: center; gap: 18px; }
+.acc-avatar-circle {
+  width: 68px;
+  height: 68px;
+  border-radius: 50%;
+  background: var(--bg-warm-beige);
+  border: 2px solid var(--accent-cyan);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-family: var(--font-display);
+  font-size: 24px;
+  font-weight: 800;
+  color: var(--text-main);
+}
+.acc-avatar-circle.frame-architect {
+  box-shadow: 0 0 0 4px var(--bg-panel), 0 0 0 7px #C9A66B;
+}
+.acc-avatar-circle.frame-master {
+  box-shadow: 0 0 0 4px var(--bg-panel), 0 0 0 7px #91AA8C;
+}
+.acc-stats-strip {
+  display: grid;
+  grid-template-columns: repeat(5, 1fr);
+  gap: 12px;
+  margin-bottom: 20px;
+}
+.account-main-grid {
+  display: grid;
+  grid-template-columns: 7fr 5fr;
+  gap: 20px;
+}
+.grades-table-wrap { overflow-x: auto; }
+.grades-table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 12.5px;
+}
+.grades-table th, .grades-table td {
+  padding: 10px 10px;
+  text-align: left;
+  border-bottom: 1px solid var(--border-line);
+}
+.grades-table th {
+  font-family: var(--font-mono);
+  font-size: 10.5px;
+  color: var(--text-sec);
+}
+.grade-row-click { cursor: pointer; }
+.grade-row-click:hover { background: var(--bg-main); }
+.status-chip {
+  font-family: var(--font-mono);
+  font-size: 10px;
+  font-weight: 700;
+  padding: 3px 8px;
+  border-radius: 99px;
+  background: var(--bg-warm-beige);
+  color: var(--accent-cyan);
+}
+.status-chip.done { color: var(--accent-green); }
+.topic-bar-row { margin-bottom: 10px; }
+.tb-head { display: flex; justify-content: space-between; font-size: 12.5px; margin-bottom: 4px; }
+.tb-track { height: 7px; background: var(--bg-warm-beige); border-radius: 99px; overflow: hidden; }
+.tb-fill { height: 100%; background: var(--accent-cyan); border-radius: 99px; }
+.diff-advice-card {
+  background: var(--bg-main);
+  border: 1px solid var(--border-line);
+  border-radius: 10px;
+  padding: 10px 12px;
+  margin-bottom: 8px;
+  font-size: 12px;
+}
+.diff-advice-card p { color: var(--text-sec); margin-top: 4px; }
+.ledger-row {
+  display: flex;
+  justify-content: space-between;
+  padding: 8px 0;
+  border-bottom: 1px solid var(--border-line);
+  font-size: 12.5px;
+}
+
+/* ---- TEACHER DASHBOARD ---- */
+.teacher-verify-banner {
+  background: var(--bg-panel);
+  border: 1.5px solid var(--border-tech);
+  border-radius: 16px;
+  padding: 18px 22px;
+  margin-bottom: 20px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 14px;
+}
+.demo-verify-controls { display: flex; flex-direction: column; gap: 6px; align-items: flex-end; }
+.demo-v-btns { display: flex; gap: 6px; flex-wrap: wrap; }
+.teacher-kpi-grid {
+  display: grid;
+  grid-template-columns: repeat(5, 1fr);
+  gap: 12px;
+  margin-bottom: 20px;
+}
+.teacher-main-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 20px;
+}
+.tch-inline-form, .tch-asg-form {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  margin-bottom: 14px;
+}
+.tch-inline-form input, .tch-asg-form input, .tch-asg-form select, .tch-grade-inline input {
+  padding: 8px 10px;
+  border-radius: 8px;
+  border: 1px solid var(--border-tech);
+  background: var(--bg-main);
+  color: var(--text-main);
+  font-size: 12.5px;
+}
+.tch-group-card, .tch-sub-card {
+  background: var(--bg-main);
+  border: 1px solid var(--border-line);
+  border-radius: 12px;
+  padding: 12px 14px;
+  margin-bottom: 10px;
+}
+.tch-grp-head {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin-bottom: 8px;
+}
+.tch-code-box { display: flex; align-items: center; gap: 8px; font-family: var(--font-mono); font-size: 11.5px; }
+.tch-st-row {
+  display: flex;
+  justify-content: space-between;
+  padding: 5px 0;
+  border-top: 1px dashed var(--border-line);
+  font-size: 12.5px;
+}
+.help-tag {
+  font-style: normal;
+  font-size: 10px;
+  background: rgba(196, 122, 114, 0.16);
+  color: var(--accent-red);
+  padding: 1px 7px;
+  border-radius: 99px;
+  margin-left: 6px;
+}
+.tch-sub-summary { font-size: 12.5px; color: var(--text-sec); margin-bottom: 8px; }
+.tch-grade-inline { display: flex; gap: 8px; align-items: center; }
+
+/* ---- ALBUM STEP-BY-STEP BAR ---- */
+.album-steps-bar {
+  background: var(--bg-panel);
+  border: 1px solid var(--border-line);
+  border-radius: 12px;
+  padding: 10px 16px;
+  margin-bottom: 14px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 10px;
+}
+.album-steps-btns { display: flex; gap: 6px; flex-wrap: wrap; align-items: center; }
+
+@media (max-width: 920px) {
+  .guided-build-grid,
+  .edu-lessons-layout,
+  .edu-two-col,
+  .account-main-grid,
+  .teacher-main-grid {
+    grid-template-columns: 1fr;
+  }
+  .acc-stats-strip, .teacher-kpi-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}

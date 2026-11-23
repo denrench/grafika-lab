@@ -580,10 +580,24 @@ window.GrafikaAlbumAndTheme = (function () {
       });
     }
 
+    // Progressive stage reveal overlay if user is in step-by-step drafting mode (stages 1..3)
+    const stage = forZoom ? 4 : (albumState.buildStage || 4);
+    const clipId = `stageClip_${pageObj.page}_${forZoom ? 'z' : 'p'}`;
+    const stageWidths = { 1: 165, 2: 315, 3: 425, 4: W };
+    const clipW = stageWidths[stage] || W;
+    const hideDimStyle = (!albumState.showDims && !forZoom) ? 'opacity:0;' : '';
+
     return `
       <svg viewBox="0 0 ${W} ${H}" class="sheet-drawing-svg ${forZoom ? 'zoom-svg' : ''}" xmlns="http://www.w3.org/2000/svg">
+        <defs>
+          <clipPath id="${clipId}">
+            <rect x="0" y="0" width="${clipW}" height="${H}"/>
+          </clipPath>
+        </defs>
         <rect x="6" y="6" width="${W - 12}" height="${H - 12}" fill="none" stroke="${theme.frameBorder}" stroke-width="1.2"/>
-        ${body}
+        <g clip-path="url(#${clipId})">${body}</g>
+        ${stage < 4 ? `<line x1="${clipW}" y1="10" x2="${clipW}" y2="${H - 10}" stroke="${acc}" stroke-width="1.4" stroke-dasharray="5,4"/>` : ''}
+        <g style="${hideDimStyle}"></g>
       </svg>
     `;
   }
@@ -661,6 +675,8 @@ window.GrafikaAlbumAndTheme = (function () {
     mode: 'album', // 'album' (2-page spread) | 'single' (1 page) | 'thumbnails'
     leftPageIdx: 0, // 0, 2, 4, 6, 8, 10 in spread mode; any 0..11 in single mode
     isFlipping: false,
+    buildStage: 4, // 1..4 step-by-step construction stage
+    showDims: true,
     bookmarks: JSON.parse(localStorage.getItem('grafika_album_bookmarks') || '[1, 4]'),
     onlyBookmarked: false,
     zoomPage: null,
@@ -1147,13 +1163,99 @@ window.GrafikaAlbumAndTheme = (function () {
     // Apply saved or default theme immediately
     applyTheme(currentThemeId, false);
 
-    // Apply saved or default language (RU / KZ / EN)
-    const savedLang = localStorage.getItem('grafika_lang_v2') || 'ru';
-    applyLanguage(savedLang);
+    // Apply saved or default language via centralized GrafikaI18n (RU / KZ / EN)
+    const savedLang = localStorage.getItem('grafika_lang_v3') || 'ru';
+    if (window.GrafikaI18n) {
+      window.GrafikaI18n.setLang(savedLang, false);
+    }
     document.querySelectorAll('.lang-btn').forEach(btn => {
       btn.addEventListener('click', () => {
-        applyLanguage(btn.dataset.lang);
+        if (window.GrafikaI18n) {
+          window.GrafikaI18n.setLang(btn.dataset.lang, true);
+        }
       });
+    });
+
+    // Step-by-step drafting controls inside Drawing Album
+    const stPrev = document.getElementById('album-step-prev');
+    const stNext = document.getElementById('album-step-next');
+    const stAll = document.getElementById('album-step-all');
+    const stDims = document.getElementById('album-dims-toggle');
+    const st3d = document.getElementById('album-compare-3d');
+    const stLabel = document.getElementById('album-stage-readout');
+
+    function syncStageReadout() {
+      const names = { 1: 'Этап 1/4: Оси и база', 2: 'Этап 2/4: Контуры', 3: 'Этап 3/4: Связи и штрихи', 4: 'Этап 4/4: Полный чертёж' };
+      if (stLabel) stLabel.textContent = names[albumState.buildStage] || names[4];
+      if (stDims) stDims.textContent = albumState.showDims ? 'Скрыть размеры' : 'Показать размеры';
+    }
+    syncStageReadout();
+
+    if (stPrev) stPrev.addEventListener('click', () => {
+      albumState.buildStage = Math.max(1, albumState.buildStage - 1);
+      syncStageReadout();
+      renderAlbumView();
+    });
+    if (stNext) stNext.addEventListener('click', () => {
+      albumState.buildStage = Math.min(4, albumState.buildStage + 1);
+      syncStageReadout();
+      renderAlbumView();
+    });
+    if (stAll) stAll.addEventListener('click', () => {
+      albumState.buildStage = 4;
+      syncStageReadout();
+      renderAlbumView();
+    });
+    if (stDims) stDims.addEventListener('click', () => {
+      albumState.showDims = !albumState.showDims;
+      syncStageReadout();
+      renderAlbumView();
+    });
+    if (st3d) st3d.addEventListener('click', () => {
+      if (window.GrafikaSwitchView) window.GrafikaSwitchView('projection');
+    });
+
+    // Drag-to-flip & Touch-swipe gestures on the Open Book Spread
+    const spreadEl = document.getElementById('album-book-spread');
+    if (spreadEl) {
+      let dragStartX = null;
+      spreadEl.addEventListener('mousedown', (e) => {
+        if (e.target.closest('button') || e.target.closest('.sheet-drawing-stage')) return;
+        dragStartX = e.clientX;
+      });
+      window.addEventListener('mouseup', (e) => {
+        if (dragStartX === null) return;
+        const dx = e.clientX - dragStartX;
+        dragStartX = null;
+        if (dx < -70) flipAlbumPage('next');
+        else if (dx > 70) flipAlbumPage('prev');
+      });
+
+      let touchStartX = null;
+      spreadEl.addEventListener('touchstart', (e) => {
+        if (e.touches && e.touches.length === 1) touchStartX = e.touches[0].clientX;
+      }, { passive: true });
+      spreadEl.addEventListener('touchend', (e) => {
+        if (touchStartX === null || !e.changedTouches) return;
+        const dx = e.changedTouches[0].clientX - touchStartX;
+        touchStartX = null;
+        if (dx < -50) flipAlbumPage('next');
+        else if (dx > 50) flipAlbumPage('prev');
+      }, { passive: true });
+    }
+
+    // Keyboard ArrowLeft / ArrowRight page turning when Album view is active
+    window.addEventListener('keydown', (e) => {
+      const albumSec = document.getElementById('view-album');
+      if (!albumSec || !albumSec.classList.contains('active')) return;
+      if (e.target.tagName === 'INPUT' || e.target.tagName === 'TEXTAREA') return;
+      if (e.key === 'ArrowRight') {
+        e.preventDefault();
+        flipAlbumPage('next');
+      } else if (e.key === 'ArrowLeft') {
+        e.preventDefault();
+        flipAlbumPage('prev');
+      }
     });
 
     // Theme dropdown toggle buttons

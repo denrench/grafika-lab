@@ -318,8 +318,11 @@ window.GrafikaEngine3D = (function () {
       ctx.restore();
     }
 
-    // 2. Draw solid faces (Painter's algorithm)
+    // 2. Draw solid faces (Painter's algorithm with strict opaque alpha=1 & back-face culling in solid mode)
     for (const pf of sortedFaces) {
+      if (mode !== 'wireframe' && !showHiddenEdges && !pf.isFront) {
+        continue; // Back-face culling for crisp opaque solids
+      }
       ctx.beginPath();
       pf.tPts.forEach((p, idx) => {
         if (idx === 0) ctx.moveTo(cx + p.sx, cy + p.sy);
@@ -328,7 +331,7 @@ window.GrafikaEngine3D = (function () {
       ctx.closePath();
 
       if (mode !== 'wireframe') {
-        const fillAlpha = showHiddenEdges ? 0.82 : 0.97;
+        const fillAlpha = showHiddenEdges ? 0.84 : 1.0;
         // Map warm default hexes to active theme mesh colors
         let baseCol = tc.meshPrimary;
         if (pf.face.color === '#BD8D65' || pf.face.color === '#B58963') baseCol = tc.meshAccent;

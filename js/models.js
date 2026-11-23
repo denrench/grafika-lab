@@ -178,6 +178,46 @@ window.GrafikaModels = (function () {
     return { vertices: v, faces: f };
   }
 
+  // Create a cone along Z axis from z0 to z1, centered at (cx, cy), radius r
+  function createCone(cx, cy, z0, z1, r, segments, color) {
+    segments = segments || 16;
+    const v = [];
+    const f = [];
+    for (let i = 0; i < segments; i++) {
+      const a = (i / segments) * Math.PI * 2;
+      v.push([cx + Math.cos(a) * r, cy + Math.sin(a) * r, z0]);
+    }
+    const apexIdx = segments;
+    v.push([cx, cy, z1]);
+
+    for (let i = 0; i < segments; i++) {
+      const next = (i + 1) % segments;
+      f.push({ idx: [i, next, apexIdx], color, smooth: true });
+    }
+    const botCap = [];
+    for (let i = segments - 1; i >= 0; i--) botCap.push(i);
+    f.push({ idx: botCap, color });
+    return { vertices: v, faces: f };
+  }
+
+  // Create a regular tetrahedron
+  function createTetrahedron(cx, cy, z0, size, color) {
+    const r = size * 0.58;
+    const v = [];
+    for (let i = 0; i < 3; i++) {
+      const a = (i * 2 * Math.PI) / 3 - Math.PI / 2;
+      v.push([cx + Math.cos(a) * r, cy + Math.sin(a) * r, z0]);
+    }
+    v.push([cx, cy, z0 + size * 0.92]);
+    const f = [
+      { idx: [0, 2, 1], color },
+      { idx: [0, 1, 3], color },
+      { idx: [1, 2, 3], color },
+      { idx: [2, 0, 3], color }
+    ];
+    return { vertices: v, faces: f };
+  }
+
   // Create a low-poly sphere
   function createSphere(cx, cy, cz, r, latSeg, lonSeg, color) {
     latSeg = latSeg || 8;
@@ -519,37 +559,48 @@ window.GrafikaModels = (function () {
   ];
 
   // ==========================================================================
-  // ISOMETRIC BUILDER PRIMITIVE GENERATOR (1 GRID UNIT = 28 PX)
+  // ISOMETRIC BUILDER PRIMITIVE GENERATOR (1 GRID UNIT = 28 PX, PARAMETRIC)
   // ==========================================================================
-  function createBuilderPrimitive(type, gx, gy, gz, rot, id, isSelected) {
-    const U = 28; // 1 grid unit
+  function createBuilderPrimitive(type, gx, gy, gz, rot, id, isSelected, dims) {
+    const U = 28; // 1 grid unit = 40mm default
     const cx = gx * U;
     const cy = gy * U;
     const cz = gz * U;
     const baseColor = isSelected ? '#BD8D65' : '#D6BFA8';
 
+    // Optional parametric mm dimensions (40mm = 1 grid unit = 28px)
+    const sx = (dims && dims.w) ? (dims.w / 40) * U : U;
+    const sy = (dims && dims.d) ? (dims.d / 40) * U : U;
+    const sz = (dims && dims.h) ? (dims.h / 40) * U : U;
+
     let raw;
     if (type === 'cube') {
-      raw = createBox(cx - U / 2, cy - U / 2, cz, cx + U / 2, cy + U / 2, cz + U, baseColor);
+      raw = createBox(cx - sx / 2, cy - sy / 2, cz, cx + sx / 2, cy + sy / 2, cz + sz, baseColor);
     } else if (type === 'block') {
-      const dx = (rot % 2 === 0) ? U : U / 2;
-      const dy = (rot % 2 === 0) ? U / 2 : U;
-      raw = createBox(cx - dx, cy - dy, cz, cx + dx, cy + dy, cz + U, baseColor);
+      const bx = (dims && dims.w) ? sx : U * 2;
+      const by = (dims && dims.d) ? sy : U;
+      const dx = (rot % 2 === 0) ? bx / 2 : by / 2;
+      const dy = (rot % 2 === 0) ? by / 2 : bx / 2;
+      raw = createBox(cx - dx, cy - dy, cz, cx + dx, cy + dy, cz + sz, baseColor);
     } else if (type === 'cylinder') {
-      raw = createCylinder(cx, cy, cz, cz + U, U * 0.45, 14, baseColor, 'z');
+      raw = createCylinder(cx, cy, cz, cz + sz, Math.min(sx, sy) * 0.46, 16, baseColor, 'z');
+    } else if (type === 'cone') {
+      raw = createCone(cx, cy, cz, cz + sz, Math.min(sx, sy) * 0.46, 16, baseColor);
     } else if (type === 'sphere') {
-      raw = createSphere(cx, cy, cz + U / 2, U * 0.48, 7, 10, baseColor);
+      raw = createSphere(cx, cy, cz + sz / 2, Math.min(sx, sy, sz) * 0.48, 8, 12, baseColor);
     } else if (type === 'prism') {
       const dir = (rot % 2 === 0) ? 'x' : 'y';
-      raw = createWedge(cx - U / 2, cy - U / 2, cz, cx + U / 2, cy + U / 2, cz + U, dir, baseColor);
+      raw = createWedge(cx - sx / 2, cy - sy / 2, cz, cx + sx / 2, cy + sy / 2, cz + sz, dir, baseColor);
     } else if (type === 'pyramid') {
-      raw = createPyramid(cx - U / 2, cy - U / 2, cz, cx + U / 2, cy + U / 2, cz + U, baseColor);
+      raw = createPyramid(cx - sx / 2, cy - sy / 2, cz, cx + sx / 2, cy + sy / 2, cz + sz, baseColor);
+    } else if (type === 'tetrahedron') {
+      raw = createTetrahedron(cx, cy, cz, Math.max(sx, sz), baseColor);
     } else {
-      raw = createBox(cx - U / 2, cy - U / 2, cz, cx + U / 2, cy + U / 2, cz + U, baseColor);
+      raw = createBox(cx - sx / 2, cy - sy / 2, cz, cx + sx / 2, cy + sy / 2, cz + sz, baseColor);
     }
 
     const compiled = compileMesh(raw);
-    compiled.meta = { id, type, gx, gy, gz, rot, isSelected };
+    compiled.meta = { id, type, gx, gy, gz, rot, isSelected, dims };
     return compiled;
   }
 
@@ -797,6 +848,8 @@ window.GrafikaModels = (function () {
     createCylinder,
     createWedge,
     createPyramid,
+    createCone,
+    createTetrahedron,
     createSphere,
     createVoxelSolid,
     mergeMeshes,

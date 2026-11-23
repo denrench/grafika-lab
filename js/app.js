@@ -146,96 +146,189 @@
   }
 
   // ==========================================================================
-  // 0. WELCOME & ROLE REGISTRATION GATEWAY (TEACHER / STUDENT)
+  // 0. WELCOME, REGISTRATION, LOGIN & IMMUTABLE ROLE GATEWAY
   // ==========================================================================
   function initAuthGateway() {
     const gateway = document.getElementById('auth-gateway');
-    if (!gateway) return;
+    if (!gateway || !window.GrafikaAuth) return;
 
-    // Always show the welcome role selection screen on fresh page entry unless already chosen in this tab session
-    if (sessionStorage.getItem('grafika_role_active') === '1' && appState.userRole) {
+    function showAuthPanel(panelId) {
+      document.querySelectorAll('.auth-step-panel').forEach(p => {
+        p.classList.toggle('active', p.id === panelId);
+      });
+      document.querySelectorAll('.auth-error-box, .auth-success-box').forEach(b => { b.style.display = 'none'; });
+    }
+
+    function enterPlatformWithUser(user) {
+      if (!user) return;
+      if (window.GrafikaI18n && user.language) {
+        window.GrafikaI18n.setLang(user.language, false);
+      }
       gateway.classList.add('hidden');
+      if (window.GrafikaEdu) window.GrafikaEdu.syncAllAccountUI();
+      if (user.role === 'teacher') {
+        switchView('teacher');
+      } else {
+        switchView('home');
+      }
+    }
+
+    // Check existing session on load
+    const existing = window.GrafikaAuth.getCurrentUser();
+    if (existing) {
+      enterPlatformWithUser(existing);
     } else {
       gateway.classList.remove('hidden');
+      showAuthPanel('auth-panel-roles');
     }
 
-    function completeRegistration(role, name, group, track) {
-      appState.userRole = role;
-      appState.userName = name;
-      appState.userGroup = group;
-      appState.userTrack = track;
-      appState.currentView = 'home';
-      saveState();
-      sessionStorage.setItem('grafika_role_active', '1');
-      updateDashboardHeaderUI();
-      switchView('home');
-      gateway.classList.add('hidden');
-      showToast(
-        role === 'teacher'
-          ? `Добро пожаловать, преподаватель ${name}!`
-          : `Добро пожаловать в Графика LAB, ${name}!`
-      );
+    // Role Selection Cards -> Dedicated Registration Forms
+    const btnSt = document.getElementById('btn-choose-student');
+    const btnTc = document.getElementById('btn-choose-teacher');
+    const btnLg = document.getElementById('btn-open-login');
+    if (btnSt) btnSt.addEventListener('click', () => showAuthPanel('auth-panel-student'));
+    if (btnTc) btnTc.addEventListener('click', () => showAuthPanel('auth-panel-teacher'));
+    if (btnLg) btnLg.addEventListener('click', () => showAuthPanel('auth-panel-login'));
+
+    document.querySelectorAll('[data-auth-back]').forEach(b => {
+      b.addEventListener('click', () => showAuthPanel('auth-panel-roles'));
+    });
+
+    // Quick Demo Sign-in buttons
+    const demoSt = document.getElementById('demo-login-student');
+    const demoTc = document.getElementById('demo-login-teacher');
+    if (demoSt) {
+      demoSt.addEventListener('click', () => {
+        const u = window.GrafikaAuth.demoQuickLogin('student');
+        if (u) {
+          showToast('Демо-вход выполнен: Студент');
+          enterPlatformWithUser(u);
+        }
+      });
+    }
+    if (demoTc) {
+      demoTc.addEventListener('click', () => {
+        const u = window.GrafikaAuth.demoQuickLogin('teacher');
+        if (u) {
+          showToast('Демо-вход выполнен: Преподаватель (Verified)');
+          enterPlatformWithUser(u);
+        }
+      });
     }
 
-    const teacherForm = document.getElementById('form-teacher');
-    if (teacherForm) {
-      teacherForm.addEventListener('submit', (e) => {
+    // Student Registration Submit
+    const regStudentForm = document.getElementById('form-reg-student');
+    if (regStudentForm) {
+      regStudentForm.addEventListener('submit', (e) => {
         e.preventDefault();
-        const pinEl = document.getElementById('teacher-pin');
-        const pinVal = pinEl ? pinEl.value.trim().toUpperCase() : 'LAB-2026';
-        if (pinVal !== 'LAB-2026' && pinVal !== '2026' && pinVal !== 'ADMIN') {
-          showToast('Неверный код доступа кафедры (используйте LAB-2026)');
-          if (pinEl) pinEl.focus();
+        const errBox = document.getElementById('err-student');
+        const okBox = document.getElementById('ok-student');
+        const btn = document.getElementById('btn-submit-student');
+        errBox.style.display = 'none';
+        okBox.style.display = 'none';
+
+        const payload = {
+          firstName: document.getElementById('st-fname').value,
+          lastName: document.getElementById('st-lname').value,
+          email: document.getElementById('st-email').value,
+          institution: document.getElementById('st-inst').value,
+          group: document.getElementById('st-group').value,
+          joinCode: document.getElementById('st-join').value,
+          password: document.getElementById('st-pass').value,
+          password2: document.getElementById('st-pass2').value,
+          language: document.getElementById('st-lang').value
+        };
+
+        const res = window.GrafikaAuth.registerStudent(payload);
+        if (!res.ok) {
+          errBox.textContent = res.error;
+          errBox.style.display = 'block';
           return;
         }
-        const name = (document.getElementById('teacher-name').value || 'Соколов А. В.').trim();
-        const org = (document.getElementById('teacher-org').value || 'Кафедра инженерной графики').trim();
-        const subj = (document.getElementById('teacher-subject').value || 'Инженерная графика и CAD').trim();
-        completeRegistration('teacher', name, org, subj);
+        if (btn) btn.disabled = true;
+        okBox.textContent = window.GrafikaI18n.t('auth_success_student');
+        okBox.style.display = 'block';
+        setTimeout(() => {
+          if (btn) btn.disabled = false;
+          enterPlatformWithUser(res.user);
+        }, 550);
       });
     }
 
-    const studentForm = document.getElementById('form-student');
-    if (studentForm) {
-      studentForm.addEventListener('submit', (e) => {
+    // Teacher Registration Submit (with DEMO Verification Status)
+    const regTeacherForm = document.getElementById('form-reg-teacher');
+    if (regTeacherForm) {
+      regTeacherForm.addEventListener('submit', (e) => {
         e.preventDefault();
-        const name = (document.getElementById('student-name').value || 'Данил Панин').trim();
-        const grp = (document.getElementById('student-group').value || 'Группа ИГ-204').trim();
-        const trk = (document.getElementById('student-track').value || 'Инженерная графика и CAD').trim();
-        completeRegistration('student', name, grp, trk);
+        const errBox = document.getElementById('err-teacher');
+        const okBox = document.getElementById('ok-teacher');
+        const btn = document.getElementById('btn-submit-teacher');
+        errBox.style.display = 'none';
+        okBox.style.display = 'none';
+
+        const payload = {
+          firstName: document.getElementById('tc-fname').value,
+          lastName: document.getElementById('tc-lname').value,
+          email: document.getElementById('tc-email').value,
+          institution: document.getElementById('tc-inst').value,
+          position: document.getElementById('tc-pos').value,
+          subject: document.getElementById('tc-subj').value,
+          verifyMethod: document.getElementById('tc-vmethod').value,
+          verifyCode: document.getElementById('tc-vcode').value,
+          password: document.getElementById('tc-pass').value,
+          password2: document.getElementById('tc-pass2').value,
+          language: document.getElementById('tc-lang').value
+        };
+
+        const res = window.GrafikaAuth.registerTeacher(payload);
+        if (!res.ok) {
+          errBox.textContent = res.error;
+          errBox.style.display = 'block';
+          return;
+        }
+        if (btn) btn.disabled = true;
+        okBox.textContent = res.user.verificationStatus === 'Verified'
+          ? window.GrafikaI18n.t('auth_success_teacher_v')
+          : window.GrafikaI18n.t('auth_success_teacher_p');
+        okBox.style.display = 'block';
+        setTimeout(() => {
+          if (btn) btn.disabled = false;
+          enterPlatformWithUser(res.user);
+        }, 650);
       });
     }
 
-    const quickDemoBtn = document.getElementById('auth-quick-demo-btn');
-    if (quickDemoBtn) {
-      quickDemoBtn.addEventListener('click', () => {
-        completeRegistration('student', 'Данил Панин', 'Группа ИГ-204', 'Инженерная графика и CAD');
+    // Login Form Submit
+    const loginForm = document.getElementById('form-login');
+    if (loginForm) {
+      loginForm.addEventListener('submit', (e) => {
+        e.preventDefault();
+        const errBox = document.getElementById('err-login');
+        errBox.style.display = 'none';
+        const res = window.GrafikaAuth.login(
+          document.getElementById('lg-email').value,
+          document.getElementById('lg-pass').value
+        );
+        if (!res.ok) {
+          errBox.textContent = res.error;
+          errBox.style.display = 'block';
+          return;
+        }
+        showToast(`Добро пожаловать, ${res.user.firstName}!`);
+        enterPlatformWithUser(res.user);
       });
     }
 
-    // Buttons to return to Role Selection Gateway
-    const openGateway = () => {
-      sessionStorage.removeItem('grafika_role_active');
-      gateway.classList.remove('hidden');
-      const modal = document.getElementById('profile-modal');
-      if (modal) modal.style.display = 'none';
-    };
-
-    const topSwitchBtn = document.getElementById('switch-role-topbtn');
-    const rwsSwitchBtn = document.getElementById('rws-change-role-btn');
-    const modalSwitchBtn = document.getElementById('modal-switch-role-btn');
-    if (topSwitchBtn) topSwitchBtn.addEventListener('click', openGateway);
-    if (rwsSwitchBtn) rwsSwitchBtn.addEventListener('click', openGateway);
-    if (modalSwitchBtn) modalSwitchBtn.addEventListener('click', openGateway);
-
-    // Language switcher pills on welcome page
-    document.querySelectorAll('.lang-btn').forEach(btn => {
-      btn.addEventListener('click', () => {
-        document.querySelectorAll('.lang-btn').forEach(b => b.classList.remove('active'));
-        btn.classList.add('active');
-        showToast(`Язык интерфейса: ${btn.textContent}`);
+    // Logout Button (Clean sign-out; no post-login role switching!)
+    const logoutBtn = document.getElementById('btn-logout-topbar');
+    if (logoutBtn) {
+      logoutBtn.addEventListener('click', () => {
+        window.GrafikaAuth.logout();
+        showAuthPanel('auth-panel-roles');
+        gateway.classList.remove('hidden');
+        showToast('Вы вышли из аккаунта');
       });
-    });
+    }
 
     // About & Help buttons on welcome page
     const aboutBtn = document.getElementById('auth-about-btn');
@@ -250,7 +343,7 @@
         if (mKicker) mKicker.textContent = 'О ПРОЕКТЕ // ГРАФИКА LAB';
         if (mTitle) mTitle.textContent = 'Интерактивная образовательная 3D-платформа';
         if (mDesc) {
-          mDesc.textContent = '«Графика LAB» объединяет наглядный 3D-тренажёр ортогональных проекций по ГОСТ 2.305-2008, изометрический конструктор, пошаговые геометрические построения и систему испытаний пространственного мышления.';
+          mDesc.textContent = '«Графика LAB» объединяет наглядный 3D-тренажёр ортогональных проекций по ГОСТ 2.305-2008, каталог 11 фигур, пошаговый конструктор Guided Build, альбом чертежей, уроки с оценками, систему Graphica Points и кабинет преподавателя.';
         }
         modal.style.display = 'flex';
       });
@@ -260,7 +353,7 @@
         if (mKicker) mKicker.textContent = 'СПРАВКА И ПОМОЩЬ';
         if (mTitle) mTitle.textContent = 'Как начать работу в лаборатории';
         if (mDesc) {
-          mDesc.textContent = 'Выберите вашу роль («Я преподаватель» или «Я ученик / студент»), укажите имя и группу, после чего нажмите кнопку входа. Вы в любой момент можете переключить роль кнопкой «Сменить роль» в верхней панели.';
+          mDesc.textContent = 'Выберите вашу роль («Я студент» или «Я преподаватель») и заполните форму регистрации. Роль закрепляется за аккаунтом постоянно. Для быстрого ознакомления вы также можете воспользоваться кнопками демо-входа.';
         }
         modal.style.display = 'flex';
       });
@@ -436,6 +529,15 @@
   // 2. NAVIGATION BETWEEN VIEWS
   // ==========================================================================
   function switchView(viewName) {
+    // Role guard: prevent students from accessing teacher view
+    if (viewName === 'teacher' && window.GrafikaAuth) {
+      const u = window.GrafikaAuth.getCurrentUser();
+      if (!u || u.role !== 'teacher') {
+        showToast('Доступ к Teacher Dashboard открыт только для преподавателей.');
+        return;
+      }
+    }
+
     appState.currentView = viewName;
     saveState();
 
@@ -460,9 +562,22 @@
       renderCurrentChallenge();
     } else if (viewName === 'progress') {
       renderProgressPage();
+    } else if (viewName === 'figures' && window.GrafikaEdu) {
+      window.GrafikaEdu.renderFiguresCatalog();
+    } else if (viewName === 'guided' && window.GrafikaEdu) {
+      window.GrafikaEdu.renderGuidedBuildUI();
+    } else if (viewName === 'lessons' && window.GrafikaEdu) {
+      window.GrafikaEdu.renderLessonsView();
+    } else if (viewName === 'store' && window.GrafikaEdu) {
+      window.GrafikaEdu.renderPointsStore();
+    } else if (viewName === 'account' && window.GrafikaEdu) {
+      window.GrafikaEdu.renderStudentAccountPage();
+    } else if (viewName === 'teacher' && window.GrafikaEdu) {
+      window.GrafikaEdu.renderTeacherDashboard();
     }
     window.scrollTo({ top: 0, behavior: 'smooth' });
   }
+  window.GrafikaSwitchView = switchView;
 
   function initNavigation() {
     document.querySelectorAll('[data-nav]').forEach(el => {
@@ -2128,6 +2243,9 @@
     initTrainingModule();
     initChallengesModule();
     initProgressModule();
+    if (window.GrafikaEdu) {
+      window.GrafikaEdu.initEduPlatform();
+    }
 
     window.addEventListener('grafika:themechange', () => {
       renderSkillTreeSVG();
